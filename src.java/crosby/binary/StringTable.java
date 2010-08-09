@@ -27,6 +27,12 @@ public class StringTable {
         }
     }
 
+    /** After the stringtable has been built, return the offset of a string in it.
+     * 
+     * Note, value '0' is reserved for use as a delimiter and will not be returned.
+     * @param s
+     * @return
+     */
     public int getIndex(String s) {
         return stringmap.get(s).intValue();
     }
@@ -41,20 +47,21 @@ public class StringTable {
         };
 
         set = counts.keySet().toArray(new String[0]);
-        // Sort based on the frequency.
-        Arrays.sort(set, comparator);
-        // Each group of keys that serializes to the same number of bytes is
-        // sorted lexiconographically.
-        // to maximize deflate compression.
-        Arrays.sort(set, Math.min(0, set.length), Math.min(1 << 7, set.length));
-        Arrays.sort(set, Math.min(1 << 7, set.length), Math.min(1 << 14,
-                set.length));
-        Arrays.sort(set, Math.min(1 << 14, set.length), Math.min(1 << 21,
-                set.length), comparator);
-
+        if (set.length > 0) {
+          // Sort based on the frequency.
+          Arrays.sort(set, comparator);
+          // Each group of keys that serializes to the same number of bytes is
+          // sorted lexiconographically.
+          // to maximize deflate compression.
+          Arrays.sort(set, Math.min(0, set.length-1), Math.min(1 << 7, set.length-1));
+          Arrays.sort(set, Math.min(1 << 7, set.length-1), Math.min(1 << 14,
+              set.length-1));
+          Arrays.sort(set, Math.min(1 << 14, set.length-1), Math.min(1 << 21,
+              set.length-1), comparator);
+        }
         stringmap = new HashMap<String, Integer>(2 * set.length);
         for (int i = 0; i < set.length; i++) {
-            stringmap.put(set[i], new Integer(i));
+            stringmap.put(set[i], new Integer(i+1)); // Index 0 is reserved for use as a delimiter.
         }
         counts = null;
     }
@@ -68,6 +75,7 @@ public class StringTable {
     public Osmformat.StringTable.Builder serialize() {
         Osmformat.StringTable.Builder builder = Osmformat.StringTable
                 .newBuilder();
+        builder.addS(ByteString.copyFromUtf8("")); // Add a unused string at offset 0 which is used as a delimiter.
         for (int i = 0; i < set.length; i++)
             builder.addS(ByteString.copyFromUtf8(set[i]));
         return builder;

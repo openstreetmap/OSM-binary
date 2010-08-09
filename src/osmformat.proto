@@ -115,7 +115,12 @@ message PrimitiveGroup {
 }
 
 
-/** String table, contains the common strings in each block */
+/** String table, contains the common strings in each block.
+
+ Note that we reserve index '0' as a delimiter, so this entry in the table
+ is ALWAYS blank and unused.
+
+ */
 message StringTable {
    repeated bytes s = 1;
 }
@@ -159,10 +164,13 @@ message Node {
 
 /* Used to densly represent a sequence of nodes that do not have any tags.
 
-We represent these nodes columnwise as four columns: ID's, lats, and
-lons, all delta coded and info's.
+We represent these nodes columnwise as five columns: ID's, lats, and
+lons, all delta coded. And an optional info's column when metadata is not omitted. 
 
-Each array corresponds to a column of nodes. */
+We encode keys & vals for all nodes too in one array in the form of ONE array of integers containing key-id and val-id values, using 0 as a delimiter between nodes. 
+
+   ( (<keyid> <valid>)* '0' )*
+ */
 message DenseNodes {
    repeated sint64 id = 1 [packed = true]; // DELTA coded
 
@@ -170,6 +178,9 @@ message DenseNodes {
 
    repeated sint64 lat = 8 [packed = true]; // DELTA coded
    repeated sint64 lon = 9 [packed = true]; // DELTA coded
+
+   // Special packing of keys and vals into one array.
+   repeated int32 keys_vals = 10 [packed = true];
 }
 
 

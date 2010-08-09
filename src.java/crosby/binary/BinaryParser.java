@@ -26,6 +26,12 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     }
     public static final Date NODATE = new Date();
 
+    /** Get a string based on the index used. 
+     * 
+     * Index 0 is reserved to use as a delimiter, therefore, index 1 corresponds to the first string in the table 
+     * @param id
+     * @return
+     */
     protected String getStringById(int id) {
       return strings[id];
     }
