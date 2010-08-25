@@ -98,7 +98,6 @@ public abstract class BinaryParser implements BlockReaderAdapter {
         for (Osmformat.PrimitiveGroup groupmessage : block
                 .getPrimitivegroupList()) {
             // Exactly one of these should trigger on each loop.
-            parseNodes(groupmessage.getNodesList());
             parseWays(groupmessage.getWaysList());
             parseRelations(groupmessage.getRelationsList());
             if (groupmessage.hasDense())
@@ -108,7 +107,6 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     
     protected abstract void parseRelations(List<Osmformat.Relation> rels);
     protected abstract void parseDense(Osmformat.DenseNodes nodes);
-    protected abstract void parseNodes(List<Osmformat.Node> nodes);
     protected abstract void parseWays(List<Osmformat.Way> ways);
     protected abstract void parse(Osmformat.HeaderBlock header);
 

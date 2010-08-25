@@ -107,7 +107,6 @@ message PrimitiveBlock {
 
 // Group of OSMPrimitives. All primitives in a group must be the same type.
 message PrimitiveGroup {
-  repeated Node     nodes = 1;
   optional DenseNodes dense = 2;
   repeated Way      ways = 3;
   repeated Relation relations = 4;
@@ -147,19 +146,6 @@ message ChangeSet {
    optional int64 closetime_delta = 9;
    required bool open = 10;
    optional HeaderBBox bbox = 11;
-}
-
-
-message Node {
-   required sint64 id = 1;
-   // Parallel arrays.
-   repeated uint32 keys = 2 [packed = true]; // String IDs.
-   repeated uint32 vals = 3 [packed = true]; // String IDs.
-
-   optional Info info = 4;
-
-   required sint64 lat = 8;
-   required sint64 lon = 9;
 }
 
 /* Used to densly represent a sequence of nodes that do not have any tags.
