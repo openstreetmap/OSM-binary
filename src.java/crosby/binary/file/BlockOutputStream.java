@@ -3,11 +3,8 @@ package crosby.binary.file;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.protobuf.CodedOutputStream;
 
 enum CompressFlags {
     NONE, DEFLATE

@@ -2,12 +2,8 @@ package crosby.binary.file;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
-
 import com.google.protobuf.ByteString;
 
 import crosby.binary.Fileformat;
