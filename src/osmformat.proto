@@ -134,6 +134,15 @@ message Info {
    optional int32 user_sid = 5;
 }
 
+/* Optional metadata that may be included into each primitive. */
+message DenseInfo {
+   repeated int32 version = 1 [packed = true]; 
+   repeated sint64 timestamp = 2 [packed = true]; // DELTA coded
+   repeated sint64 changeset = 3 [packed = true]; // DELTA coded
+   repeated sint32 uid = 4 [packed = true]; // DELTA coded
+   repeated sint32 user_sid = 5 [packed = true]; // String IDs for usernames. DELTA coded
+}
+
 // TODO: REMOVE THIS? NOT in osmosis schema.
 message ChangeSet {
    required int64 id = 1;
@@ -175,6 +184,7 @@ message DenseNodes {
    repeated sint64 id = 1 [packed = true]; // DELTA coded
 
    repeated Info info = 4;
+   optional DenseInfo denseinfo = 5; // One of these
 
    repeated sint64 lat = 8 [packed = true]; // DELTA coded
    repeated sint64 lon = 9 [packed = true]; // DELTA coded
