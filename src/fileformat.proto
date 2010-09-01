@@ -9,45 +9,16 @@ option java_package = "crosby.binary";
 message Blob {
   optional bytes raw = 1; // No compression
   optional int32 raw_size = 2; // When compressed, the uncompressed size
+  // Possible compressed versions of the data.
   optional bytes zlib_data = 3;
   optional bytes lzma_data = 4;
   optional bytes bzip2_data = 5;
 }
 
-
-/* Future message to store an index of all of the fileblocks in a
-file. Always stored at the end of the file with its offset given in
-the FileHeader message. (If the FileDirectory message is not the last
-block, assume that we have concatenated files, and the next message is
-a file header.) */
-
-
-message FileDirectory {
-}
-
-
-/* First block in a file.  */
-message FileHeaderBlock {
-   required fixed32 version = 1;  // Future expansion - file format version number.
-   required fixed32 unused1 = 2;  // Future expansion
-   required fixed64 unused2 =3;   // Relative offset to filedirectory.
-}
-
-
-/* Author program for a file */
-message AuthorBlock {
-   required string fullname = 1; // Full name of the program (name, build number, build date, etc)
-   optional string shortname = 2; // Short name.
-   optional int64 version = 3;    // Version numbers, hopefully comparable with > 
-}
-
-
 /* A file contains an sequence of fileblock headers, each prefixed by
 their length, followed by a data block containing the actual data. 
 types staring with a "_" are reserved.
 
-The "_FileHeader" block is customarily written first.
-The "_Author" block identifies the writer and written second.
 */
 
 message BlockHeader {
