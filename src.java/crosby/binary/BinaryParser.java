@@ -12,10 +12,10 @@ import crosby.binary.file.FileBlock;
 import crosby.binary.file.FileBlockPosition;
 
 public abstract class BinaryParser implements BlockReaderAdapter {
-    private int granularity;
+    protected int granularity;
     private long lat_offset;
     private long lon_offset;
-    private int date_granularity;
+    protected int date_granularity;
     private String strings[];
 
     protected Date getDate(Osmformat.Info info) {
