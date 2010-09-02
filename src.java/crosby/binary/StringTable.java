@@ -53,7 +53,10 @@ public class StringTable {
           // Each group of keys that serializes to the same number of bytes is
           // sorted lexiconographically.
           // to maximize deflate compression.
-          Arrays.sort(set, Math.min(0, set.length-1), Math.min(1 << 7, set.length-1));
+          
+          // Don't sort the first array. There's not likely to be much benefit, and we want frequent values to be small.
+          //Arrays.sort(set, Math.min(0, set.length-1), Math.min(1 << 7, set.length-1));
+          
           Arrays.sort(set, Math.min(1 << 7, set.length-1), Math.min(1 << 14,
               set.length-1));
           Arrays.sort(set, Math.min(1 << 14, set.length-1), Math.min(1 << 21,
