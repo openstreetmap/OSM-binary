@@ -18,6 +18,9 @@ public class FileBlock extends FileBlockBase {
     /** Contains the contents of a block for use or further processing */
     ByteString data; // serialized Format.Blob
 
+    /** Don't be noisy unless the warning occurs somewhat often */
+    static int warncount = 0;
+
     private FileBlock(String type, ByteString blob, ByteString indexdata) {
         super(type, indexdata);
         this.data = blob;
@@ -39,15 +42,18 @@ public class FileBlock extends FileBlockBase {
         deflater.finish();
         byte out[] = new byte[size];
         deflater.deflate(out);
-
+        
         if (!deflater.finished()) {
             // Buffer wasn't long enough. Be noisy.
-            System.out
-                    .println("Compressed buffer too short causing extra copy");
+          ++warncount;
+          if (warncount > 10 && warncount%100 == 0)
+               System.out.println("Compressed buffers are too short, causing extra copy");
             out = Arrays.copyOf(out, size + size / 64 + 16);
             deflater.deflate(out, deflater.getTotalOut(), out.length
                     - deflater.getTotalOut());
-            assert (deflater.finished());
+            if (!deflater.finished()) {
+              throw new Error("Internal error in compressor");
+            }
         }
         ByteString compressed = ByteString.copyFrom(out, 0, deflater
                 .getTotalOut());
