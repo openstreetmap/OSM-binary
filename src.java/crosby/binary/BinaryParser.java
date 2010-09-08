@@ -18,6 +18,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     protected int date_granularity;
     private String strings[];
 
+    /** Take a Info protocol buffer containing a date and convert it into a java Date object */
     protected Date getDate(Osmformat.Info info) {
       if (info.hasTimestamp()) {
           return new Date(date_granularity * (long) info.getTimestamp());
@@ -70,18 +71,19 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     }
     
     
-    
+    /** Convert a latitude value stored in a protobuf into a double, compensating for granularity and latitude offset */
     public double parseLat(long degree) {
       // Support non-zero offsets. (We don't currently generate them)
       return (granularity * degree + lat_offset) * .000000001;
     }
 
+    /** Convert a longitude value stored in a protobuf into a double, compensating for granularity and longitude offset */
     public double parseLon(long degree) {
       // Support non-zero offsets. (We don't currently generate them)
        return (granularity * degree + lon_offset) * .000000001;
     }
    
-    
+    /** Parse a Primitive block (containing a string table, other paramaters, and PrimitiveGroups */
     public void parse(Osmformat.PrimitiveBlock block) {
         Osmformat.StringTable stablemessage = block.getStringtable();
         strings = new String[stablemessage.getSCount()];
@@ -106,10 +108,15 @@ public abstract class BinaryParser implements BlockReaderAdapter {
         }
     }
     
+    /** Parse a list of Relation protocol buffers and send the resulting relations to a sink.  */
     protected abstract void parseRelations(List<Osmformat.Relation> rels);
+    /** Parse a DenseNode protocol buffer and send the resulting nodes to a sink.  */
     protected abstract void parseDense(Osmformat.DenseNodes nodes);
+    /** Parse a list of Node protocol buffers and send the resulting nodes to a sink.  */
     protected abstract void parseNodes(List<Osmformat.Node> nodes);
+    /** Parse a list of Way protocol buffers and send the resulting ways to a sink.  */
     protected abstract void parseWays(List<Osmformat.Way> ways);
+    /** Parse a header message. */
     protected abstract void parse(Osmformat.HeaderBlock header);
 
 }
