@@ -36,20 +36,13 @@ coding when representing nodes and relations.
 /* Contains the file header. */
 
 message HeaderBlock {
-  required HeaderBBox bbox = 1;
-
-  // Author, name, and version number of the dataset in this file. (to permit
-  // patches/updates to be incrementally applied)
-  optional string datasetauthor = 16; // TODO: WANT THIS?
-  optional string datasetname = 17;  // TODO: WANT THIS?
-  optional int64 version = 18; // TODO: WANT THIS?
-
-  // Program generating this data
-  optional string writingprogram = 19;  // TODO: WANT THIS?
-
+  optional HeaderBBox bbox = 1;
   /* Additional tags to aid in parsing this dataset */
   repeated string required_features = 4;
   repeated string optional_features = 5;
+
+  optional string writingprogram = 16; 
+  optional string source = 17; // From the bbox field.
 }
 
 
