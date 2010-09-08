@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import crosby.binary.Osmformat.PrimitiveGroup;
 import crosby.binary.file.BlockOutputStream;
 import crosby.binary.file.FileBlock;
 
@@ -31,7 +32,7 @@ public class BinarySerializer {
         /**
          * This callback is invoked to request that the primgroup serialize itself into the given protocol buffer object.
          */
-        public void serialize(Osmformat.PrimitiveBlock.Builder group);
+        public Osmformat.PrimitiveGroup serialize();
     }
 
     /** Set the granularity (precision of lat/lon, measured in unites of nanodegrees. */
@@ -100,7 +101,9 @@ public class BinarySerializer {
         stringtable.finish();
         // Now, start serializing.
         for (PrimGroupWriterInterface i : groups) {
-            i.serialize(primblock);
+         PrimitiveGroup group = i.serialize();
+         if (group != null)
+           primblock.addPrimitivegroup(group);
         }
         primblock.setStringtable(stringtable.serialize());
         primblock.setGranularity(this.granularity);
