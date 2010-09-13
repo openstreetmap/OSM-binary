@@ -76,8 +76,8 @@ message PrimitiveBlock {
   optional int32 date_granularity = 18 [default=1000]; 
 
 
-  // Optional extensions, also included in index data.
-  //optional BBox bbox = 19;  // TODO: WANT THIS?
+  // Proposed extension:
+  //optional BBox bbox = 19;
 }
 
 // Group of OSMPrimitives. All primitives in a group must be the same type.
@@ -191,6 +191,7 @@ message Relation {
     RELATION = 2;
   } 
    required int64 id = 1;
+
    // Parallel arrays.
    repeated uint32 keys = 2 [packed = true];
    repeated uint32 vals = 3 [packed = true];
