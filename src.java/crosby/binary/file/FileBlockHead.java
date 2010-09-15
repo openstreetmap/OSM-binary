@@ -29,6 +29,10 @@ public class FileBlockHead extends FileBlockReference {
         DataInputStream datinput = new DataInputStream(input);
         int headersize = datinput.readInt();
         // System.out.format("Header size %d %x\n",headersize,headersize);
+        if (headersize > MAX_HEADER_SIZE) {
+          throw new FileFormatException("Unexpectedly long header "+MAX_HEADER_SIZE+ " bytes. Possibly corrupt file.");
+        }
+        
         byte buf[] = new byte[headersize];
         datinput.readFully(buf);
         // System.out.format("Read buffer for header of %d bytes\n",buf.length);
@@ -38,7 +42,10 @@ public class FileBlockHead extends FileBlockReference {
                 .getIndexdata());
 
         fileblock.datasize = header.getDatasize();
-        // data_offset =
+        if (header.getDatasize() > MAX_BODY_SIZE) {
+          throw new FileFormatException("Unexpectedly long body "+MAX_BODY_SIZE+ " bytes. Possibly corrupt file.");
+        }
+        
         fileblock.input = input;
         if (input instanceof FileInputStream)
             fileblock.data_offset = ((FileInputStream) input).getChannel()

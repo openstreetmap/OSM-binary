@@ -28,14 +28,16 @@ public class FileBlock extends FileBlockBase {
 
     public static FileBlock newInstance(String type, ByteString blob,
             ByteString indexdata) {
-        return new FileBlock(type, blob, indexdata);
+      if (blob != null && blob.size() > MAX_BODY_SIZE/2) {
+        System.err.println("Warning: Fileblock has body size too large and may be considered corrupt");
+      }
+      if (indexdata != null && indexdata.size() > MAX_HEADER_SIZE/2) {
+        System.err.println("Warning: Fileblock has indexdata too large and may be considered corrupt");
+      }
+      return new FileBlock(type, blob, indexdata);
     }
 
-    public static FileBlock newInstance(String type, ByteString indexdata) {
-        return new FileBlock(type, null, indexdata);
-    }
-
-    protected void deflateInto(crosby.binary.Fileformat.Blob.Builder blobbuilder) {
+     protected void deflateInto(crosby.binary.Fileformat.Blob.Builder blobbuilder) {
         int size = data.size();
         Deflater deflater = new Deflater();
         deflater.setInput(data.toByteArray());
@@ -77,7 +79,7 @@ public class FileBlock extends FileBlockBase {
             if (flags == CompressFlags.DEFLATE)
                 deflateInto(blobbuilder);
             else
-                assert false : "TODO"; // TODO
+                throw new Error("Compression flag not understood");
         }
         Fileformat.Blob blob = blobbuilder.build();
 

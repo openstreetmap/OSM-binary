@@ -27,7 +27,7 @@ public class FileBlockPosition extends FileBlockBase {
 
     /** Parse out and decompress the data part of a fileblock helper function. */
     FileBlock parseData(byte buf[]) throws InvalidProtocolBufferException {
-        FileBlock out = FileBlock.newInstance(type, indexdata);
+        FileBlock out = FileBlock.newInstance(type, null, indexdata);
         Fileformat.Blob blob = Fileformat.Blob.parseFrom(buf);
         if (blob.hasRaw()) {
             out.data = blob.getRaw();
@@ -81,14 +81,12 @@ public class FileBlockPosition extends FileBlockBase {
      * stored.
      */
     public ByteString serialize() {
-        assert false; // TODO
-        return null;
+        throw new Error("TODO");
     }
 
     /** TODO: Parse a serialized representation of this block reference */
     static FileBlockPosition parseFrom(ByteString b) {
-        assert false; // TODO
-        return null;
+      throw new Error("TODO");
     }
 
     protected int datasize;

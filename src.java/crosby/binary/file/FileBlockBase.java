@@ -13,6 +13,9 @@ import com.google.protobuf.ByteString;
  */
 public class FileBlockBase {
 
+    static final int MAX_HEADER_SIZE = 64*1024;
+    static final int MAX_BODY_SIZE = 8*1024*1024;
+
     protected FileBlockBase(String type, ByteString indexdata) {
         this.type = type;
         this.indexdata = indexdata;
