@@ -13,8 +13,10 @@ import com.google.protobuf.ByteString;
  */
 public class FileBlockBase {
 
+    /** If a block header is bigger than this, fail. We use excessively large header size as an indication of corrupt files */
     static final int MAX_HEADER_SIZE = 64*1024;
-    static final int MAX_BODY_SIZE = 8*1024*1024;
+    /** If a block's size is bigger than this, fail. We use excessively large block sizes as an indication of corrupt files */
+    static final int MAX_BODY_SIZE = 32*1024*1024;
 
     protected FileBlockBase(String type, ByteString indexdata) {
         this.type = type;
