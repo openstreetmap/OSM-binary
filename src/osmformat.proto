@@ -103,7 +103,7 @@ message StringTable {
 /* Optional metadata that may be included into each primitive. */
 message Info {
    optional int32 version = 1 [default = -1];
-   optional int32 timestamp = 2;
+   optional int64 timestamp = 2;
    optional int64 changeset = 3;
    optional int32 uid = 4;
    optional int32 user_sid = 5; // String IDs
