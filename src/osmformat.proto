@@ -119,19 +119,21 @@ message DenseInfo {
 }
 
 
-// TODO: REMOVE THIS? NOT in osmosis schema.
+// THIS IS STUB DESIGN FOR CHANGESETS. NOT USED RIGHT NOW.
+// TODO:    REMOVE THIS?
 message ChangeSet {
    required int64 id = 1;
-   // Parallel arrays.
-   repeated uint32 keys = 2 [packed = true]; // String IDs.
-   repeated uint32 vals = 3 [packed = true]; // String IDs.
+//   
+//   // Parallel arrays.
+//   repeated uint32 keys = 2 [packed = true]; // String IDs.
+//   repeated uint32 vals = 3 [packed = true]; // String IDs.
+//
+//   optional Info info = 4;
 
-   optional Info info = 4;
-
-   required int64 created_at = 8;
-   optional int64 closetime_delta = 9;
-   required bool open = 10;
-   optional HeaderBBox bbox = 11;
+//   optional int64 created_at = 8;
+//   optional int64 closetime_delta = 9;
+//   optional bool open = 10;
+//   optional HeaderBBox bbox = 11;
 }
 
 
