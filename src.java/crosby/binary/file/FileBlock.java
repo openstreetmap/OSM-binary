@@ -30,9 +30,15 @@ public class FileBlock extends FileBlockBase {
             ByteString indexdata) {
       if (blob != null && blob.size() > MAX_BODY_SIZE/2) {
         System.err.println("Warning: Fileblock has body size too large and may be considered corrupt");
+        if (blob != null && blob.size() > MAX_BODY_SIZE-1024*1024) {
+          throw new Error("This file has too many entities in a block. Parsers will reject it.");
+        }
       }
       if (indexdata != null && indexdata.size() > MAX_HEADER_SIZE/2) {
         System.err.println("Warning: Fileblock has indexdata too large and may be considered corrupt");
+        if (indexdata != null && indexdata.size() > MAX_HEADER_SIZE-512) {
+          throw new Error("This file header is too large. Parsers will reject it.");
+        }
       }
       return new FileBlock(type, blob, indexdata);
     }
