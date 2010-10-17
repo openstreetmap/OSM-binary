@@ -1,4 +1,6 @@
 option java_package = "crosby.binary";
+package OSMPBF;
+
 //protoc --java_out=../.. fileformat.proto
 
 

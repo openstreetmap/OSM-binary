@@ -1,4 +1,5 @@
 option java_package = "crosby.binary";
+package OSMPBF;
 
 /* OSM Binary file format 
 
@@ -106,7 +107,7 @@ message Info {
    optional int64 timestamp = 2;
    optional int64 changeset = 3;
    optional int32 uid = 4;
-   optional int32 user_sid = 5; // String IDs
+   optional uint32 user_sid = 5; // String IDs
 }
 
 /** Optional metadata that may be included into each primitive. Special dense format used in DenseNodes. */
