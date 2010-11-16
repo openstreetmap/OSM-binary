@@ -80,6 +80,7 @@ public class FileBlock extends FileBlockBase {
         Fileformat.Blob.Builder blobbuilder = Fileformat.Blob.newBuilder();
         if (flags == CompressFlags.NONE) {
             blobbuilder.setRaw(data);
+            blobbuilder.setRawSize(data.size());
         } else {
             blobbuilder.setRawSize(data.size());
             if (flags == CompressFlags.DEFLATE)
