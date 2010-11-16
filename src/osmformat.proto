@@ -78,7 +78,7 @@ message PrimitiveBlock {
 
 
   // Proposed extension:
-  //optional BBox bbox = 19;
+  //optional BBox bbox = XX;
 }
 
 // Group of OSMPrimitives. All primitives in a group must be the same type.
