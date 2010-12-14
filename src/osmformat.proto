@@ -35,8 +35,19 @@ coding when representing nodes and relations.
 //////////////////////////////////////////////////////////////////////////
 
 /* Contains the file header. */
-
+// DEPRECIATED CLASS NAME.
 message HeaderBlock {
+  optional HeaderBBox bbox = 1 [deprecate=true];
+  /* Additional tags to aid in parsing this dataset */
+  repeated string required_features = 4 [deprecate=true];
+  repeated string optional_features = 5 [deprecate=true];
+
+  optional string writingprogram = 16 [deprecate=true]; 
+  optional string source = 17 [deprecate=true]; // From the bbox field.
+}
+
+// Duplicate the above definition under a new class name.
+message OSMHeaderBlock {
   optional HeaderBBox bbox = 1;
   /* Additional tags to aid in parsing this dataset */
   repeated string required_features = 4;
