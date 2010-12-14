@@ -119,10 +119,9 @@ public class BuildTestFile {
   }
 
   
-  BuildTestFile(String name, boolean compress) throws IOException {
+  BuildTestFile(String name, String compress) throws IOException {
     output = new BlockOutputStream(new FileOutputStream(name));
-    if (compress)
-      output.setCompress("deflate");
+    output.setCompress(compress);
     HeaderBlock.Builder b = HeaderBlock.newBuilder();
     b.addRequiredFeatures("OsmSchema-V0.6").addRequiredFeatures("DenseNodes").setSource("QuickBrownFox");
     output.write(FileBlock.newInstance("OSMHeader",b.build().toByteString(),null));
@@ -131,15 +130,15 @@ public class BuildTestFile {
   
   public static void main(String [] args) {
     try {
-      BuildTestFile out1a = new BuildTestFile("TestFile1-deflate.osm.pbf",true);
+      BuildTestFile out1a = new BuildTestFile("TestFile1-deflate.osm.pbf","deflate");
       out1a.makeSimpleFileBlock1();
       out1a.output.close();
 
-      BuildTestFile out1b = new BuildTestFile("TestFile1-none.osm.pbf",false);
+      BuildTestFile out1b = new BuildTestFile("TestFile1-none.osm.pbf","none");
       out1b.makeSimpleFileBlock1();
       out1b.output.close();
 
-      BuildTestFile out2 = new BuildTestFile("TestFile2-uncom.osm.pbf",true);
+      BuildTestFile out2 = new BuildTestFile("TestFile2-uncom.osm.pbf","deflate");
       out2.makeGranFileBlock1();
       out2.output.close();
 
