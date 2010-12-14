@@ -99,15 +99,15 @@ public class BuildTestFile {
     output.write(FileBlock.newInstance("OSMData", b1.build().toByteString(),null));
 
     PrimitiveBlock.Builder b2 = PrimitiveBlock.newBuilder();
-    b2.setLatOffset(10*BILLION + 109208307)
-     .setLonOffset(20*BILLION + 901802703)
-     .setGranularity(1200)
-     .setDateGranularity(2500);
+    b2.setLatOffset(10*BILLION + 109208300)
+     .setLonOffset(20*BILLION + 901802700)
+     .setGranularity(1200);
     b2.setStringtable(makeStringTable("B2"));
     
     // Test out granularity stuff.
     b2.addPrimitivegroup(
         PrimitiveGroup.newBuilder()
+        .addNodes(Node.newBuilder().setId(100000).setLat(0).setLon(0))
         .addNodes(Node.newBuilder().setId(100001).setLat(1000).setLon(2000))
         .addNodes(Node.newBuilder().setId(100002).setLat(1001).setLon(2001))
         .addNodes(Node.newBuilder().setId(100003).setLat(1002).setLon(2002))
@@ -152,8 +152,8 @@ public class BuildTestFile {
   
   void makeGranFileBlock1() throws IOException {
     PrimitiveBlock.Builder b1 = PrimitiveBlock.newBuilder();
-    b1.setLatOffset(10*BILLION + 109208307)
-     .setLonOffset(20*BILLION + 901802703)
+    b1.setLatOffset(10*BILLION + 109208300)
+     .setLonOffset(20*BILLION + 901802700)
      .setGranularity(1200)
      .setDateGranularity(2500);
     b1.setStringtable(makeStringTable("C1"));
