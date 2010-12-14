@@ -25,7 +25,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
       } else
           return NODATE;
     }
-    public static final Date NODATE = new Date();
+    public static final Date NODATE = new Date(0);
 
     /** Get a string based on the index used. 
      * 
