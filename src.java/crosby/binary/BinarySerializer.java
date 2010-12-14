@@ -115,10 +115,6 @@ public class BinarySerializer {
 
         // System.out.println(message);
         debug_bytes += message.getSerializedSize();
-        if (false) // TODO: Prettyprinted output.
-            System.out.format("    =======>  %.2f / %.2f   (%dk)\n", message
-                    .getSerializedSize() / 1024.0, debug_bytes / 1024 / 1024.0,
-                    total_entities / 1000);
         // if (message.getSerializedSize() > 1000000)
         // System.out.println(message);
 
