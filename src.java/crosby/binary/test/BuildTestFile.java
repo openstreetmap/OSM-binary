@@ -9,7 +9,7 @@ import java.util.Collections;
 import com.google.protobuf.ByteString;
 
 import crosby.binary.Fileformat.Blob;
-import crosby.binary.Fileformat.BlockHeader;
+import crosby.binary.Fileformat.BlobHeader;
 import crosby.binary.Osmformat.DenseNodes;
 import crosby.binary.Osmformat.HeaderBlock;
 import crosby.binary.Osmformat.Info;

@@ -36,7 +36,7 @@ public class FileBlockHead extends FileBlockReference {
         byte buf[] = new byte[headersize];
         datinput.readFully(buf);
         // System.out.format("Read buffer for header of %d bytes\n",buf.length);
-        Fileformat.BlockHeader header = Fileformat.BlockHeader
+        Fileformat.BlobHeader header = Fileformat.BlobHeader
                 .parseFrom(buf);
         FileBlockHead fileblock = new FileBlockHead(header.getType(), header
                 .getIndexdata());

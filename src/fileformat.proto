@@ -27,7 +27,7 @@ their length in network byte order, followed by a data block
 containing the actual data. types staring with a "_" are reserved.
 */
 
-message BlockHeader {
+message BlobHeader {
   required string type = 1;
   optional bytes indexdata = 2;
   required int32 datasize = 3;

@@ -11,7 +11,7 @@ import java.util.zip.Deflater;
 import com.google.protobuf.ByteString;
 
 import crosby.binary.Fileformat;
-import crosby.binary.Fileformat.BlockHeader;
+import crosby.binary.Fileformat.BlobHeader;
 
 /** A full fileblock object contains both the metadata and data of a fileblock */
 public class FileBlock extends FileBlockBase {
@@ -71,7 +71,7 @@ public class FileBlock extends FileBlockBase {
 
     public FileBlockPosition writeTo(OutputStream outwrite, CompressFlags flags)
             throws IOException {
-        BlockHeader.Builder builder = Fileformat.BlockHeader
+        BlobHeader.Builder builder = Fileformat.BlobHeader
                 .newBuilder();
         if (indexdata != null)
             builder.setIndexdata(indexdata);
@@ -91,7 +91,7 @@ public class FileBlock extends FileBlockBase {
         Fileformat.Blob blob = blobbuilder.build();
 
         builder.setDatasize(blob.getSerializedSize());
-        Fileformat.BlockHeader message = builder.build();
+        Fileformat.BlobHeader message = builder.build();
         int size = message.getSerializedSize();
 
         // System.out.format("Outputed header size %d bytes, header of %d bytes, and blob of %d bytes\n",
