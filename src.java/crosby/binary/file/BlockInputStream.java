@@ -17,6 +17,7 @@
 
 package crosby.binary.file;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -28,10 +29,13 @@ public class BlockInputStream {
     }
 
     public void process() throws IOException {
-        while (input.available() > 0) {
-            FileBlock.process(input, adaptor);
+      try {
+        while (true) {
+          FileBlock.process(input, adaptor);
         }
+      } catch (EOFException e) {
         adaptor.complete();
+      }
     }
 
     public void close() throws IOException {
