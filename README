@@ -1,0 +1,9 @@
+
+OSM PBF
+=======
+
+See http://wiki.openstreetmap.org/wiki/PBF_Format .
+
+To build the Debian/Ubuntu package call:
+    debuild -I -us -uc
+
