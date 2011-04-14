@@ -1,4 +1,4 @@
-Source: osmpbf-dev
+Source: libosmpbf-dev
 Section: libdevel
 Priority: optional
 Maintainer: Jochen Topf <jochen@topf.org>
@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 7), libprotobuf-dev, protobuf-compiler
 Standards-Version: 3.9.1
 Homepage: http://wiki.openstreetmap.org/wiki/PBF_Format
 
-Package: osmpbf-dev
+Package: libosmpbf-dev
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Library for reading OSM PBF files.

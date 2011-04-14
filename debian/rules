@@ -43,8 +43,8 @@ install: build
 	dh_prep
 	dh_installdirs
 
-	# Add here commands to install the package into debian/osmpbf-dev.
-	$(MAKE) -C src DESTDIR=$(CURDIR)/debian/osmpbf-dev install
+	# Add here commands to install the package into debian/libosmpbf-dev.
+	$(MAKE) -C src DESTDIR=$(CURDIR)/debian/libosmpbf-dev install
 
 
 # Build architecture-independent files here.

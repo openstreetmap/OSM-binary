@@ -1,4 +1,4 @@
-osmpbf-dev (0.1) maverick; urgency=low
+libosmpbf-dev (0.1) maverick; urgency=low
 
   * Initial debian package
 
