@@ -1,0 +1,5 @@
+libosmpbf-dev (0.1) maverick; urgency=low
+
+  * Initial debian package
+
+ -- Jochen Topf <jochen@topf.org>  Wed, 13 Apr 2011 21:50:15 +0100
