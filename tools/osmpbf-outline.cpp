@@ -16,7 +16,7 @@ OSMPBF::Blob blob;
 OSMPBF::HeaderBlock osmheader;
 
 /**
- * prints a formatted message to stderr, optionally color coded
+ * prints a formatted message to stdout, optionally color coded
  */
 void msg(const char* format, int color, va_list args) {
     fprintf(stdout, "\x1b[0;%dm", color);
