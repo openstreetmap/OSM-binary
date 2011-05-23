@@ -5,8 +5,6 @@
 #include <osmpbf/fileformat.pb.h>
 #include <osmpbf/osmformat.pb.h>
 
-bool is_a_tty;
-
 const int MAX_BLOB_HEADER_SIZE = 64 * 1024;
 const int MAX_BLOB_SIZE = 32 * 1024 * 1024;
 
@@ -21,12 +19,9 @@ OSMPBF::HeaderBlock osmheader;
  * prints a formatted message to stderr, optionally color coded
  */
 void msg(const char* format, int color, va_list args) {
-    if(is_a_tty) fprintf(stderr, "\x1b[0;%dm", color);
-
-    vfprintf(stderr, format, args);
-
-    if(is_a_tty) fprintf(stderr, "\x1b[0m\n");
-    else fprintf(stderr, "\n");
+    fprintf(stdout, "\x1b[0;%dm", color);
+    vfprintf(stdout, format, args);
+    fprintf(stdout, "\x1b[0m\n");
 }
 
 /**
@@ -74,9 +69,6 @@ void debug(const char* format, ...) {
  * application main method
  */
 int main(int argc, char *argv[]) {
-    // check if stderr is a tty and set a global bool
-    is_a_tty = (bool)isatty(2);
-
     // check for proper command line args
     if(argc != 2)
         err("usage: %s file.osm.pbf", argv[0]);
