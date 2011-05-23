@@ -95,9 +95,12 @@ int main(int argc, char *argv[]) {
 
         if(blob.has_raw()) {
             flag = true;
-            info(" contains uncompressed data: %u bytes", blob.raw().size());
-            if(blob.raw().size() != blob.raw_size())
+            sz = blob.raw().size();
+            info(" contains uncompressed data: %u bytes", sz);
+            if(sz != blob.raw_size())
                 warn(" reports wrong raw_size: %u bytes", blob.raw_size());
+
+            memcpy(unpack_buffer, buffer, sz);
         }
 
         if(blob.has_zlib_data()) {
@@ -105,8 +108,29 @@ int main(int argc, char *argv[]) {
                 warn(" contains raw- and zlib-data at the same time");
 
             flag = true;
-            info(" contains zlib-compressed data: %u bytes", blob.zlib_data().size());
+            sz = blob.zlib_data().size();
+            info(" contains zlib-compressed data: %u bytes", sz);
             info(" uncompressed size: %u bytes", blob.raw_size());
+
+            z_stream z;
+
+            z.next_in   = (unsigned char*) blob.zlib_data().c_str();
+            z.avail_in  = sz;
+            z.next_out  = (unsigned char*) unpack_buffer;
+            z.avail_out = blob.raw_size();
+            z.zalloc    = Z_NULL;
+            z.zfree     = Z_NULL;
+            z.opaque    = Z_NULL;
+
+            if (inflateInit(&z) != Z_OK) {
+                err(" failed to init zlib stream");
+            }
+            if (inflate(&z, Z_FINISH) != Z_STREAM_END) {
+                err(" failed to inflate zlib stream");
+            }
+            if (inflateEnd(&z) != Z_OK) {
+                err(" failed to deinit zlib stream");
+            }
         }
 
         if(blob.has_lzma_data()) {
