@@ -15,6 +15,7 @@ char unpack_buffer[MAX_BLOB_SIZE];
 
 OSMPBF::BlobHeader blobheader;
 OSMPBF::Blob blob;
+OSMPBF::HeaderBlock osmheader;
 
 /**
  * prints a formatted message to stderr, optionally color coded
@@ -111,17 +112,17 @@ int main(int argc, char *argv[]) {
 
         // tell about the blob-header
         info("BlobHeader (%d bytes)", sz);
-        debug(" type = %s", blobheader.type().c_str());
+        debug("  type = %s", blobheader.type().c_str());
 
         // size of the following blob
         sz = blobheader.datasize();
-        debug(" datasize = %u", sz);
+        debug("  datasize = %u", sz);
 
         // optional indexdata
         if(blobheader.has_indexdata())
-            debug(" indexdata = %u bytes", blobheader.indexdata().size());
+            debug("  indexdata = %u bytes", blobheader.indexdata().size());
         else
-            debug(" no indexdata");
+            debug("  no indexdata");
 
         // ensure the blob is smaller then MAX_BLOB_SIZE
         if(sz > MAX_BLOB_SIZE)
@@ -147,10 +148,10 @@ int main(int argc, char *argv[]) {
 
             // check that raw_size is set correctly
             if(sz != blob.raw_size())
-                warn(" reports wrong raw_size: %u bytes", blob.raw_size());
+                warn("  reports wrong raw_size: %u bytes", blob.raw_size());
 
             // tell about the blob-data
-            debug(" contains uncompressed data: %u bytes", sz);
+            debug("  contains uncompressed data: %u bytes", sz);
 
             // copy the uncompressed data over to the unpack_buffer
             memcpy(unpack_buffer, buffer, sz);
@@ -160,7 +161,7 @@ int main(int argc, char *argv[]) {
         if(blob.has_zlib_data()) {
             // if the flag is raised issue a warning, a blob may only contain one data stream
             if(flag)
-                warn(" contains raw- and zlib-data at the same time");
+                warn("  contains raw- and zlib-data at the same time");
 
             // raise the flag - we have at least one datastream
             flag = true;
@@ -169,8 +170,8 @@ int main(int argc, char *argv[]) {
             sz = blob.zlib_data().size();
 
             // tell about the compressed data
-            debug(" contains zlib-compressed data: %u bytes", sz);
-            debug(" uncompressed size: %u bytes", blob.raw_size());
+            debug("  contains zlib-compressed data: %u bytes", sz);
+            debug("  uncompressed size: %u bytes", blob.raw_size());
 
             // zlib information
             z_stream z;
@@ -193,39 +194,75 @@ int main(int argc, char *argv[]) {
             z.opaque    = Z_NULL;
 
             if(inflateInit(&z) != Z_OK) {
-                err(" failed to init zlib stream");
+                err("  failed to init zlib stream");
             }
             if(inflate(&z, Z_FINISH) != Z_STREAM_END) {
-                err(" failed to inflate zlib stream");
+                err("  failed to inflate zlib stream");
             }
             if(inflateEnd(&z) != Z_OK) {
-                err(" failed to deinit zlib stream");
+                err("  failed to deinit zlib stream");
             }
+
+            // unpacked size
+            sz = z.total_out;
         }
 
         // if the blob has lzma-compressed data
         if(blob.has_lzma_data()) {
             // if the flag is raised issue a warning, a blob may only contain one data stream
             if(flag)
-                warn(" contains raw- and lzma-data at the same time");
+                warn("  contains raw- and lzma-data at the same time");
 
             // raise the flag - we have at least one datastream
             flag = true;
 
             // tell about the compressed data
-            debug(" contains lzma-compressed data: %u bytes", blob.lzma_data().size());
-            debug(" uncompressed size: %u bytes", blob.raw_size());
+            debug("  contains lzma-compressed data: %u bytes", blob.lzma_data().size());
+            debug("  uncompressed size: %u bytes", blob.raw_size());
 
             // issue a warning, lzma compression is not yet supported
-            err(" lzma-decompression is not supported");
+            err("  lzma-decompression is not supported");
         }
 
         // check the flag is raised and we have at least one data-stream
         if(!flag)
-            err(" does not contain any known data stream");
+            err("  does not contain any known data stream");
 
         // lower the flag
         flag = false;
+
+        // switch between different blob-types
+        if(blobheader.type() == "OSMHeader") {
+            // tell about the OSMHeader blob
+            info("  OSMHeader");
+
+            // parse the OSMHeader from the blob
+            osmheader.ParseFromArray(unpack_buffer, sz);
+
+            // tell about the required features
+            for(int i = 0, l = osmheader.required_features_size(); i < l; i++)
+                debug("    required_feature: %s", osmheader.required_features(i).c_str());
+
+            // tell about the optional features
+            for(int i = 0, l = osmheader.optional_features_size(); i < l; i++)
+                debug("    required_feature: %s", osmheader.optional_features(i).c_str());
+
+            // tell about the writing program
+            debug("    writingprogram: %s", osmheader.writingprogram().c_str());
+
+            // tell about the source
+            debug("    source: %s", osmheader.source().c_str());
+        }
+
+        else if(blobheader.type() == "OSMData") {
+            // tell about the OSMData blob
+            info("  OSMData");
+        }
+
+        else {
+            // unknown blob type
+            warn("  unknown blob type: %s", blobheader.type().c_str());
+        }
     }
 
     // close the file pointer
