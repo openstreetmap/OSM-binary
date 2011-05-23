@@ -31,14 +31,17 @@ char buffer[MAX_BLOB_SIZE];
 // buffer for decompressing the blob
 char unpack_buffer[MAX_BLOB_SIZE];
 
-// pbf structur of a BlobHeader
+// pbf struct of a BlobHeader
 OSMPBF::BlobHeader blobheader;
 
-// pbf structur of a Blob
+// pbf struct of a Blob
 OSMPBF::Blob blob;
 
-// pbf structur of a OSM HeaderBlock
-OSMPBF::HeaderBlock osmheader;
+// pbf struct of an OSM HeaderBlock
+OSMPBF::HeaderBlock headerblock;
+
+// pbf struct of an OSM PrimitiveBlock
+OSMPBF::PrimitiveBlock primblock;
 
 // prints a formatted message to stdout, optionally color coded
 void msg(const char* format, int color, va_list args) {
@@ -239,37 +242,87 @@ int main(int argc, char *argv[]) {
             // tell about the OSMHeader blob
             info("  OSMHeader");
 
-            // parse the OSMHeader from the blob
-            osmheader.ParseFromArray(unpack_buffer, sz);
+            // parse the HeaderBlock from the blob
+            headerblock.ParseFromArray(unpack_buffer, sz);
 
             // tell about the bbox
-            if(osmheader.has_bbox()) {
-                OSMPBF::HeaderBBox bbox = osmheader.bbox();
+            if(headerblock.has_bbox()) {
+                OSMPBF::HeaderBBox bbox = headerblock.bbox();
                 debug("    bbox: %.7f,%.7f,%.7f,%.7f",
                     (double)bbox.left() / NANO, (double)bbox.bottom() / NANO,
                     (double)bbox.right() / NANO, (double)bbox.top() / NANO);
             }
 
             // tell about the required features
-            for(int i = 0, l = osmheader.required_features_size(); i < l; i++)
-                debug("    required_feature: %s", osmheader.required_features(i).c_str());
+            for(int i = 0, l = headerblock.required_features_size(); i < l; i++)
+                debug("    required_feature: %s", headerblock.required_features(i).c_str());
 
             // tell about the optional features
-            for(int i = 0, l = osmheader.optional_features_size(); i < l; i++)
-                debug("    required_feature: %s", osmheader.optional_features(i).c_str());
+            for(int i = 0, l = headerblock.optional_features_size(); i < l; i++)
+                debug("    required_feature: %s", headerblock.optional_features(i).c_str());
 
             // tell about the writing program
-            if(osmheader.has_writingprogram());
-                debug("    writingprogram: %s", osmheader.writingprogram().c_str());
+            if(headerblock.has_writingprogram());
+                debug("    writingprogram: %s", headerblock.writingprogram().c_str());
 
             // tell about the source
-            if(osmheader.has_source())
-                debug("    source: %s", osmheader.source().c_str());
+            if(headerblock.has_source())
+                debug("    source: %s", headerblock.source().c_str());
         }
 
         else if(blobheader.type() == "OSMData") {
             // tell about the OSMData blob
             info("  OSMData");
+
+            // parse the PrimitiveBlock from the blob
+            primblock.ParseFromArray(unpack_buffer, sz);
+
+            // tell about the stringtable
+            debug("    stringtable: %u items", primblock.stringtable().s_size());
+
+            // number of PrimitiveGroups
+            debug("    primitivegroups: %u groups", primblock.primitivegroup_size());
+
+            // iterate over all PrimitiveGroups
+            for(int i = 0, l = primblock.primitivegroup_size(); i < l; i++) {
+                // one PrimitiveGroup from the the Block
+                OSMPBF::PrimitiveGroup pg = primblock.primitivegroup(i);
+
+                // tell about nodes
+                if(pg.nodes_size() > 0) {
+                    // raise the flag - we have at least one item type
+                    flag = true;
+
+                    debug("      nodes: %d", pg.nodes_size());
+                }
+
+                // tell about densenodes
+                if(pg.has_dense()) {
+                    // raise the flag - we have at leastone item type
+                    flag = true;
+
+                    debug("      dense nodes: %d", pg.dense().id_size());
+                }
+
+                // tell about ways
+                if(pg.ways_size() > 0) {
+                    // raise the flag - we have at leastone item type
+                    flag = true;
+
+                    debug("      ways: %d", pg.ways_size());
+                }
+
+                // tell aboutrelations
+                if(pg.relations_size() > 0) {
+                    // raise the flag - we have at leastone item type
+                    flag = true;
+
+                    debug("      relations: %d", pg.relations_size());
+                }
+
+                if(!flag)
+                    warn("      contains no items");
+            }
         }
 
         else {
@@ -284,3 +337,4 @@ int main(int argc, char *argv[]) {
     // clean up the protobuf lib
     google::protobuf::ShutdownProtobufLibrary();
 }
+
