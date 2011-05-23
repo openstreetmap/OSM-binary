@@ -294,6 +294,8 @@ int main(int argc, char *argv[]) {
                     flag = true;
 
                     debug("      nodes: %d", pg.nodes_size());
+                    if(pg.nodes(0).has_info())
+                        debug("        with meta-info");
                 }
 
                 // tell about densenodes
@@ -302,6 +304,8 @@ int main(int argc, char *argv[]) {
                     flag = true;
 
                     debug("      dense nodes: %d", pg.dense().id_size());
+                    if(pg.dense().has_denseinfo())
+                        debug("        with meta-info");
                 }
 
                 // tell about ways
@@ -310,6 +314,8 @@ int main(int argc, char *argv[]) {
                     flag = true;
 
                     debug("      ways: %d", pg.ways_size());
+                    if(pg.ways(0).has_info())
+                        debug("        with meta-info");
                 }
 
                 // tell aboutrelations
@@ -318,6 +324,8 @@ int main(int argc, char *argv[]) {
                     flag = true;
 
                     debug("      relations: %d", pg.relations_size());
+                    if(pg.relations(0).has_info())
+                        debug("        with meta-info");
                 }
 
                 if(!flag)
