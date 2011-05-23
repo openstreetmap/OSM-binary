@@ -1,32 +1,50 @@
+// used for va_list in debug-print methods
 #include <stdarg.h>
+
+// file io lib
 #include <stdio.h>
+
+// zlib compression is used inside the pbf blobs
 #include <zlib.h>
+
+// netinet provides the network-byte-order conversion function
 #include <netinet/in.h>
+
+// this is the header to libosmpbf for reading and writing the lowlevel blob storags
 #include <osmpbf/fileformat.pb.h>
+
+// this is the header to libosmpbf for reading and writing the highlevel osm objects
 #include <osmpbf/osmformat.pb.h>
 
+// the maximum size of a blob-header in bytes
 const int MAX_BLOB_HEADER_SIZE = 64 * 1024;
+
+// the maximum size of a blob in bytes
 const int MAX_BLOB_SIZE = 32 * 1024 * 1024;
 
+// buffer for reading a compressed blob from file
 char buffer[MAX_BLOB_SIZE];
+
+// buffer for decompressing the blob
 char unpack_buffer[MAX_BLOB_SIZE];
 
+// pbf structur of a BlobHeader
 OSMPBF::BlobHeader blobheader;
+
+// pbf structur of a Blob
 OSMPBF::Blob blob;
+
+// pbf structur of a OSM HeaderBlock
 OSMPBF::HeaderBlock osmheader;
 
-/**
- * prints a formatted message to stdout, optionally color coded
- */
+// prints a formatted message to stdout, optionally color coded
 void msg(const char* format, int color, va_list args) {
     fprintf(stdout, "\x1b[0;%dm", color);
     vfprintf(stdout, format, args);
     fprintf(stdout, "\x1b[0m\n");
 }
 
-/**
- * prints a formatted message to stderr, color coded to red
- */
+// prints a formatted message to stderr, color coded to red
 void err(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -35,9 +53,7 @@ void err(const char* format, ...) {
     exit(1);
 }
 
-/**
- * prints a formatted message to stderr, color coded to yellow
- */
+// prints a formatted message to stderr, color coded to yellow
 void warn(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -45,9 +61,7 @@ void warn(const char* format, ...) {
     va_end(args);
 }
 
-/**
- * prints a formatted message to stderr, color coded to green
- */
+// prints a formatted message to stderr, color coded to green
 void info(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -55,9 +69,7 @@ void info(const char* format, ...) {
     va_end(args);
 }
 
-/**
- * prints a formatted message to stderr, color coded to white
- */
+// prints a formatted message to stderr, color coded to white
 void debug(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -65,9 +77,7 @@ void debug(const char* format, ...) {
     va_end(args);
 }
 
-/**
- * application main method
- */
+// application main method
 int main(int argc, char *argv[]) {
     // check for proper command line args
     if(argc != 2)
@@ -113,8 +123,6 @@ int main(int argc, char *argv[]) {
         // optional indexdata
         if(blobheader.has_indexdata())
             debug("  indexdata = %u bytes", blobheader.indexdata().size());
-        else
-            debug("  no indexdata");
 
         // ensure the blob is smaller then MAX_BLOB_SIZE
         if(sz > MAX_BLOB_SIZE)
