@@ -259,10 +259,12 @@ int main(int argc, char *argv[]) {
                 debug("    required_feature: %s", osmheader.optional_features(i).c_str());
 
             // tell about the writing program
-            debug("    writingprogram: %s", osmheader.writingprogram().c_str());
+            if(osmheader.has_writingprogram());
+                debug("    writingprogram: %s", osmheader.writingprogram().c_str());
 
             // tell about the source
-            debug("    source: %s", osmheader.source().c_str());
+            if(osmheader.has_source())
+                debug("    source: %s", osmheader.source().c_str());
         }
 
         else if(blobheader.type() == "OSMData") {
