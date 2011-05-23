@@ -22,6 +22,9 @@ const int MAX_BLOB_HEADER_SIZE = 64 * 1024;
 // the maximum size of a blob in bytes
 const int MAX_BLOB_SIZE = 32 * 1024 * 1024;
 
+// nanodegree multiplier
+static const long int NANO = 1000 * 1000 * 1000;
+
 // buffer for reading a compressed blob from file
 char buffer[MAX_BLOB_SIZE];
 
@@ -238,6 +241,14 @@ int main(int argc, char *argv[]) {
 
             // parse the OSMHeader from the blob
             osmheader.ParseFromArray(unpack_buffer, sz);
+
+            // tell about the bbox
+            if(osmheader.has_bbox()) {
+                OSMPBF::HeaderBBox bbox = osmheader.bbox();
+                debug("    bbox: %.7f,%.7f,%.7f,%.7f",
+                    (double)bbox.left() / NANO, (double)bbox.bottom() / NANO,
+                    (double)bbox.right() / NANO, (double)bbox.top() / NANO);
+            }
 
             // tell about the required features
             for(int i = 0, l = osmheader.required_features_size(); i < l; i++)
