@@ -277,6 +277,12 @@ int main(int argc, char *argv[]) {
             // parse the PrimitiveBlock from the blob
             primblock.ParseFromArray(unpack_buffer, sz);
 
+            // tell about the block's meta info
+            debug("    granularity: %u", primblock.granularity());
+            debug("    lat_offset: %u", primblock.lat_offset());
+            debug("    lon_offset: %u", primblock.lon_offset());
+            debug("    date_granularity: %u", primblock.date_granularity());
+
             // tell about the stringtable
             debug("    stringtable: %u items", primblock.stringtable().s_size());
 
