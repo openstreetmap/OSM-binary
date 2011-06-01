@@ -10,10 +10,10 @@
 // netinet provides the network-byte-order conversion function
 #include <netinet/in.h>
 
-// this is the header to libosmpbf for reading and writing the lowlevel blob storags
+// this is the header to libosmpbf for reading and writing the low-level blob storage
 #include <osmpbf/fileformat.pb.h>
 
-// this is the header to libosmpbf for reading and writing the highlevel osm objects
+// this is the header to libosmpbf for reading and writing the high-level osm objects
 #include <osmpbf/osmformat.pb.h>
 
 // the maximum size of a blob-header in bytes
@@ -304,9 +304,9 @@ int main(int argc, char *argv[]) {
                         debug("        with meta-info");
                 }
 
-                // tell about densenodes
+                // tell about dense nodes
                 if(pg.has_dense()) {
-                    // raise the flag - we have at leastone item type
+                    // raise the flag - we have at least one item type
                     flag = true;
 
                     debug("      dense nodes: %d", pg.dense().id_size());
@@ -316,7 +316,7 @@ int main(int argc, char *argv[]) {
 
                 // tell about ways
                 if(pg.ways_size() > 0) {
-                    // raise the flag - we have at leastone item type
+                    // raise the flag - we have at least one item type
                     flag = true;
 
                     debug("      ways: %d", pg.ways_size());
@@ -324,9 +324,9 @@ int main(int argc, char *argv[]) {
                         debug("        with meta-info");
                 }
 
-                // tell aboutrelations
+                // tell about relations
                 if(pg.relations_size() > 0) {
-                    // raise the flag - we have at leastone item type
+                    // raise the flag - we have at least one item type
                     flag = true;
 
                     debug("      relations: %d", pg.relations_size());
