@@ -126,6 +126,16 @@ message Info {
    optional int64 changeset = 3;
    optional int32 uid = 4;
    optional uint32 user_sid = 5; // String IDs
+
+   // the visible flag is used to store history information in .osm.pbf files.
+   // it indicates that the current object version has been created by a delete
+   // operation on the osm api.
+
+   // when a writer sets this flag, it MUST add a required_features with value "HistoricalInformation"
+   // when a reader is able to work with the visible flag, it MUST check it's existence using has_visible and
+   // assume TRUE it it is not set. A reader that does not support the visible flag, it MUST dismiss files with 
+   // the required_feature "HistoricalInformation".
+   optional bool visible = 6;
 }
 
 /** Optional metadata that may be included into each primitive. Special dense format used in DenseNodes. */
@@ -135,6 +145,14 @@ message DenseInfo {
    repeated sint64 changeset = 3 [packed = true]; // DELTA coded
    repeated sint32 uid = 4 [packed = true]; // DELTA coded
    repeated sint32 user_sid = 5 [packed = true]; // String IDs for usernames. DELTA coded
+
+   // this field is the dense pendent to Info.visible
+
+   // when a writer sets this flag, it MUST add a required_features with value "HistoricalInformation"
+   // when a reader is able to work with the visible flag, it MUST check it's existence using has_visible and
+   // assume TRUE it it is not set. A reader that does not support the visible flag, it MUST dismiss files with 
+   // the required_feature "HistoricalInformation".
+   repeated bool visible = 6 [packed = true];
 }
 
 
