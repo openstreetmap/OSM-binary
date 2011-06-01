@@ -97,9 +97,6 @@ int main(int argc, char *argv[]) {
         // storage of size, used multiple times
         int32_t sz;
 
-        // boolean flag, used multiple times
-        bool flag = false;
-
         // read the first 4 bytes of the file, this is the size of the blob-header
         if(fread(&sz, sizeof(sz), 1, fp) != 1)
             break; // end of file reached
@@ -119,7 +116,7 @@ int main(int argc, char *argv[]) {
         blobheader.ParseFromArray(buffer, sz);
 
         // tell about the blob-header
-        info("BlobHeader (%d bytes)", sz);
+        info("\nBlobHeader (%d bytes)", sz);
         debug("  type = %s", blobheader.type().c_str());
 
         // size of the following blob
@@ -144,10 +141,13 @@ int main(int argc, char *argv[]) {
         // tell about the blob-header
         info("Blob (%d bytes)", sz);
 
+        // set when we find at least one data stream
+        bool found_data = false;
+
         // if the blob has uncompressed data
         if(blob.has_raw()) {
-            // raise the flag - we have at least one datastream
-            flag = true;
+            // we have at least one datastream
+            found_data = true;
 
             // size of the blob-data
             sz = blob.raw().size();
@@ -165,12 +165,12 @@ int main(int argc, char *argv[]) {
 
         // if the blob has zlib-compressed data
         if(blob.has_zlib_data()) {
-            // if the flag is raised issue a warning, a blob may only contain one data stream
-            if(flag)
-                warn("  contains raw- and zlib-data at the same time");
+            // issue a warning if there is more than one data steam, a blob may only contain one data stream
+            if(found_data)
+                warn("  contains several data streams");
 
-            // raise the flag - we have at least one datastream
-            flag = true;
+            // we have at least one datastream
+            found_data = true;
 
             // the size of the compressesd data
             sz = blob.zlib_data().size();
@@ -215,12 +215,12 @@ int main(int argc, char *argv[]) {
 
         // if the blob has lzma-compressed data
         if(blob.has_lzma_data()) {
-            // if the flag is raised issue a warning, a blob may only contain one data stream
-            if(flag)
-                warn("  contains raw- and lzma-data at the same time");
+            // issue a warning if there is more than one data steam, a blob may only contain one data stream
+            if(found_data)
+                warn("  contains several data streams");
 
-            // raise the flag - we have at least one datastream
-            flag = true;
+            // we have at least one datastream
+            found_data = true;
 
             // tell about the compressed data
             debug("  contains lzma-compressed data: %u bytes", blob.lzma_data().size());
@@ -230,12 +230,9 @@ int main(int argc, char *argv[]) {
             err("  lzma-decompression is not supported");
         }
 
-        // check the flag is raised and we have at least one data-stream
-        if(!flag)
+        // check we have at least one data-stream
+        if(!found_data)
             err("  does not contain any known data stream");
-
-        // lower the flag
-        flag = false;
 
         // switch between different blob-types
         if(blobheader.type() == "OSMHeader") {
@@ -294,10 +291,11 @@ int main(int argc, char *argv[]) {
                 // one PrimitiveGroup from the the Block
                 OSMPBF::PrimitiveGroup pg = primblock.primitivegroup(i);
 
+                bool found_items=false;
+
                 // tell about nodes
                 if(pg.nodes_size() > 0) {
-                    // raise the flag - we have at least one item type
-                    flag = true;
+                    found_items = true;
 
                     debug("      nodes: %d", pg.nodes_size());
                     if(pg.nodes(0).has_info())
@@ -306,8 +304,7 @@ int main(int argc, char *argv[]) {
 
                 // tell about dense nodes
                 if(pg.has_dense()) {
-                    // raise the flag - we have at least one item type
-                    flag = true;
+                    found_items = true;
 
                     debug("      dense nodes: %d", pg.dense().id_size());
                     if(pg.dense().has_denseinfo())
@@ -316,8 +313,7 @@ int main(int argc, char *argv[]) {
 
                 // tell about ways
                 if(pg.ways_size() > 0) {
-                    // raise the flag - we have at least one item type
-                    flag = true;
+                    found_items = true;
 
                     debug("      ways: %d", pg.ways_size());
                     if(pg.ways(0).has_info())
@@ -326,15 +322,14 @@ int main(int argc, char *argv[]) {
 
                 // tell about relations
                 if(pg.relations_size() > 0) {
-                    // raise the flag - we have at least one item type
-                    flag = true;
+                    found_items = true;
 
                     debug("      relations: %d", pg.relations_size());
                     if(pg.relations(0).has_info())
                         debug("        with meta-info");
                 }
 
-                if(!flag)
+                if(!found_items)
                     warn("      contains no items");
             }
         }
