@@ -1,3 +1,4 @@
 src/*.pb.h
 src/*.pb.o
 src/libosmpbf.a
+*.swp
