@@ -1,3 +1,11 @@
+libosmpbf-dev (1.1.1j1) maverick; urgency=low
+
+  * Add support for OSM history file
+  * Add some often used constants to OSMPBF namespace
+  * Add osmpbf-outline testing tool
+
+ -- Jochen Topf <jochen@topf.org>  Fri, 3 Jun 2011 11:36:17 +0100
+
 libosmpbf-dev (0.1) maverick; urgency=low
 
   * Initial debian package

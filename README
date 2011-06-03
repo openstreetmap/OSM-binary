@@ -4,6 +4,13 @@ OSM PBF
 
 See http://wiki.openstreetmap.org/wiki/PBF_Format .
 
+To include in your program use:
+
+#include <osmpbf/osmpbf.h>
+
+and link with:
+    -lpthread -lz -lprotobuf-lite -losmpbf
+
 To build the Debian/Ubuntu package call:
     debuild -I -us -uc
 
