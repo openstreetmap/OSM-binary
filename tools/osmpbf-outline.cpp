@@ -10,11 +10,7 @@
 // netinet provides the network-byte-order conversion function
 #include <netinet/in.h>
 
-// this is the header to libosmpbf for reading and writing the low-level blob storage
-#include <osmpbf/fileformat.pb.h>
-
-// this is the header to libosmpbf for reading and writing the high-level osm objects
-#include <osmpbf/osmformat.pb.h>
+#include <osmpbf/osmpbf.h>
 
 // the maximum size of a blob-header in bytes
 const int MAX_BLOB_HEADER_SIZE = 64 * 1024;

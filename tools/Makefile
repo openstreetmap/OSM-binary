@@ -1,7 +1,7 @@
 
 CXX = g++
-CXXFLAGS = -O3
-LDFLAGS = -lpthread -lz -lprotobuf-lite -losmpbf
+CXXFLAGS = -O3 -I../include
+LDFLAGS = -L../src -lpthread -lz -lprotobuf-lite -losmpbf
 
 all: osmpbf-outline
 
