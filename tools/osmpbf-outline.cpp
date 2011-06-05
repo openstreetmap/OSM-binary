@@ -10,26 +10,14 @@
 // netinet provides the network-byte-order conversion function
 #include <netinet/in.h>
 
-// this is the header to libosmpbf for reading and writing the low-level blob storage
-#include <osmpbf/fileformat.pb.h>
-
-// this is the header to libosmpbf for reading and writing the high-level osm objects
-#include <osmpbf/osmformat.pb.h>
-
-// the maximum size of a blob-header in bytes
-const int MAX_BLOB_HEADER_SIZE = 64 * 1024;
-
-// the maximum size of a blob in bytes
-const int MAX_BLOB_SIZE = 32 * 1024 * 1024;
-
-// nanodegree multiplier
-static const long int NANO = 1000 * 1000 * 1000;
+// this is the header to pbf format
+#include <osmpbf/osmpbf.h>
 
 // buffer for reading a compressed blob from file
-char buffer[MAX_BLOB_SIZE];
+char buffer[OSMPBF::max_uncompressed_blob_size];
 
 // buffer for decompressing the blob
-char unpack_buffer[MAX_BLOB_SIZE];
+char unpack_buffer[OSMPBF::max_uncompressed_blob_size];
 
 // pbf struct of a BlobHeader
 OSMPBF::BlobHeader blobheader;
@@ -105,8 +93,8 @@ int main(int argc, char *argv[]) {
         sz = ntohl(sz);
 
         // ensure the blob-header is smaller then MAX_BLOB_HEADER_SIZE
-        if(sz > MAX_BLOB_HEADER_SIZE)
-            err("blob-header-size is bigger then allowed (%u > %u)", sz, MAX_BLOB_HEADER_SIZE);
+        if(sz > OSMPBF::max_blob_header_size)
+            err("blob-header-size is bigger then allowed (%u > %u)", sz, OSMPBF::max_blob_header_size);
 
         // read the blob-header from the file
         if(fread(buffer, sz, 1, fp) != 1)
@@ -128,8 +116,8 @@ int main(int argc, char *argv[]) {
             debug("  indexdata = %u bytes", blobheader.indexdata().size());
 
         // ensure the blob is smaller then MAX_BLOB_SIZE
-        if(sz > MAX_BLOB_SIZE)
-            err("blob-size is bigger then allowed (%u > %u)", sz, MAX_BLOB_SIZE);
+        if(sz > OSMPBF::max_uncompressed_blob_size)
+            err("blob-size is bigger then allowed (%u > %u)", sz, OSMPBF::max_uncompressed_blob_size);
 
         // read the blob from the file
         if(fread(buffer, sz, 1, fp) != 1)
@@ -246,8 +234,10 @@ int main(int argc, char *argv[]) {
             if(headerblock.has_bbox()) {
                 OSMPBF::HeaderBBox bbox = headerblock.bbox();
                 debug("    bbox: %.7f,%.7f,%.7f,%.7f",
-                    (double)bbox.left() / NANO, (double)bbox.bottom() / NANO,
-                    (double)bbox.right() / NANO, (double)bbox.top() / NANO);
+                    (double)bbox.left() / OSMPBF::lonlat_resolution,
+                    (double)bbox.bottom() / OSMPBF::lonlat_resolution,
+                    (double)bbox.right() / OSMPBF::lonlat_resolution,
+                    (double)bbox.top() / OSMPBF::lonlat_resolution);
             }
 
             // tell about the required features
