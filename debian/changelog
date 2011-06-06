@@ -1,3 +1,9 @@
+libosmpbf-dev (1.1.1j2) maverick; urgency=low
+
+  * Add manpage for osmpbf-outline tool
+
+ -- Jochen Topf <jochen@topf.org>  Fri, 6 Jun 2011 10:30:12 +0100
+
 libosmpbf-dev (1.1.1j1) maverick; urgency=low
 
   * Add support for OSM history file
