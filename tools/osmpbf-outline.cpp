@@ -4,28 +4,26 @@
 // file io lib
 #include <stdio.h>
 
+// getopt is used to check for the --color-flag
+#include <getopt.h>
+
 // zlib compression is used inside the pbf blobs
 #include <zlib.h>
 
 // netinet provides the network-byte-order conversion function
 #include <netinet/in.h>
 
+// this is the header to pbf format
 #include <osmpbf/osmpbf.h>
 
-// the maximum size of a blob-header in bytes
-const int MAX_BLOB_HEADER_SIZE = 64 * 1024;
-
-// the maximum size of a blob in bytes
-const int MAX_BLOB_SIZE = 32 * 1024 * 1024;
-
-// nanodegree multiplier
-static const long int NANO = 1000 * 1000 * 1000;
+// should the output use color?
+bool usecolor = false;
 
 // buffer for reading a compressed blob from file
-char buffer[MAX_BLOB_SIZE];
+char buffer[OSMPBF::max_uncompressed_blob_size];
 
 // buffer for decompressing the blob
-char unpack_buffer[MAX_BLOB_SIZE];
+char unpack_buffer[OSMPBF::max_uncompressed_blob_size];
 
 // pbf struct of a BlobHeader
 OSMPBF::BlobHeader blobheader;
@@ -41,9 +39,15 @@ OSMPBF::PrimitiveBlock primblock;
 
 // prints a formatted message to stdout, optionally color coded
 void msg(const char* format, int color, va_list args) {
-    fprintf(stdout, "\x1b[0;%dm", color);
+    if(usecolor) {
+        fprintf(stdout, "\x1b[0;%dm", color);
+    }
     vfprintf(stdout, format, args);
-    fprintf(stdout, "\x1b[0m\n");
+    if(usecolor) {
+        fprintf(stdout, "\x1b[0m\n");
+    } else {
+        fprintf(stdout, "\n");
+    }
 }
 
 // prints a formatted message to stderr, color coded to red
@@ -81,12 +85,34 @@ void debug(const char* format, ...) {
 
 // application main method
 int main(int argc, char *argv[]) {
+    // check if the output is a tty so we can use colors
+    usecolor = isatty(1);
+
+    static struct option long_options[] = {
+        {"color",                no_argument, 0, 'c'},
+    };
+
+    while (1) {
+        int c = getopt_long(argc, argv, "c", long_options, 0);
+
+        if (c == -1)
+            break;
+
+        switch (c) {
+            case 'c':
+                usecolor = true;
+                break;
+            default:
+                exit(1);
+        }
+    }
+
     // check for proper command line args
-    if(argc != 2)
-        err("usage: %s file.osm.pbf", argv[0]);
+    if(optind != argc-1)
+        err("usage: %s [--color] file.osm.pbf", argv[0]);
 
     // open specified file
-    FILE *fp = fopen(argv[1], "r");
+    FILE *fp = fopen(argv[optind], "r");
 
     // read while the file has not reached its end
     while(!feof(fp)) {
@@ -101,8 +127,8 @@ int main(int argc, char *argv[]) {
         sz = ntohl(sz);
 
         // ensure the blob-header is smaller then MAX_BLOB_HEADER_SIZE
-        if(sz > MAX_BLOB_HEADER_SIZE)
-            err("blob-header-size is bigger then allowed (%u > %u)", sz, MAX_BLOB_HEADER_SIZE);
+        if(sz > OSMPBF::max_blob_header_size)
+            err("blob-header-size is bigger then allowed (%u > %u)", sz, OSMPBF::max_blob_header_size);
 
         // read the blob-header from the file
         if(fread(buffer, sz, 1, fp) != 1)
@@ -124,8 +150,8 @@ int main(int argc, char *argv[]) {
             debug("  indexdata = %u bytes", blobheader.indexdata().size());
 
         // ensure the blob is smaller then MAX_BLOB_SIZE
-        if(sz > MAX_BLOB_SIZE)
-            err("blob-size is bigger then allowed (%u > %u)", sz, MAX_BLOB_SIZE);
+        if(sz > OSMPBF::max_uncompressed_blob_size)
+            err("blob-size is bigger then allowed (%u > %u)", sz, OSMPBF::max_uncompressed_blob_size);
 
         // read the blob from the file
         if(fread(buffer, sz, 1, fp) != 1)
@@ -242,8 +268,10 @@ int main(int argc, char *argv[]) {
             if(headerblock.has_bbox()) {
                 OSMPBF::HeaderBBox bbox = headerblock.bbox();
                 debug("    bbox: %.7f,%.7f,%.7f,%.7f",
-                    (double)bbox.left() / NANO, (double)bbox.bottom() / NANO,
-                    (double)bbox.right() / NANO, (double)bbox.top() / NANO);
+                    (double)bbox.left() / OSMPBF::lonlat_resolution,
+                    (double)bbox.bottom() / OSMPBF::lonlat_resolution,
+                    (double)bbox.right() / OSMPBF::lonlat_resolution,
+                    (double)bbox.top() / OSMPBF::lonlat_resolution);
             }
 
             // tell about the required features
