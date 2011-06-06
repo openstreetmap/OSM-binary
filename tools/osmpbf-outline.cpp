@@ -135,7 +135,8 @@ int main(int argc, char *argv[]) {
             err("unable to read blob-header from file");
 
         // parse the blob-header from the read-buffer
-        blobheader.ParseFromArray(buffer, sz);
+        if(!blobheader.ParseFromArray(buffer, sz))
+            err("unable to parse blob header");
 
         // tell about the blob-header
         info("\nBlobHeader (%d bytes)", sz);
@@ -158,7 +159,8 @@ int main(int argc, char *argv[]) {
             err("unable to read blob from file");
 
         // parse the blob from the read-buffer
-        blob.ParseFromArray(buffer, sz);
+        if(!blob.ParseFromArray(buffer, sz))
+            err("unable to parse blob");
 
         // tell about the blob-header
         info("Blob (%d bytes)", sz);
@@ -262,7 +264,8 @@ int main(int argc, char *argv[]) {
             info("  OSMHeader");
 
             // parse the HeaderBlock from the blob
-            headerblock.ParseFromArray(unpack_buffer, sz);
+            if(!headerblock.ParseFromArray(unpack_buffer, sz))
+                err("unable to parse header block");
 
             // tell about the bbox
             if(headerblock.has_bbox()) {
@@ -296,7 +299,8 @@ int main(int argc, char *argv[]) {
             info("  OSMData");
 
             // parse the PrimitiveBlock from the blob
-            primblock.ParseFromArray(unpack_buffer, sz);
+            if(!primblock.ParseFromArray(unpack_buffer, sz))
+                err("unable to parse primitive block");
 
             // tell about the block's meta info
             debug("    granularity: %u", primblock.granularity());
