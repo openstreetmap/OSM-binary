@@ -126,6 +126,16 @@ message Info {
    optional int64 changeset = 3;
    optional int32 uid = 4;
    optional uint32 user_sid = 5; // String IDs
+
+   // The visible flag is used to store history information. It indicates that
+   // the current object version has been created by a delete operation on the
+   // OSM API.
+   // When a writer sets this flag, it MUST add a required_features tag with
+   // value "HistoricalInformation" to the HeaderBlock.
+   // If this flag is not available for some object it MUST be assumed to be
+   // true if the file has the required_features tag "HistoricalInformation"
+   // set.
+   optional bool visible = 6;
 }
 
 /** Optional metadata that may be included into each primitive. Special dense format used in DenseNodes. */
@@ -135,6 +145,16 @@ message DenseInfo {
    repeated sint64 changeset = 3 [packed = true]; // DELTA coded
    repeated sint32 uid = 4 [packed = true]; // DELTA coded
    repeated sint32 user_sid = 5 [packed = true]; // String IDs for usernames. DELTA coded
+
+   // The visible flag is used to store history information. It indicates that
+   // the current object version has been created by a delete operation on the
+   // OSM API.
+   // When a writer sets this flag, it MUST add a required_features tag with
+   // value "HistoricalInformation" to the HeaderBlock.
+   // If this flag is not available for some object it MUST be assumed to be
+   // true if the file has the required_features tag "HistoricalInformation"
+   // set.
+   repeated bool visible = 6 [packed = true];
 }
 
 
