@@ -4,6 +4,29 @@ OSM PBF
 
 See http://wiki.openstreetmap.org/wiki/PBF_Format .
 
+There is a Java and a C version of the PBF library code here.
+
+C Version
+=========
+
+To compile:
+  cd src
+  make
+
+To install:
+  cd src
+  make install
+
 To build the Debian/Ubuntu package call:
-    debuild -I -us -uc
+  debuild -I -us -uc
+
+To install the Debian/Ubuntu package call:
+  sudo dpkg --install ../libosmpbf-dev*.deb
+
+To include in your program use:
+
+#include <osmpbf/osmpbf.h>
+
+and link with:
+    -lpthread -lz -lprotobuf-lite -losmpbf
 
