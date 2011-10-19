@@ -1,3 +1,9 @@
+libosmpbf-dev (1.2.0) maverick; urgency=low
+
+  * Version number change to reflect official new version
+
+ -- Jochen Topf <jochen@topf.org>  Wed, 19 Oct 2011 09:29:37 +0100
+
 libosmpbf-dev (1.1.1j2) maverick; urgency=low
 
   * Add manpage for osmpbf-outline tool
