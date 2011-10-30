@@ -1,8 +1,8 @@
 /** Copyright (c) 2010 Scott A. Crosby. <scott@sacrosby.com>
 
    This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU Lesser General Public License as 
-   published by the Free Software Foundation, either version 3 of the 
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation, either version 3 of the
    License, or (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -45,7 +45,7 @@ public class StringTable {
     }
 
     /** After the stringtable has been built, return the offset of a string in it.
-     * 
+     *
      * Note, value '0' is reserved for use as a delimiter and will not be returned.
      * @param s
      * @return
@@ -105,10 +105,10 @@ public class StringTable {
           // Each group of keys that serializes to the same number of bytes is
           // sorted lexiconographically.
           // to maximize deflate compression.
-          
+
           // Don't sort the first array. There's not likely to be much benefit, and we want frequent values to be small.
           //Arrays.sort(set, Math.min(0, set.length-1), Math.min(1 << 7, set.length-1));
-          
+
           Arrays.sort(set, Math.min(1 << 7, set.length-1), Math.min(1 << 14,
               set.length-1));
           Arrays.sort(set, Math.min(1 << 14, set.length-1), Math.min(1 << 21,
