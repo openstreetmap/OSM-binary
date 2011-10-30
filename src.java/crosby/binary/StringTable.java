@@ -63,6 +63,41 @@ public class StringTable {
             }
         };
 
+        /* Sort the stringtable */
+
+        /*
+        When a string is referenced, strings in the stringtable with indices:
+               0                : Is reserved (used as a delimiter in tags
+         A:  1 to 127          : Uses can be represented with 1 byte
+         B: 128 to 128**2-1 : Uses can be represented with 2 bytes,
+         C: 128*128  to X    : Uses can be represented with 3 bytes in the unlikely case we have >16k strings in a block. No block will contain enough strings that we'll need 4 bytes.
+
+        There are goals that will improve compression:
+          1. I want to use 1 bytes for the most frequently occurring strings, then 2 bytes, then 3 bytes.
+          2. I want to use low integers as frequently as possible (for better
+             entropy encoding out of deflate)
+          3. I want the stringtable to compress as small as possible.
+
+        Condition 1 is obvious. Condition 2 makes deflate compress stringtable references more effectively.
+        When compressing entities, delta coding causes small positive integers to occur more frequently
+        than larger integers. Even though a stringtable references to indices of 1 and 127 both use one
+        byte in a decompressed file, the small integer bias causes deflate to use fewer bits to represent
+        the smaller index when compressed. Condition 3 is most effective when adjacent strings in the
+        stringtable have a lot of common substrings.
+
+        So, when I decide on the master stringtable to use, I put the 127 most frequently occurring
+        strings into A (accomplishing goal 1), and sort them by frequency (to accomplish goal 2), but
+        for B and C, which contain the less progressively less frequently encountered strings, I sort
+        them lexiconographically, to maximize goal 3 and ignoring goal 2.
+
+        Goal 1 is the most important. Goal 2 helped enough to be worth it, and goal 3 was pretty minor,
+        but all should be re-benchmarked.
+
+
+        */
+
+
+
         set = counts.keySet().toArray(new String[0]);
         if (set.length > 0) {
           // Sort based on the frequency.
