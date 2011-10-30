@@ -1,0 +1,23 @@
+
+----------------------------------------
+Release notes for 1.2.1  -- 2011-10-29
+----------------------------------------
+
+* Includes support for "visible" flag on OSM objects. This allows PBF to
+ handle OSM history files.
+* Namespace and include conventions changes for the C++ library. Everything
+ is in the OSMPBF namespace. You now do:
+ #include <osmpbf/osmpbf.h>
+* Added stuff needed to build Debian/Ubuntu libosmpbf-dev package containing
+ the C++ library.
+* Added osmpbf-outline tool that shows internals of a PBF file for debugging.
+* Added magic file that can recognize OSM PBF files.
+
+   --  Changes from Jochen Topf
+
+
+--------------------------------------
+Release notes for 1.2.0 
+--------------------------------------
+
+* Bad release. Not released.
