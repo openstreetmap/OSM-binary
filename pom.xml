@@ -6,7 +6,7 @@
   <groupId>crosby.binary</groupId>
   <artifactId>osmpbf</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>1.2.1</version>
   <name>OSM-Binary</name>
   <description>Library for the OpenStreetMap PBF format</description>
   <url>https://github.com/scrosby/OSM-binary</url>
