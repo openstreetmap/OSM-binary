@@ -6,6 +6,8 @@ See http://wiki.openstreetmap.org/wiki/PBF_Format .
 
 There is a Java and a C version of the PBF library code here.
 
+For a Java usage example, see src.java\crosby\binary\test\ReadFileExample.java
+
 C Version
 =========
 
