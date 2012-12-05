@@ -1,3 +1,10 @@
+libosmpbf-dev (1.3.0) maverick; urgency=low
+
+  * Added fields into OSMHeader for OSM replication.
+  * Version number change to reflect official new version
+
+ -- Scott Crosby <scott@sacrosby.com>  Wed, 04 Dec 2012 21:29:37 -0500
+
 libosmpbf-dev (1.2.1) maverick; urgency=low
 
   * Version number change to reflect official new version

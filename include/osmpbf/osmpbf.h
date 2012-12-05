@@ -10,7 +10,7 @@
 namespace OSMPBF {
 
     // library version
-    const char *version = "1.2.1";
+    const char *version = "1.3.0";
 
     // the maximum size of a blob header in bytes
     const int max_blob_header_size = 64 * 1024; // 64 kB
