@@ -2,6 +2,7 @@
 CXX ?= g++
 CXXFLAGS ?= -O3
 AR ?= ar
+PROTOC ?= protoc
 
 all: libosmpbf.a ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h
 
@@ -12,7 +13,7 @@ libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 %.pb.cc ../include/osmpbf/%.pb.h: %.proto
-	protoc --proto_path=. --cpp_out=. $<
+	$(PROTOC) --proto_path=. --cpp_out=. $<
 	cp *.pb.h ../include/osmpbf/
 
 install:
