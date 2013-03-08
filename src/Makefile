@@ -1,7 +1,7 @@
 
-CXX = g++
-CXXFLAGS = -O3
-AR = ar
+CXX ?= g++
+CXXFLAGS ?= -O3
+AR ?= ar
 
 all: libosmpbf.a ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h
 
