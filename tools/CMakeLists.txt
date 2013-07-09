@@ -10,8 +10,7 @@ endif()
 SET(CPP_SRC osmpbf-outline.cpp)
 SET(HPP_SRC "")
 SET(C_SRC "")
-
-include_directories("${CAMKE_SRC_DIR}/include")
+include_directories("${CMAKE_SOURCE_DIR}/include")
 
 add_executable(${PROJECT} ${HPP_SRC} ${CPP_SRC} ${C_SRC})
 set_target_properties(${PROJECT} PROPERTIES LINKER_LANGUAGE CXX LANGUAGE CXX)
