@@ -10,4 +10,6 @@ find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIR})
 
 add_subdirectory(src)
+if(NOT MSVC)
 add_subdirectory(tools)
+endif()
