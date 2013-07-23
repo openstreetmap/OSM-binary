@@ -14,6 +14,6 @@ ADD_CUSTOM_COMMAND(TARGET osmpbf POST_BUILD  COMMAND ${CMAKE_COMMAND} -E copy ${
 ADD_CUSTOM_COMMAND(TARGET osmpbf POST_BUILD  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/src/osmformat.pb.h ${CMAKE_SOURCE_DIR}/include/osmpbf)
 
 SET(INCLUDE_INSTALL "include/osmpbf")
-FILE(GLOB files "${CMAKE_SOURCE_DIR}/include/osmpbf/*.h")
+SET(files ${CMAKE_SOURCE_DIR}/include/osmpbf/osmpbf.h ${CMAKE_BINARY_DIR}/src/osmformat.pb.h ${CMAKE_BINARY_DIR}/src/fileformat.pb.h)
 INSTALL(FILES ${files} DESTINATION ${INCLUDE_INSTALL})
 install(TARGETS osmpbf LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
