@@ -1,6 +1,6 @@
 
-CXX = g++
-CXXFLAGS = -O3
+CXXFLAGS += -O3 -fPIC
+
 AR = ar
 
 all: libosmpbf.a ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h
