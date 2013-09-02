@@ -10,8 +10,12 @@
 // zlib compression is used inside the pbf blobs
 #include <zlib.h>
 
-// netinet provides the network-byte-order conversion function
-#include <netinet/in.h>
+// netinet or winsock2 provides the network-byte-order conversion function
+#ifdef D_HAVE_WINSOCK
+    #include <winsock2.h>
+#else
+    #include <netinet/in.h>
+#endif
 
 // this is the header to pbf format
 #include <osmpbf/osmpbf.h>
@@ -86,7 +90,12 @@ void debug(const char* format, ...) {
 // application main method
 int main(int argc, char *argv[]) {
     // check if the output is a tty so we can use colors
+
+#ifdef WIN32
+    usecolor = 0;
+#else
     usecolor = isatty(1);
+#endif
 
     static struct option long_options[] = {
         {"color",                no_argument, 0, 'c'},
@@ -113,7 +122,7 @@ int main(int argc, char *argv[]) {
         err("usage: %s [--color] file.osm.pbf", argv[0]);
 
     // open specified file
-    FILE *fp = fopen(argv[optind], "r");
+    FILE *fp = fopen(argv[optind], "rb");
 
     // read while the file has not reached its end
     while(!feof(fp)) {
