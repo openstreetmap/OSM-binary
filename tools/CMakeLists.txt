@@ -2,7 +2,7 @@ SET(PROJECT osmpbf-outline)
 PROJECT(${PROJECT})
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "/O3")        
+    set(CMAKE_CXX_FLAGS "/O3")
 else()
     set(CMAKE_CXX_FLAGS "-O3 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64")
 endif()
@@ -23,7 +23,7 @@ CHECK_INCLUDE_FILES(winsock2.h HAVE_WINSOCK)
 if(HAVE_WINSOCK)
    add_definitions( -DD_HAVE_WINSOCK )
    SET(WINSOCK_LIB ws2_32)
-endif() 
+endif()
 
 
 find_package(Threads)

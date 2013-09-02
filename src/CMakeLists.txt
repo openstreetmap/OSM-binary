@@ -1,9 +1,9 @@
 PROTOBUF_GENERATE_CPP(CPPS HS fileformat.proto osmformat.proto)
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "/O3")        
+    set(CMAKE_CXX_FLAGS "/O3")
 else()
-    set(CMAKE_CXX_FLAGS "-O3")        
+    set(CMAKE_CXX_FLAGS "-O3")
 endif()
 
 add_library(osmpbf STATIC ${CPPS})

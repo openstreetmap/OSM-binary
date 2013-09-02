@@ -9,17 +9,17 @@ import java.util.List;
 /**
  * Demonstrates how to read a file. Reads sample.pbf from the resources folder
  * and prints details about it to the standard output.
- * 
+ *
  * @author Michael Tandy
  */
 public class ReadFileExample {
-    
+
     public static void main(String[] args) throws Exception {
         InputStream input = ReadFileExample.class.getResourceAsStream("/sample.pbf");
         BlockReaderAdapter brad = new TestBinaryParser();
         new BlockInputStream(input, brad).process();
     }
-    
+
     private static class TestBinaryParser extends BinaryParser {
 
         @Override
@@ -34,7 +34,7 @@ public class ReadFileExample {
             long lastId=0;
             long lastLat=0;
             long lastLon=0;
-            
+
             for (int i=0 ; i<nodes.getIdCount() ; i++) {
                 lastId += nodes.getId(i);
                 lastLat += nodes.getLat(i);
@@ -80,7 +80,7 @@ public class ReadFileExample {
         public void complete() {
             System.out.println("Complete!");
         }
-        
+
     }
-    
+
 }
