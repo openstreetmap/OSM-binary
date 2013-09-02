@@ -13,8 +13,8 @@ osmpbf-outline: osmpbf-outline.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 
 install:
-	install -m 755 -d $(PREFIX)/bin
-	install -m 644 -s osmpbf-outline $(PREFIX)/bin
+	install -m 755 -d $(DESTDIR)$(PREFIX)/bin
+	install -m 644 -s osmpbf-outline $(DESTDIR)$(PREFIX)/bin
 
 clean:
 	rm -f osmpbf-outline
