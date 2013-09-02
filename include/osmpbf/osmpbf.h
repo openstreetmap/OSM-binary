@@ -7,10 +7,9 @@
 // this describes the high-level OSM objects
 #include <osmpbf/osmformat.pb.h>
 
-namespace OSMPBF {
+#define OSMPBF_VERSION "1.3.0"
 
-    // library version
-    const char *version = "1.3.0";
+namespace OSMPBF {
 
     // the maximum size of a blob header in bytes
     const int max_blob_header_size = 64 * 1024; // 64 kB
