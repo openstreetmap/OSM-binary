@@ -2,10 +2,10 @@
 #define OSMPBF_H
 
 // this describes the low-level blob storage
-#include <osmpbf/fileformat.pb.h>
+#include <osmpbf/fileformat.pb.h> // IWYU pragma: export
 
 // this describes the high-level OSM objects
-#include <osmpbf/osmformat.pb.h>
+#include <osmpbf/osmformat.pb.h> // IWYU pragma: export
 
 #define OSMPBF_VERSION "1.3.0"
 
