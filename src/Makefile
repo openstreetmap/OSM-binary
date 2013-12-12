@@ -1,7 +1,7 @@
 
 PREFIX ?= /usr/local
 CXX ?= g++
-CXXFLAGS ?= -O3 -fPIC
+CXXFLAGS ?= -O3
 
 AR ?= ar
 PROTOC ?= protoc
@@ -12,7 +12,7 @@ libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	$(AR) -cr $@ fileformat.pb.o osmformat.pb.o
 
 %.pb.o: %.pb.cc
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -fPIC -c -o $@ $<
 
 %.pb.cc ../include/osmpbf/%.pb.h: %.proto
 	$(PROTOC) --proto_path=. --cpp_out=. $<
