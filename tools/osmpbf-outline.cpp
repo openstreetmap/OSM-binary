@@ -293,7 +293,7 @@ int main(int argc, char *argv[]) {
 
             // tell about the optional features
             for(int i = 0, l = headerblock.optional_features_size(); i < l; i++)
-                debug("    required_feature: %s", headerblock.optional_features(i).c_str());
+                debug("    optional_feature: %s", headerblock.optional_features(i).c_str());
 
             // tell about the writing program
             if(headerblock.has_writingprogram());
