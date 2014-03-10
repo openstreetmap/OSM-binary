@@ -1,12 +1,22 @@
 
-OSM PBF
-=======
+OSMPBF
+======
 
-See http://wiki.openstreetmap.org/wiki/PBF_Format .
+Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
+PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
+data that uses Google Protocol Buffers as low-level storage.
 
-There is a Java and a C version of the PBF library code here.
+For more information see http://wiki.openstreetmap.org/wiki/PBF_Format .
 
-For a Java usage example, see src.java\crosby\binary\test\ReadFileExample.java
+
+Java Version
+============
+
+To build the osmpbf.jar file run:
+  ant
+
+For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java
+
 
 C Version
 =========
@@ -19,16 +29,31 @@ To install:
   cd src
   make install
 
-To build the Debian/Ubuntu package call:
-  debuild -I -us -uc
+There is a tool named osmpbf-outline that shows a debug output of the contents
+of a PBF file. To compile it:
+  cd tools
+  make
 
-To install the Debian/Ubuntu package call:
-  sudo dpkg --install ../libosmpbf-dev*.deb
+
+Using the C Library
+===================
 
 To include in your program use:
 
 #include <osmpbf/osmpbf.h>
 
 and link with:
-    -lpthread -lz -lprotobuf-lite -losmpbf
+    -pthread -lz -lprotobuf-lite -losmpbf
+
+
+Debian/Ubuntu Packages
+======================
+
+To build the Debian/Ubuntu packages:
+  debuild -I -us -uc
+
+To install the Debian/Ubuntu packages:
+  sudo dpkg --install ../libosmpbf-dev_*.deb
+  sudo dpkg --install ../libosmpbf-java_*.deb
+  sudo dpkg --install ../osmpbf-bin_*.deb
 

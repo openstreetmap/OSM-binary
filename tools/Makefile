@@ -2,7 +2,7 @@
 PREFIX ?= /usr/local
 CXX ?= g++
 CXXFLAGS ?= -g
-CXXFLAGS += -I../include
+CXXFLAGS += -I../include -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -Wold-style-cast -Wno-c++11-long-long
 LDFLAGS += -L../src -pthread -lz -lprotobuf-lite -losmpbf
 
 

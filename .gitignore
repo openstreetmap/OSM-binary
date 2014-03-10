@@ -1,5 +1,11 @@
+build-stamp
+build
+configure-stamp
+osmpbf.jar
+generated.java
 include/osmpbf/*.pb.h
 src/*.pb.h
 src/*.pb.o
 src/libosmpbf.a
 *.swp
+obj-x86_64-linux-gnu

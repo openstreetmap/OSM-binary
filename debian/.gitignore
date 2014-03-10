@@ -1,0 +1,8 @@
+.mh
+*.debhelper.log
+*.substvars
+files
+libosmpbf-dev
+libosmpbf-java
+osmpbf-bin
+tmp

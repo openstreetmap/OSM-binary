@@ -1,14 +1,50 @@
-Source: libosmpbf-dev
-Section: libdevel
-Priority: optional
-Maintainer: Jochen Topf <jochen@topf.org>
-Build-Depends: debhelper (>= 7), libprotobuf-dev, protobuf-compiler
-Standards-Version: 3.9.1
-Homepage: http://wiki.openstreetmap.org/wiki/PBF_Format
+Source: osmpbf
+Section: java
+Priority: extra
+Maintainer: Debian GIS Team <pkg-grass@lists.alioth.debian.org>
+Build-Depends:
+ debhelper (>= 9~)
+ , protobuf-compiler
+ , libprotobuf-java
+ , ant
+ , default-jdk
+ , libprotobuf-dev
+ , maven-repo-helper
+Standards-Version: 3.9.5
+Homepage: http://github.com/scrosby/OSM-binary
+Vcs-Git: git://anonscm.debian.org/pkg-grass/osmpbf.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grass/osmpbf.git;a=summary
+
+Package: libosmpbf-java
+Architecture: all
+Depends: ${misc:Depends}
+Description: Java access library for OpenStreetMap PBF file format
+ Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
+ PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
+ data that uses Google Protocol Buffers as low-level storage.
+ .
+ This package provides a Java library.
 
 Package: libosmpbf-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends}
+Description: C headers for OpenStreetMap PBF file format
+ Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
+ PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
+ data that uses Google Protocol Buffers as low-level storage.
+ .
+ This package provides the C headers to be used in third-party
+ applications.
+
+Package: osmpbf-bin
+Section: utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Library for reading OSM PBF files.
- Interface definition and library for reading binary
- OpenStreetMap data files.
+Description: OpenStreetMap PBF file format library - tools
+ Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
+ PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
+ data that uses Google Protocol Buffers as low-level storage.
+ .
+ This package provides various tools to deal with OpenStreetMap PBF file
+ format.
