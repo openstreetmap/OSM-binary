@@ -1,7 +1,7 @@
 Source: osmpbf
 Section: java
 Priority: extra
-Maintainer: Debian GIS Team <pkg-grass@lists.alioth.debian.org>
+Maintainer: Debian GIS Team <pkg-grass-devel@lists.alioth.debian.org>
 Build-Depends:
  debhelper (>= 9~)
  , protobuf-compiler
