@@ -21,7 +21,7 @@
 		<exec executable="/bin/sh">
 			<arg value="./build.sh"/>
 		</exec>
-		<javac destdir="${build.dir}">
+		<javac includeantruntime="false" destdir="${build.dir}">
 			<src>
 				<dirset dir="${src.dir}"/>
 				<dirset dir="${src.generated.dir}"/>

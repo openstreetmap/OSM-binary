@@ -6,6 +6,8 @@ CXXFLAGS ?= -O3
 AR ?= ar
 PROTOC ?= protoc
 
+.PHONY: clean install
+
 all: libosmpbf.a ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h
 
 libosmpbf.a: fileformat.pb.o osmformat.pb.o

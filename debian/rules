@@ -8,25 +8,23 @@
 	dh $@
 
 override_dh_auto_clean:
-	dh_auto_clean
-	dh_auto_clean -Dsrc
-	dh_auto_clean -Dtools
+	$(MAKE) -C src clean
+	$(MAKE) -C tools clean
 	mh_clean
 
 override_dh_auto_build:
-	dh_auto_build
-	dh_auto_build -Dsrc
-	dh_auto_build -Dtools
+	ant
+	$(MAKE) -C src
+	$(MAKE) -C tools
 
 override_dh_auto_install:
-	dh_auto_install
-	dh_auto_install -Dsrc
-	dh_auto_install -Dtools
+	$(MAKE) -C src DESTDIR=$(CURDIR)/debian/libosmpbf-dev PREFIX=/usr install
+	$(MAKE) -C tools DESTDIR=$(CURDIR)/debian/osmpbf-bin PREFIX=/usr install
 
 override_dh_installchangelogs:
 	dh_installchangelogs -- ReleaseNotes.txt
 
 override_dh_install:
-	dh_install
 	mh_installjar -plibosmpbf-java -l pom.xml osmpbf.jar
 	mh_installpom -plibosmpbf-java pom.xml
+

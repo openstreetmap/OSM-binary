@@ -22,17 +22,14 @@ C Version
 =========
 
 To compile:
-  cd src
-  make
+  make -C src
 
 To install:
-  cd src
-  make install
+  make -C src install
 
 There is a tool named osmpbf-outline that shows a debug output of the contents
 of a PBF file. To compile it:
-  cd tools
-  make
+  make -C tools
 
 
 Using the C Library
@@ -56,4 +53,7 @@ To install the Debian/Ubuntu packages:
   sudo dpkg --install ../libosmpbf-dev_*.deb
   sudo dpkg --install ../libosmpbf-java_*.deb
   sudo dpkg --install ../osmpbf-bin_*.deb
+
+To clean up after:
+  debclean
 
