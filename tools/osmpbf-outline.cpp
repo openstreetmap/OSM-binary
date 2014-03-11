@@ -126,6 +126,10 @@ int main(int argc, char *argv[]) {
     // open specified file
     FILE *fp = fopen(argv[optind], "rb");
 
+    if (!fp) {
+        err("can't open file '%s'", argv[optind]);
+    }
+
     // read while the file has not reached its end
     while (!feof(fp)) {
         // storage of size, used multiple times
