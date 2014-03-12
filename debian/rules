@@ -4,27 +4,36 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+CXXFLAGS += $(CPPFLAGS)
+
 %:
-	dh $@
+	dh $@ --buildsystem makefile --parallel
 
 override_dh_auto_clean:
-	$(MAKE) -C src clean
-	$(MAKE) -C tools clean
+	dh_auto_clean --buildsystem ant
+	dh_auto_clean -Dsrc
+	dh_auto_clean -Dtools
 	mh_clean
 
+override_dh_auto_configure:
+	dh_auto_configure --buildsystem ant
+	dh_auto_configure -Dsrc
+	dh_auto_configure -Dtools
+
 override_dh_auto_build:
-	ant
-	$(MAKE) -C src
-	$(MAKE) -C tools
+	dh_auto_build --buildsystem ant
+	dh_auto_build -Dsrc
+	dh_auto_build -Dtools
 
 override_dh_auto_install:
-	$(MAKE) -C src DESTDIR=$(CURDIR)/debian/libosmpbf-dev PREFIX=/usr install
-	$(MAKE) -C tools DESTDIR=$(CURDIR)/debian/osmpbf-bin PREFIX=/usr install
+	dh_auto_install --buildsystem ant
+	dh_auto_install -Dsrc   -- PREFIX=/usr
+	dh_auto_install -Dtools -- PREFIX=/usr
 
 override_dh_installchangelogs:
 	dh_installchangelogs -- ReleaseNotes.txt
 
 override_dh_install:
+	dh_install
 	mh_installjar -plibosmpbf-java -l pom.xml osmpbf.jar
 	mh_installpom -plibosmpbf-java pom.xml
-

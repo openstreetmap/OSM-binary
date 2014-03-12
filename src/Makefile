@@ -1,10 +1,12 @@
 
-PREFIX ?= /usr/local
-CXX ?= g++
+# these default settings can be overridden by setting environment variables
+PREFIX   ?= /usr/local
+CXX      ?= g++
 CXXFLAGS ?= -O3
+AR       ?= ar
+PROTOC   ?= protoc
 
-AR ?= ar
-PROTOC ?= protoc
+CXXFLAGS += -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -Wno-long-long
 
 .PHONY: clean install
 
