@@ -7,7 +7,7 @@
 // this describes the high-level OSM objects
 #include <osmpbf/osmformat.pb.h> // IWYU pragma: export
 
-#define OSMPBF_VERSION "1.3.1"
+#define OSMPBF_VERSION "1.3.2"
 
 namespace OSMPBF {
 
