@@ -2,7 +2,7 @@ Source: osmpbf
 Maintainer: Jochen Topf <jochen@topf.org>
 Section: java
 Priority: optional
-Build-Depends: debhelper (>= 9~),
+Build-Depends: debhelper (>= 9),
                protobuf-compiler,
                libprotobuf-java,
                ant,
@@ -10,8 +10,6 @@ Build-Depends: debhelper (>= 9~),
                libprotobuf-dev,
                maven-repo-helper
 Standards-Version: 3.9.5
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grass/osmpbf.git;a=summary
-Vcs-Git: git://anonscm.debian.org/pkg-grass/osmpbf.git
 Homepage: http://github.com/scrosby/OSM-binary
 
 Package: libosmpbf-java
@@ -27,7 +25,8 @@ Description: Java access library for OpenStreetMap PBF file format
 Package: libosmpbf-dev
 Architecture: any
 Section: libdevel
-Depends: ${misc:Depends}
+Depends: libprotobuf-dev,
+         ${misc:Depends}
 Description: C headers for OpenStreetMap PBF file format
  Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
  PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
