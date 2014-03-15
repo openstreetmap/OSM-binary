@@ -22,10 +22,8 @@
 			<arg value="./build.sh"/>
 		</exec>
 		<javac includeantruntime="false" destdir="${build.dir}">
-			<src>
-				<dirset dir="${src.dir}"/>
-				<dirset dir="${src.generated.dir}"/>
-			</src>
+			<src path="${src.dir}"/>
+			<src path="${src.generated.dir}"/>
 			<classpath>
 				<fileset file="/usr/share/java/protobuf.jar"/>
 			</classpath>
