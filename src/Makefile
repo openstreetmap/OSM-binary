@@ -20,7 +20,7 @@ libosmpbf.a: fileformat.pb.o osmformat.pb.o
 
 %.pb.cc ../include/osmpbf/%.pb.h: %.proto
 	$(PROTOC) --proto_path=. --cpp_out=. $<
-	cp *.pb.h ../include/osmpbf/
+	cp -v $(subst .proto,.pb.h,$<) ../include/osmpbf/
 
 install:
 	install -m 755 -d $(DESTDIR)$(PREFIX)/lib
