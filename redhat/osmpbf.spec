@@ -46,7 +46,7 @@ install -m 644 tools/osmpbf-outline.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 %{_libdir}/libosmpbf.a
 
 %changelog
-* Wed Mar 19 2014 g<kay.diam@gmail.com> - 1.3.3-21
+* Wed Mar 19 2014 g<kay.diam@gmail.com> - 1.3.3-2
 - Bump version
 - Updated spec file to use normal make
 
