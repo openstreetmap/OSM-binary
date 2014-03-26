@@ -5,8 +5,7 @@ Summary:        C version of the PBF library code
 License:        LGPL-3+
 URL:            https://github.com/scrosby/OSM-binary     
 Source0:        OSM-binary-%{version}.tar.bz2
-Patch0:         osmpbf_libdir.patch
-BuildRequires:  cmake, protobuf-devel, protobuf-lite-devel
+BuildRequires:  protobuf-devel, protobuf-lite-devel
 BuildRequires:  gcc, gcc-c++
 
 %description
@@ -18,7 +17,6 @@ For more information see http://wiki.openstreetmap.org/wiki/PBF_Format
  
 %prep
 %setup -q -n OSM-binary-%{version}
-%patch0 -p1
  
 %build
 %{__make} -C src %{?jobs:-j%jobs}
@@ -27,13 +25,6 @@ For more information see http://wiki.openstreetmap.org/wiki/PBF_Format
 %install
 %{__make} -C src DESTDIR=%{buildroot} PREFIX=%{_prefix} LIBDIR=%{_libdir} install
 %{__make} -C tools DESTDIR=%{buildroot} PREFIX=%{_prefix} install
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_libdir}
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-mkdir -p  $RPM_BUILD_ROOT%{_includedir}/osmpbf
-install -m 644 src/libosmpbf.a $RPM_BUILD_ROOT%{_libdir}/
-install -m 644 include/osmpbf/*.h  $RPM_BUILD_ROOT%{_includedir}/osmpbf/
-install -m 755 tools/osmpbf-outline $RPM_BUILD_ROOT%{_bindir}/
 install -m 644 tools/osmpbf-outline.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 
 %files

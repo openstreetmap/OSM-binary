@@ -1,6 +1,7 @@
 
 # these default settings can be overridden by setting environment variables
 PREFIX   ?= /usr/local
+LIBDIR   ?= $(PREFIX)/lib
 CXX      ?= g++
 CXXFLAGS ?= -O3
 AR       ?= ar
@@ -23,8 +24,8 @@ libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	cp -v $(subst .proto,.pb.h,$<) ../include/osmpbf/
 
 install:
-	install -m 755 -d $(DESTDIR)$(PREFIX)/lib
-	install -m 644 libosmpbf.a $(DESTDIR)$(PREFIX)/lib
+	install -m 755 -d $(DESTDIR)$(LIBDIR)
+	install -m 644 libosmpbf.a $(DESTDIR)$(LIBDIR)
 	install -m 755 -d $(DESTDIR)$(PREFIX)/include/osmpbf
 	install -m 644 ../include/osmpbf/osmpbf.h $(DESTDIR)$(PREFIX)/include/osmpbf
 	install -m 644 ../include/osmpbf/fileformat.pb.h $(DESTDIR)$(PREFIX)/include/osmpbf
