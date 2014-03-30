@@ -26,6 +26,7 @@
 			<src path="${src.generated.dir}"/>
 			<classpath>
 				<fileset file="/usr/share/java/protobuf.jar"/>
+				<fileset file="/usr/share/java/protobuf-java.jar"/>
 			</classpath>
 		</javac>
 	</target>
