@@ -54,7 +54,7 @@ void msg(const char* format, int color, va_list args) {
     }
 }
 
-// prints a formatted message to stderr, color coded to red
+// prints a formatted message to stdout, color coded to red
 void err(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -63,7 +63,7 @@ void err(const char* format, ...) {
     exit(1);
 }
 
-// prints a formatted message to stderr, color coded to yellow
+// prints a formatted message to stdout, color coded to yellow
 void warn(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -71,7 +71,7 @@ void warn(const char* format, ...) {
     va_end(args);
 }
 
-// prints a formatted message to stderr, color coded to green
+// prints a formatted message to stdout, color coded to green
 void info(const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -79,7 +79,7 @@ void info(const char* format, ...) {
     va_end(args);
 }
 
-// prints a formatted message to stderr, color coded to white
+// prints a formatted message to stdout, color coded to white
 void debug(const char* format, ...) {
     va_list args;
     va_start(args, format);
