@@ -17,3 +17,6 @@ SET(INCLUDE_INSTALL "include/osmpbf")
 SET(files ${CMAKE_SOURCE_DIR}/include/osmpbf/osmpbf.h ${CMAKE_BINARY_DIR}/src/osmformat.pb.h ${CMAKE_BINARY_DIR}/src/fileformat.pb.h)
 INSTALL(FILES ${files} DESTINATION ${INCLUDE_INSTALL})
 install(TARGETS osmpbf LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+
+configure_file("OsmpbfConfig.cmake.in" "OsmpbfConfig.cmake" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/OsmpbfConfig.cmake" DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake/Osmpbf/)
