@@ -32,7 +32,7 @@ libosmpbf.so: fileformat.pb.o osmformat.pb.o
 	# The placeholder for the installation prefix is '@CMAKE_INSTALL_PREFIX@'.
 	# Do not change that, it would only make the CMakeLists.txt file which does
 	# the same job as below line more complex.
-	sed -e 's!@CMAKE_INSTALL_PREFIX@!'$(PREFIX)'!g' <$< >$@
+	sed -e 's!@CMAKE_INSTALL_PREFIX@!'$(PREFIX)'!g;s!@OSMPBF_VERSION@!'$(VERSION)'!g' <$< >$@
 
 install:
 	install -m 755 -d $(DESTDIR)$(LIBDIR)
