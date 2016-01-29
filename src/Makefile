@@ -13,7 +13,7 @@ CXXFLAGS += -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -W
 
 .PHONY: clean install
 
-all: libosmpbf.a libosmpbf.so ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h OsmpbfConfig.cmake
+all: libosmpbf.a libosmpbf.so ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h OsmpbfConfig.cmake osmpbf.pc
 
 libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	$(AR) -cr $@ fileformat.pb.o osmformat.pb.o
@@ -46,6 +46,8 @@ install:
 	install -m 644 ../include/osmpbf/osmformat.pb.h $(DESTDIR)$(PREFIX)/include/osmpbf
 	install -m 755 -d $(DESTDIR)$(PREFIX)/lib/cmake/Osmpbf
 	install -m 644 OsmpbfConfig.cmake $(DESTDIR)$(PREFIX)/lib/cmake/Osmpbf
+	install -m 755 -d $(DESTDIR)$(PREFIX)/lib/pkgconfig
+	install -m 644 osmpbf.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig
 
 clean:
 	rm -f *.pb.h *.pb.cc *.pb.o libosmpbf.a OsmpbfConfig.cmake

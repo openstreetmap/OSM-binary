@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: OSM-Library
+Description: Java/C library to read and write OpenStreetMap PBF files
+Version: @OSMPBF_VERSION@
+Libs: -L${libdir} -losmpbf
+Cflags: -I${includedir}

@@ -20,3 +20,6 @@ install(TARGETS osmpbf LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 configure_file("OsmpbfConfig.cmake.in" "OsmpbfConfig.cmake" @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/OsmpbfConfig.cmake" DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake/Osmpbf/)
+
+configure_file("osmpbf.pc.in" "osmpbf.pc" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/osmpbf.pc" DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/)
