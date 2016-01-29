@@ -13,7 +13,7 @@ CXXFLAGS += -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -W
 
 .PHONY: clean install
 
-all: libosmpbf.a libosmpbf.so ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h
+all: libosmpbf.a libosmpbf.so ../include/osmpbf/fileformat.pb.h ../include/osmpbf/osmformat.pb.h OsmpbfConfig.cmake
 
 libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	$(AR) -cr $@ fileformat.pb.o osmformat.pb.o
@@ -28,6 +28,12 @@ libosmpbf.so: fileformat.pb.o osmformat.pb.o
 	$(PROTOC) --proto_path=. --cpp_out=. $<
 	cp -v $(subst .proto,.pb.h,$<) ../include/osmpbf/
 
+%: %.in
+	# The placeholder for the installation prefix is '@CMAKE_INSTALL_PREFIX@'.
+	# Do not change that, it would only make the CMakeLists.txt file which does
+	# the same job as below line more complex.
+	sed -e 's!@CMAKE_INSTALL_PREFIX@!'$(DESTDIR)$(PREFIX)'!g' <$< >$@
+
 install:
 	install -m 755 -d $(DESTDIR)$(LIBDIR)
 	install -m 644 libosmpbf.a $(DESTDIR)$(LIBDIR)
@@ -38,7 +44,9 @@ install:
 	install -m 644 ../include/osmpbf/osmpbf.h $(DESTDIR)$(PREFIX)/include/osmpbf
 	install -m 644 ../include/osmpbf/fileformat.pb.h $(DESTDIR)$(PREFIX)/include/osmpbf
 	install -m 644 ../include/osmpbf/osmformat.pb.h $(DESTDIR)$(PREFIX)/include/osmpbf
+	install -m 755 -d $(DESTDIR)$(PREFIX)/lib/cmake/Osmpbf
+	install -m 644 OsmpbfConfig.cmake $(DESTDIR)$(PREFIX)/lib/cmake/Osmpbf
 
 clean:
-	rm -f *.pb.h *.pb.cc *.pb.o libosmpbf.a
+	rm -f *.pb.h *.pb.cc *.pb.o libosmpbf.a OsmpbfConfig.cmake
 
