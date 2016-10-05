@@ -253,7 +253,7 @@ message Relation {
    optional Info info = 4;
 
    // Parallel arrays
-   repeated int32 roles_sid = 8 [packed = true];
+   repeated int32 roles_sid = 8 [packed = true]; // This should have been defined as uint32 for consistency, but it is now too late to change it
    repeated sint64 memids = 9 [packed = true]; // DELTA encoded
    repeated MemberType types = 10 [packed = true];
 }
