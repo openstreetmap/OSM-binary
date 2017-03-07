@@ -118,10 +118,11 @@ public abstract class BinaryParser implements BlockReaderAdapter {
                 .getPrimitivegroupList()) {
             // Exactly one of these should trigger on each loop.
             parseNodes(groupmessage.getNodesList());
+            if (groupmessage.hasDense())
+                parseDense(groupmessage.getDense());            
             parseWays(groupmessage.getWaysList());
             parseRelations(groupmessage.getRelationsList());
-            if (groupmessage.hasDense())
-                parseDense(groupmessage.getDense());
+
         }
     }
     
