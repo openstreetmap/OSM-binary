@@ -1,3 +1,3 @@
-set(OSMPBF_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include/osmpbf")
-set(OSMPBF_LIBRARIES "@CMAKE_INSTALL_PREFIX@/lib/libosmpbf.a")
+find_path(OSMPBF_INCLUDE_DIRS NAMES osmpbf/fileformat.pb.h osmpbf/osmformat.pb.h PATHS "@CMAKE_INSTALL_PREFIX@/include")
+find_library(OSMPBF_LIBRARIES NAMES osmpbf PATHS "@CMAKE_INSTALL_PREFIX@/lib")
 set(OSMPBF_VERSION "@OSMPBF_VERSION@")
