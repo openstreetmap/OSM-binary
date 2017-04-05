@@ -34,7 +34,7 @@ libosmpbf.so: fileformat.pb.o osmformat.pb.o
 	# the same job as below line more complex.
 	sed -e 's!@CMAKE_INSTALL_PREFIX@!'$(PREFIX)'!g;s!@OSMPBF_VERSION@!'$(VERSION)'!g' <$< >$@
 
-install:
+install: all
 	install -m 755 -d $(DESTDIR)$(LIBDIR)
 	install -m 644 libosmpbf.a $(DESTDIR)$(LIBDIR)
 	install -m 755 libosmpbf.so $(DESTDIR)$(LIBDIR)/libosmpbf.so.$(VERSION)
