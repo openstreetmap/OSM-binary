@@ -10,6 +10,8 @@ endif()
 SET(CPP_SRC osmpbf-outline.cpp)
 SET(HPP_SRC "")
 SET(C_SRC "")
+set_source_files_properties(${CPP_SRC}
+    OBJECT_DEPENDS "${CMAKE_SOURCE_DIR}/include/osmpbf/fileformat.pb.h;${CMAKE_SOURCE_DIR}/include/osmpbf/osmformat.pb.h")
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
 add_executable(${PROJECT} ${HPP_SRC} ${CPP_SRC} ${C_SRC})
