@@ -57,3 +57,6 @@ To install the Debian/Ubuntu packages:
 To clean up after:
   debclean
 
+License
+=======
+The .proto definition files and osmpbf.h are licensed under the MIT license. The other source code is licensed under the LGPL v3+.
