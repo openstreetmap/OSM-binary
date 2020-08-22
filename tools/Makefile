@@ -5,7 +5,7 @@ CXX      ?= g++
 CXXFLAGS ?= -g
 
 CXXFLAGS += -I../include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -Wno-long-long
-LDFLAGS  += -L../src -pthread -lz -lprotobuf-lite -losmpbf
+LDFLAGS  += -L../src -pthread -lz -lprotobuf -losmpbf
 
 .PHONY: clean install
 
