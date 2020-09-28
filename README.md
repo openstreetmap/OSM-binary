@@ -37,7 +37,7 @@ There is a tool named osmpbf-outline that shows a debug output of the contents
 of a PBF file. To compile it:
 
 ```sh
-  make -C tools
+make -C tools
 ```
 
 
