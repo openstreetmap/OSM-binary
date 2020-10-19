@@ -7,5 +7,6 @@ include/osmpbf/*.pb.h
 src/*.pb.h
 src/*.pb.o
 src/libosmpbf.a
+target
 *.swp
 obj-x86_64-linux-gnu

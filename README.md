@@ -10,10 +10,20 @@ For more information see https://wiki.openstreetmap.org/wiki/PBF_Format .
 
 ## Java Version
 
-To build the osmpbf.jar file run:
+We publish the Java library to [Maven Central](https://search.maven.org/):
+
+```xml
+<dependency>
+  <groupId>org.openstreetmap.pbf</groupId>
+  <artifactId>osmpbf</artifactId>
+  <version>1.4.0</version>
+</dependency>
+```
+
+To build the Java library run:
 
 ```sh
-ant
+mvn package
 ```
 
 For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java

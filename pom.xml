@@ -3,13 +3,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>crosby.binary</groupId>
+  <groupId>org.openstreetmap.pbf</groupId>
   <artifactId>osmpbf</artifactId>
   <packaging>jar</packaging>
   <version>1.4.0</version>
   <name>OSM-Binary</name>
   <description>Library for the OpenStreetMap PBF format</description>
-  <url>https://github.com/scrosby/OSM-binary</url>
+  <url>https://github.com/openstreetmap/OSM-binary</url>
   <licenses>
     <license>
       <name>GNU General Lesser Public License (LGPL) version 3.0</name>
@@ -18,9 +18,16 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/scrosby/OSM-binary</url>
-    <connection>https://github.com/scrosby/OSM-binary.git</connection>
+    <url>https://github.com/openstreetmap/OSM-binary</url>
+    <connection>https://github.com/openstreetmap/OSM-binary.git</connection>
   </scm>
+  <developers>
+    <developer>
+      <id>osm-dev</id>
+      <name>OpenStreetMap developers</name>
+      <email>dev@openstreetmap.org</email>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,6 +74,50 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <failOnError>false</failOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -91,4 +142,16 @@
       <version>3.13.0</version>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
 </project>
