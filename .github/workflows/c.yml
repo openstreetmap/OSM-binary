@@ -1,0 +1,12 @@
+name: C CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get install protobuf-compiler libprotobuf-dev
+      - run: make -C src
