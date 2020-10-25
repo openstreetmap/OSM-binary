@@ -19,10 +19,10 @@ libosmpbf.a: fileformat.pb.o osmformat.pb.o
 	$(AR) -cr $@ fileformat.pb.o osmformat.pb.o
 
 libosmpbf.so: fileformat.pb.o osmformat.pb.o
-	$(CXX) -shared -Wl,-soname,$(SONAME) -o $@ fileformat.pb.o osmformat.pb.o
+	$(CXX) $(CPPFLAGS) $(LDFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ fileformat.pb.o osmformat.pb.o
 
 %.pb.o: %.pb.cc
-	$(CXX) $(CXXFLAGS) -fPIC -c -o $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -o $@ $<
 
 %.pb.cc ../include/osmpbf/%.pb.h: %.proto
 	$(PROTOC) --proto_path=. --cpp_out=. $<

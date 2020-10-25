@@ -12,7 +12,7 @@ LDFLAGS  += -L../src -pthread -lz -lprotobuf -losmpbf
 all: osmpbf-outline
 
 osmpbf-outline: osmpbf-outline.cpp
-	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 
 install:
 	install -m 755 -d $(DESTDIR)$(PREFIX)/bin
