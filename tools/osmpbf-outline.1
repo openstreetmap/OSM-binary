@@ -15,22 +15,22 @@ osmpbf-outline - outline the content of an .osm.pbf or .osh.pbf file
 .SH DESCRIPTION
 
 .I osmpbf-outline
-generates an colored outline an .osm.pbf or .osh.pbf file, revealing its inner structure.
+generates a colored outline of an .osm.pbf or .osh.pbf file, revealing its inner structure.
 It does not decode all information nor does it check for of possible mistakes, but it will
 warn on some bad mistakes one can make when generating .osm.pbf files.
 
 This tool can be used by authors of .osm.pbf readers and writers and is useful to understand
 the inner blob/block structure of .osm.pbf files.
 
-Its source code is heavily documented and can be used as a good start on how to read- and
-write .osm.pbf files with C++.
+Its source code is heavily documented and can be used as a good starting point
+understanding on how to read and write .osm.pbf files with C++.
 
 .SH OPTIONS
 .TP 5
 
-.B -c --color
-usually colorization is disabled when writing to a file descriptor that is no tty (eg. when
-the output is piped to a file or to a pager like to more or less). Some pagers can handle ANSI
+.B -c, --color
+usually colorization is disabled when writing to a file descriptor that is not a tty (eg. when
+the output is piped to a file or to a pager like more or less). Some pagers can handle ANSI
 color code (
 .I more
 can, less can when invoked as
