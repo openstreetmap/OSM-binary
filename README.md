@@ -37,7 +37,7 @@ mvn package
 For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java
 
 
-## C Version
+## C++ Version
 
 To compile:
 
@@ -61,7 +61,7 @@ tools/osmpbf-outline osm-file.osm.pbf
 ```
 
 
-## Using the C Library
+## Using the C++ Library
 
 To include in your program use:
 
