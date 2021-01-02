@@ -74,27 +74,6 @@ and link with:
 ```
 
 
-## Debian/Ubuntu Packages
-
-To build the Debian/Ubuntu packages:
-
-```sh
-debuild -I -us -uc
-```
-
-To install the Debian/Ubuntu packages:
-
-```sh
-sudo dpkg --install ../libosmpbf-dev_*.deb
-sudo dpkg --install ../libosmpbf-java_*.deb
-sudo dpkg --install ../osmpbf-bin_*.deb
-```
-
-To clean up after:
-```sh
-debclean
-```
-
 ## License
 
 The .proto definition files and osmpbf.h are licensed under the MIT license.
