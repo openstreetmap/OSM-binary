@@ -7,6 +7,10 @@ data that uses Google Protocol Buffers as low-level storage.
 
 For more information see https://wiki.openstreetmap.org/wiki/PBF_Format .
 
+Note that this is a low-level library that does only part of the
+encoding/decoding needed for actually writing/reading an OSM PBF file. For
+something more complete see [libosmium](https://osmcode.org/libosmium/).
+
 [![Github Actions C Build Status](https://github.com/openstreetmap/OSM-binary/workflows/C%20CI/badge.svg?branch=master)](https://github.com/openstreetmap/OSM-binary/actions)
 [![Github Actions Java Build Status](https://github.com/openstreetmap/OSM-binary/workflows/Java%20CI/badge.svg?branch=master)](https://github.com/openstreetmap/OSM-binary/actions)
 
