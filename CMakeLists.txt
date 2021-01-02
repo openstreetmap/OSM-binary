@@ -1,15 +1,14 @@
-PROJECT(OSMBinary)
-cmake_minimum_required(VERSION 2.8.5)
+cmake_minimum_required(VERSION 3.7)
 
-SET(SEARCH_PREFIX CACHE PATH "Additional prefix to search libraries (Protobuf etc.)" )
+project(OSMBinary)
 
-SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${SEARCH_PREFIX})
+set(CMAKE_CXX_STANDARD 11)
 
-include(FindProtobuf)
 find_package(Protobuf REQUIRED)
-include_directories(${PROTOBUF_INCLUDE_DIR})
 
-add_subdirectory(src)
+add_subdirectory(osmpbf)
+
+# The osmpbf-outline tool does not compile on Windows because getopt.h is missing
 if(NOT MSVC)
-add_subdirectory(tools)
+    add_subdirectory(tools)
 endif()

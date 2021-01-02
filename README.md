@@ -34,20 +34,22 @@ For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java
 To compile:
 
 ```sh
-make -C src
+mkdir build && cd build
+cmake ..
+make
 ```
 
 To install:
 
 ```sh
-make -C src install
+make install
 ```
 
 There is a tool named osmpbf-outline that shows a debug output of the contents
-of a PBF file. To compile it:
+of a PBF file. To run it:
 
 ```sh
-make -C tools
+tools/osmpbf-outline osm-file.osm.pbf
 ```
 
 
@@ -62,7 +64,7 @@ To include in your program use:
 and link with:
 
 ```
--pthread -lz -lprotobuf-lite -losmpbf
+-pthread -lz -lprotobuf -losmpbf
 ```
 
 

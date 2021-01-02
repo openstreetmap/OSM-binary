@@ -1,19 +1,12 @@
-PROTOBUF_GENERATE_CPP(CPPS HS fileformat.proto osmformat.proto)
-
-if(MSVC)
-    set(CMAKE_CXX_FLAGS "/O3")
-else()
-    set(CMAKE_CXX_FLAGS "-O3")
-endif()
+protobuf_generate_cpp(CPPS HS fileformat.proto osmformat.proto)
 
 add_library(osmpbf STATIC ${CPPS})
+target_include_directories(osmpbf SYSTEM PUBLIC ${Protobuf_INCLUDE_DIRS})
 
-set_target_properties(osmpbf PROPERTIES LINKER_LANGUAGE CXX LANGUAGE CXX)
+install(FILES ${CMAKE_SOURCE_DIR}/include/osmpbf/osmpbf.h
+              ${CMAKE_BINARY_DIR}/osmpbf/osmformat.pb.h
+              ${CMAKE_BINARY_DIR}/osmpbf/fileformat.pb.h
+        DESTINATION "include/osmpbf")
 
-ADD_CUSTOM_COMMAND(TARGET osmpbf POST_BUILD  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/src/fileformat.pb.h ${CMAKE_SOURCE_DIR}/include/osmpbf)
-ADD_CUSTOM_COMMAND(TARGET osmpbf POST_BUILD  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/src/osmformat.pb.h ${CMAKE_SOURCE_DIR}/include/osmpbf)
+install(TARGETS osmpbf ARCHIVE DESTINATION lib)
 
-SET(INCLUDE_INSTALL "include/osmpbf")
-SET(files ${CMAKE_SOURCE_DIR}/include/osmpbf/osmpbf.h ${CMAKE_BINARY_DIR}/src/osmformat.pb.h ${CMAKE_BINARY_DIR}/src/fileformat.pb.h)
-INSTALL(FILES ${files} DESTINATION ${INCLUDE_INSTALL})
-install(TARGETS osmpbf LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)

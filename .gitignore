@@ -1,6 +1,4 @@
-build-stamp
-build
-configure-stamp
+/build
 osmpbf.jar
 generated.java
 include/osmpbf/*.pb.h
