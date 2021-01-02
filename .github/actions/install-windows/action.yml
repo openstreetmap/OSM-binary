@@ -1,0 +1,10 @@
+name: Install Prerequisites on Windows
+
+runs:
+  using: composite
+
+  steps:
+    - name: Install packages
+      run: vcpkg install protobuf:x64-windows zlib:x64-windows
+      shell: powershell
+
