@@ -35,9 +35,13 @@
 
   <build>
     <sourceDirectory>${basedir}/src.java</sourceDirectory>
-    <outputDirectory>${basedir}/build</outputDirectory>
+    <testSourceDirectory>${basedir}/test.java</testSourceDirectory>
 
-    <resources><resource><directory>${basedir}/resources</directory></resource></resources>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/resources</directory>
+      </testResource>
+    </testResources>
 
     <plugins>
       <plugin>
