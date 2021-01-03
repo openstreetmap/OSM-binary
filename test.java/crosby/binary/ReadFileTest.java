@@ -498,19 +498,22 @@ public class ReadFileTest {
         protected void parseWays(List<Way> ways) {
             for (Way w : ways) {
                 writer.println("Way ID " + w.getId());
-                StringBuilder sb = new StringBuilder();
-                sb.append("  Nodes: ");
+                writer.print("  Nodes: ");
                 long lastRef = 0;
                 for (Long ref : w.getRefsList()) {
                     lastRef += ref;
-                    sb.append(lastRef).append(" ");
+                    writer.print(lastRef);
+                    writer.print(" ");
                 }
-                sb.append("\n  Key=value pairs: ");
+                writer.println();
+                writer.print("  Key=value pairs: ");
                 for (int i = 0; i < w.getKeysCount(); i++) {
-                    sb.append(getStringById(w.getKeys(i))).append("=")
-                            .append(getStringById(w.getVals(i))).append(" ");
+                    writer.print(getStringById(w.getKeys(i)));
+                    writer.print("=");
+                    writer.print(getStringById(w.getVals(i)));
+                    writer.print(" ");
                 }
-                writer.println(sb.toString());
+                writer.println();
             }
         }
 
