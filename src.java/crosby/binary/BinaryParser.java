@@ -33,7 +33,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     private long lat_offset;
     private long lon_offset;
     protected int date_granularity;
-    private String strings[];
+    private String[] strings;
 
     /** Take a Info protocol buffer containing a date and convert it into a java Date object */
     protected Date getDate(Osmformat.Info info) {

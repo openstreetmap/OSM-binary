@@ -34,7 +34,7 @@ public class StringTable {
 
     private HashMap<String, Integer> counts;
     private HashMap<String, Integer> stringmap;
-    private String set[];
+    private String[] set;
 
     public void incr(String s) {
         counts.merge(s, 1, Integer::sum);

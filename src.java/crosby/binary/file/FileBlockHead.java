@@ -50,7 +50,7 @@ public class FileBlockHead extends FileBlockReference {
           throw new FileFormatException("Unexpectedly long header "+MAX_HEADER_SIZE+ " bytes. Possibly corrupt file.");
         }
         
-        byte buf[] = new byte[headersize];
+        byte[] buf = new byte[headersize];
         datinput.readFully(buf);
         // System.out.format("Read buffer for header of %d bytes\n",buf.length);
         Fileformat.BlobHeader header = Fileformat.BlobHeader
@@ -90,7 +90,7 @@ public class FileBlockHead extends FileBlockReference {
      */
     FileBlock readContents(InputStream input) throws IOException {
         DataInputStream datinput = new DataInputStream(input);
-        byte buf[] = new byte[getDatasize()];
+        byte[] buf = new byte[getDatasize()];
         datinput.readFully(buf);
         return parseData(buf);
     }
