@@ -15,7 +15,7 @@
 
 */
 
-package crosby.binary.test;
+package crosby.binary;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

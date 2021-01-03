@@ -1,4 +1,4 @@
-package crosby.binary.test;
+package crosby.binary;
 
 import crosby.binary.*;
 import crosby.binary.Osmformat.*;
