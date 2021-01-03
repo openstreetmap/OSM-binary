@@ -8,6 +8,8 @@ add_library(osmpbf_shared SHARED ${CPPS})
 target_link_libraries(osmpbf_shared PRIVATE protobuf::libprotobuf)
 target_include_directories(osmpbf_shared SYSTEM PUBLIC ${Protobuf_INCLUDE_DIRS})
 set_target_properties(osmpbf_shared PROPERTIES OUTPUT_NAME osmpbf)
+set_target_properties(osmpbf_shared PROPERTIES VERSION 1.5.0)
+set_target_properties(osmpbf_shared PROPERTIES SOVERSION 1)
 install(TARGETS osmpbf_shared LIBRARY DESTINATION lib)
 
 install(FILES ${CMAKE_SOURCE_DIR}/include/osmpbf/osmpbf.h
