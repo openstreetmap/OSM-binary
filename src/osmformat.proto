@@ -230,6 +230,15 @@ message Way {
   optional Info info = 4;
 
   repeated sint64 refs = 8 [packed = true]; // DELTA coded
+
+  // The following two fields are optional. They are only used in a special
+  // format where node locations are also added to the ways. This makes the
+  // files larger, but allows creating way geometries directly.
+  //
+  // If this is used, you MUST set the optional_features tag "LocationsOnWays"
+  // and the number of values in refs, lat, and lon MUST be the same.
+  repeated sint64 lat = 9 [packed = true]; // DELTA coded, optional
+  repeated sint64 lon = 10 [packed = true]; // DELTA coded, optional
 }
 
 message Relation {
