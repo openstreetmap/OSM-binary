@@ -1,19 +1,19 @@
-/** Copyright (c) 2010 Scott A. Crosby. <scott@sacrosby.com>
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU Lesser General Public License as 
-   published by the Free Software Foundation, either version 3 of the 
-   License, or (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-*/
+/**
+ * Copyright (c) 2010 Scott A. Crosby. <scott@sacrosby.com>
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package crosby.binary;
 
@@ -23,12 +23,47 @@ import crosby.binary.Osmformat.StringTable;
 import crosby.binary.Osmformat.Relation.MemberType;
 import crosby.binary.file.BlockOutputStream;
 import crosby.binary.file.FileBlock;
+import org.junit.Assert;
+import org.junit.Test;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-public class BuildTestFile {
-    BlockOutputStream output;
+public class WriteFileTest {
+
+    @Test
+    public void testSimpleFileBlock1() throws Exception {
+        test("deflate", "/SimpleFileBlock1-deflate.osm.pbf");
+        test("none", "/SimpleFileBlock1-none.osm.pbf");
+    }
+
+    @Test
+    public void testGranFileBlock1() throws Exception {
+        test("deflate", "/GranFileBlock1-deflate.osm.pbf");
+        test("none", "/GranFileBlock1-none.osm.pbf");
+    }
+
+    private void test(String compress, String resource) throws IOException, URISyntaxException {
+        try (ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+            BuildTestFile builder = new BuildTestFile(new BlockOutputStream(bytes), compress);
+            if (resource.startsWith("/SimpleFileBlock1")) {
+                builder.makeSimpleFileBlock1();
+            } else if (resource.startsWith("/GranFileBlock1")) {
+                builder.makeGranFileBlock1();
+            } else {
+                throw new IllegalArgumentException();
+            }
+            byte[] expected = Files.readAllBytes(Paths.get(WriteFileTest.class.getResource(resource).toURI()));
+            Assert.assertArrayEquals(expected, bytes.toByteArray());
+        }
+    }
+}
+
+class BuildTestFile {
+    private final BlockOutputStream output;
     public static final long BILLION = 1000000000L;
 
     StringTable makeStringTable(String prefix) {
@@ -123,36 +158,13 @@ public class BuildTestFile {
     }
 
 
-    BuildTestFile(String name, String compress) throws IOException {
-        output = new BlockOutputStream(new FileOutputStream(name));
-        output.setCompress(compress);
+    BuildTestFile(BlockOutputStream output, String compress) throws IOException {
+        this.output = output;
+        this.output.setCompress(compress);
         HeaderBlock.Builder b = HeaderBlock.newBuilder();
         b.addRequiredFeatures("OsmSchema-V0.6").addRequiredFeatures("DenseNodes").setSource("QuickBrownFox");
-        output.write(FileBlock.newInstance("OSMHeader", b.build().toByteString(), null));
+        this.output.write(FileBlock.newInstance("OSMHeader", b.build().toByteString(), null));
     }
-
-
-    public static void main(String[] args) {
-        try {
-            BuildTestFile out1a = new BuildTestFile("TestFile1-deflate.osm.pbf", "deflate");
-            out1a.makeSimpleFileBlock1();
-            out1a.output.close();
-
-            BuildTestFile out1b = new BuildTestFile("TestFile1-none.osm.pbf", "none");
-            out1b.makeSimpleFileBlock1();
-            out1b.output.close();
-
-            BuildTestFile out2 = new BuildTestFile("TestFile2-uncom.osm.pbf", "deflate");
-            out2.makeGranFileBlock1();
-            out2.output.close();
-
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
 
     void makeGranFileBlock1() throws IOException {
         PrimitiveBlock.Builder b1 = PrimitiveBlock.newBuilder();
@@ -193,9 +205,7 @@ public class BuildTestFile {
                                         .setUserSid(4)
                                         .build())
                                 .build())
-        )
-
-        ;
+        );
 
         // The same, but with different granularities.
         PrimitiveBlock.Builder b2 = PrimitiveBlock.newBuilder();
