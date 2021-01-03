@@ -24,7 +24,7 @@ We publish the Java library to [Maven Central](https://search.maven.org/):
 <dependency>
   <groupId>org.openstreetmap.pbf</groupId>
   <artifactId>osmpbf</artifactId>
-  <version>1.4.0</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 

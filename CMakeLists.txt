@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(OSMBinary)
+project(osmpbf VERSION 1.5.0)
 
 include(GNUInstallDirs)
 

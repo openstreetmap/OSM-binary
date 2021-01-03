@@ -7,7 +7,7 @@ CXXFLAGS ?= -O3
 AR       ?= ar
 PROTOC   ?= protoc
 SONAME   ?= libosmpbf.so.1
-VERSION  ?= 1.3.3
+VERSION  ?= 1.5.0
 
 CXXFLAGS += -Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -Wno-long-long
 

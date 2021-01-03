@@ -1,6 +1,9 @@
 ## Unreleased
 
 - C: Support hardening buildflags set in the environment ([09845ca4](https://github.com/openstreetmap/OSM-binary/commit/09845ca4087c7404b1de33914233dbf53f9de4c3))
+- C: Updated CMake configuration. This can now completely replace the configuration using the Makefiles.
+- Proto: Add optional way to add node locations to way ([e7d3201](https://github.com/openstreetmap/OSM-binary/commit/e7d3201a97a86ef0c0608bfcd960e44e54962d7b))
+- Proto: Add optional LZ4 and ZSTD compressed data blocks ([218bfe8](https://github.com/openstreetmap/OSM-binary/commit/218bfe8ed800173279ede2d9028fd9a5c33d12e4))
 
 ## Release notes for 1.4.0 (2020-10-20)
 
