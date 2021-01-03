@@ -20,6 +20,7 @@ package crosby.binary;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,9 +144,7 @@ public class BinarySerializer implements Closeable, Flushable {
             output.write(FileBlock.newInstance("OSMData", message
                     .toByteString(), null));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new Error(e);
+            throw new UncheckedIOException(e);
         } finally {
             batch_size = 0;
             groups.clear();

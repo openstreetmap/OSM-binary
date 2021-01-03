@@ -18,6 +18,7 @@
 package crosby.binary;
 
 
+import java.io.UncheckedIOException;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import crosby.binary.file.BlockReaderAdapter;
 import crosby.binary.file.FileBlock;
 import crosby.binary.file.FileBlockPosition;
+import crosby.binary.file.FileFormatException;
 
 public abstract class BinaryParser implements BlockReaderAdapter {
     protected int granularity;
@@ -66,9 +68,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
                 parse(primblock);
             }
         } catch (InvalidProtocolBufferException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new Error("ParseError"); // TODO
+            throw new UncheckedIOException(new FileFormatException(e));
         }
 
     }
