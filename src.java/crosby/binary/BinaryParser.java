@@ -38,7 +38,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     /** Take a Info protocol buffer containing a date and convert it into a java Date object */
     protected Date getDate(Osmformat.Info info) {
       if (info.hasTimestamp()) {
-          return new Date(date_granularity * (long) info.getTimestamp());
+          return new Date(date_granularity * info.getTimestamp());
       } else
           return NODATE;
     }

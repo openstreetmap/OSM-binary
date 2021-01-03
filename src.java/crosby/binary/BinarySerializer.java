@@ -82,8 +82,8 @@ public class BinarySerializer implements Closeable, Flushable {
     /** How many primitives have been seen in this batch */
     protected int batch_size = 0;
     protected int total_entities = 0;
-    private StringTable stringtable = new StringTable();
-    protected List<PrimGroupWriterInterface> groups = new ArrayList<PrimGroupWriterInterface>();
+    private final StringTable stringtable = new StringTable();
+    protected List<PrimGroupWriterInterface> groups = new ArrayList<>();
     protected BlockOutputStream output;
 
     public BinarySerializer(BlockOutputStream output) {

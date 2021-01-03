@@ -69,6 +69,6 @@ public class BlockOutputStream {
     }
 
     OutputStream outwrite;
-    List<FileBlockPosition> writtenblocks = new ArrayList<FileBlockPosition>();
+    List<FileBlockPosition> writtenblocks = new ArrayList<>();
     CompressFlags compression;
 }
