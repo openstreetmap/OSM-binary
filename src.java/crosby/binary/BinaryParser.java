@@ -23,7 +23,6 @@ import java.util.List;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import crosby.binary.Osmformat;
 import crosby.binary.file.BlockReaderAdapter;
 import crosby.binary.file.FileBlock;
 import crosby.binary.file.FileBlockPosition;
@@ -47,8 +46,8 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     /** Get a string based on the index used. 
      * 
      * Index 0 is reserved to use as a delimiter, therefore, index 1 corresponds to the first string in the table 
-     * @param id
-     * @return
+     * @param id the index
+     * @return the string at the given index
      */
     protected String getStringById(int id) {
       return strings[id];
@@ -56,7 +55,6 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     
     @Override
     public void handleBlock(FileBlock message) {
-        // TODO Auto-generated method stub
         try {
             if (message.getType().equals("OSMHeader")) {
                 Osmformat.HeaderBlock headerblock = Osmformat.HeaderBlock

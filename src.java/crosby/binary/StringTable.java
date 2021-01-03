@@ -24,7 +24,7 @@ import java.util.HashMap;
 import com.google.protobuf.ByteString;
 
 /**
- * Class for mapping a set of strings to integers, giving frequently occuring
+ * Class for mapping a set of strings to integers, giving frequently occurring
  * strings small integers.
  */
 public class StringTable {
@@ -36,6 +36,10 @@ public class StringTable {
     private HashMap<String, Integer> stringmap;
     private String[] set;
 
+    /**
+     * Increments the count of the given string
+     * @param s the string
+     */
     public void incr(String s) {
         counts.merge(s, 1, Integer::sum);
     }
@@ -43,8 +47,8 @@ public class StringTable {
     /** After the stringtable has been built, return the offset of a string in it.
      *
      * Note, value '0' is reserved for use as a delimiter and will not be returned.
-     * @param s
-     * @return
+     * @param s the string to lookup
+     * @return the offset of the string
      */
     public int getIndex(String s) {
         return stringmap.get(s);
@@ -78,7 +82,7 @@ public class StringTable {
         So, when I decide on the master stringtable to use, I put the 127 most frequently occurring
         strings into A (accomplishing goal 1), and sort them by frequency (to accomplish goal 2), but
         for B and C, which contain the less progressively less frequently encountered strings, I sort
-        them lexiconographically, to maximize goal 3 and ignoring goal 2.
+        them lexicographically, to maximize goal 3 and ignoring goal 2.
 
         Goal 1 is the most important. Goal 2 helped enough to be worth it, and goal 3 was pretty minor,
         but all should be re-benchmarked.
@@ -93,7 +97,7 @@ public class StringTable {
           // Sort based on the frequency.
           Arrays.sort(set, comparator);
           // Each group of keys that serializes to the same number of bytes is
-          // sorted lexiconographically.
+          // sorted lexicographically.
           // to maximize deflate compression.
 
           // Don't sort the first array. There's not likely to be much benefit, and we want frequent values to be small.

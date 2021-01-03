@@ -69,11 +69,11 @@ public class BinarySerializer implements Closeable, Flushable {
         this.batch_limit = batch_limit;
     }
 
-    // Paramaters affecting the output size.
+    // Parameters affecting the output size.
     protected final int MIN_DENSE = 10;
     protected int batch_limit = 4000;
 
-    // Parmaters affecting the output.
+    // Parameters affecting the output.
 
     protected int granularity = 100;
     protected int date_granularity = 1000;
