@@ -13,7 +13,7 @@
   <licenses>
     <license>
       <name>GNU General Lesser Public License (LGPL) version 3.0</name>
-	  <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -34,13 +34,13 @@
   </properties>
 
   <build>
-	<sourceDirectory>${basedir}/src.java</sourceDirectory>
+    <sourceDirectory>${basedir}/src.java</sourceDirectory>
     <outputDirectory>${basedir}/build</outputDirectory>
 
-   <resources><resource><directory>${basedir}/resources</directory></resource></resources>
+    <resources><resource><directory>${basedir}/resources</directory></resource></resources>
 
     <plugins>
-	  <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -126,7 +126,7 @@
       <id>dtrott</id>
       <url>http://maven.davidtrott.com/repository</url>
     </pluginRepository>
-  </pluginRepositories> 
+  </pluginRepositories>
 
   <dependencies>
     <dependency>
