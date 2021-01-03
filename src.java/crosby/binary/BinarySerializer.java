@@ -17,6 +17,8 @@
 
 package crosby.binary;
 
+import java.io.Closeable;
+import java.io.Flushable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ import crosby.binary.file.FileBlock;
  * ordered to process their data at the appropriate time.
  * */
 
-public class BinarySerializer {
+public class BinarySerializer implements Closeable, Flushable {
 
     /**
      * Interface used to write a group of primitives. One of these for each
@@ -92,11 +94,13 @@ public class BinarySerializer {
         return stringtable;
     }
 
+    @Override
     public void flush() throws IOException {
         processBatch();
         output.flush();
     }
 
+    @Override
     public void close() throws IOException {
         flush();
         output.close();
