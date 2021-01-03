@@ -39,6 +39,9 @@ For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java
 
 ## C++ Version
 
+(Earlier versions used Makefiles for building. Please switch to the CMake-based
+build, the Makefiles are deprecated and will be removed in a future version.)
+
 To compile:
 
 ```sh
