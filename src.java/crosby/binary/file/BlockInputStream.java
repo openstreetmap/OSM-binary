@@ -17,11 +17,12 @@
 
 package crosby.binary.file;
 
+import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BlockInputStream {
+public class BlockInputStream implements Closeable {
     // TODO: Should be seekable input stream!
     public BlockInputStream(InputStream input, BlockReaderAdapter adaptor) {
         this.input = input;
@@ -38,6 +39,7 @@ public class BlockInputStream {
       }
     }
 
+    @Override
     public void close() throws IOException {
         input.close();
     }
