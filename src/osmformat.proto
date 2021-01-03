@@ -175,8 +175,7 @@ message DenseInfo {
 }
 
 
-// THIS IS STUB DESIGN FOR CHANGESETS. NOT USED RIGHT NOW.
-// TODO:    REMOVE THIS?
+// This is kept for backwards compatibility but not used anywhere.
 message ChangeSet {
   required int64 id = 1;
 }
