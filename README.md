@@ -34,7 +34,7 @@ To build the Java library run:
 mvn package
 ```
 
-For a Java usage example, see src.java/crosby/binary/test/ReadFileExample.java
+For a Java usage example, see [`ReadFileTest`](https://github.com/openstreetmap/OSM-binary/blob/master/test.java/crosby/binary/ReadFileTest.java)
 
 
 ## C++ Version
