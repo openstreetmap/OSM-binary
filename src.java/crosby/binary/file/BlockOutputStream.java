@@ -17,7 +17,9 @@
 
 package crosby.binary.file;
 
+import java.io.Closeable;
 import java.io.DataOutputStream;
+import java.io.Flushable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ enum CompressFlags {
     NONE, DEFLATE
 }
 
-public class BlockOutputStream {
+public class BlockOutputStream implements Closeable, Flushable {
 
     public BlockOutputStream(OutputStream output) {
         this.outwrite = new DataOutputStream(output);
@@ -59,10 +61,12 @@ public class BlockOutputStream {
         writtenblocks.add(ref);
     }
 
+    @Override
     public void flush() throws IOException {
         outwrite.flush();
     }
 
+    @Override
     public void close() throws IOException {
         outwrite.flush();
         outwrite.close();
