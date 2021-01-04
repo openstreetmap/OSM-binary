@@ -39,7 +39,7 @@ message Blob {
   // Possible compressed versions of the data.
   optional bytes zlib_data = 3;
 
-  // PROPOSED feature for LZMA compressed data. SUPPORT IS NOT REQUIRED.
+  // For LZMA compressed data (optional)
   optional bytes lzma_data = 4;
 
   // Formerly used for bzip2 compressed data. Deprecated in 2010.
