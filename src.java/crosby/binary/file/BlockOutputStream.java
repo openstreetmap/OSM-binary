@@ -44,7 +44,7 @@ public class BlockOutputStream {
         else if (s.equals("deflate"))
             compression = CompressFlags.DEFLATE;
         else
-            throw new Error("Unknown compression type: " + s);
+            throw new IllegalArgumentException("Unknown compression type: " + s);
     }
 
     /** Write a block with the stream's default compression flag */
@@ -69,6 +69,6 @@ public class BlockOutputStream {
     }
 
     OutputStream outwrite;
-    List<FileBlockPosition> writtenblocks = new ArrayList<FileBlockPosition>();
+    List<FileBlockPosition> writtenblocks = new ArrayList<>();
     CompressFlags compression;
 }

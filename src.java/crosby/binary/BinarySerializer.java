@@ -17,7 +17,10 @@
 
 package crosby.binary;
 
+import java.io.Closeable;
+import java.io.Flushable;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,7 @@ import crosby.binary.file.FileBlock;
  * ordered to process their data at the appropriate time.
  * */
 
-public class BinarySerializer {
+public class BinarySerializer implements Closeable, Flushable {
 
     /**
      * Interface used to write a group of primitives. One of these for each
@@ -67,11 +70,11 @@ public class BinarySerializer {
         this.batch_limit = batch_limit;
     }
 
-    // Paramaters affecting the output size.
+    // Parameters affecting the output size.
     protected final int MIN_DENSE = 10;
     protected int batch_limit = 4000;
 
-    // Parmaters affecting the output.
+    // Parameters affecting the output.
 
     protected int granularity = 100;
     protected int date_granularity = 1000;
@@ -80,8 +83,8 @@ public class BinarySerializer {
     /** How many primitives have been seen in this batch */
     protected int batch_size = 0;
     protected int total_entities = 0;
-    private StringTable stringtable = new StringTable();
-    protected List<PrimGroupWriterInterface> groups = new ArrayList<PrimGroupWriterInterface>();
+    private final StringTable stringtable = new StringTable();
+    protected List<PrimGroupWriterInterface> groups = new ArrayList<>();
     protected BlockOutputStream output;
 
     public BinarySerializer(BlockOutputStream output) {
@@ -92,11 +95,13 @@ public class BinarySerializer {
         return stringtable;
     }
 
+    @Override
     public void flush() throws IOException {
         processBatch();
         output.flush();
     }
 
+    @Override
     public void close() throws IOException {
         flush();
         output.close();
@@ -139,9 +144,7 @@ public class BinarySerializer {
             output.write(FileBlock.newInstance("OSMData", message
                     .toByteString(), null));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new Error(e);
+            throw new UncheckedIOException(e);
         } finally {
             batch_size = 0;
             groups.clear();

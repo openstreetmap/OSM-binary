@@ -25,6 +25,10 @@ public class FileFormatException extends IOException {
     super(string);
   }
 
+  public FileFormatException(Throwable cause) {
+    super(cause);
+  }
+
   /**
    * 
    */

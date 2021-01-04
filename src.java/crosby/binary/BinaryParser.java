@@ -18,27 +18,28 @@
 package crosby.binary;
 
 
+import java.io.UncheckedIOException;
 import java.util.Date;
 import java.util.List;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import crosby.binary.Osmformat;
 import crosby.binary.file.BlockReaderAdapter;
 import crosby.binary.file.FileBlock;
 import crosby.binary.file.FileBlockPosition;
+import crosby.binary.file.FileFormatException;
 
 public abstract class BinaryParser implements BlockReaderAdapter {
     protected int granularity;
     private long lat_offset;
     private long lon_offset;
     protected int date_granularity;
-    private String strings[];
+    private String[] strings;
 
     /** Take a Info protocol buffer containing a date and convert it into a java Date object */
     protected Date getDate(Osmformat.Info info) {
       if (info.hasTimestamp()) {
-          return new Date(date_granularity * (long) info.getTimestamp());
+          return new Date(date_granularity * info.getTimestamp());
       } else
           return NODATE;
     }
@@ -47,8 +48,8 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     /** Get a string based on the index used. 
      * 
      * Index 0 is reserved to use as a delimiter, therefore, index 1 corresponds to the first string in the table 
-     * @param id
-     * @return
+     * @param id the index
+     * @return the string at the given index
      */
     protected String getStringById(int id) {
       return strings[id];
@@ -56,7 +57,6 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     
     @Override
     public void handleBlock(FileBlock message) {
-        // TODO Auto-generated method stub
         try {
             if (message.getType().equals("OSMHeader")) {
                 Osmformat.HeaderBlock headerblock = Osmformat.HeaderBlock
@@ -68,9 +68,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
                 parse(primblock);
             }
         } catch (InvalidProtocolBufferException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new Error("ParseError"); // TODO
+            throw new UncheckedIOException(new FileFormatException(e));
         }
 
     }

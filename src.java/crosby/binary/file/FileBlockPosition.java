@@ -21,6 +21,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -43,21 +44,20 @@ public class FileBlockPosition extends FileBlockBase {
     }
 
     /** Parse out and decompress the data part of a fileblock helper function. */
-    FileBlock parseData(byte buf[]) throws InvalidProtocolBufferException {
+    FileBlock parseData(byte[] buf) throws InvalidProtocolBufferException {
         FileBlock out = FileBlock.newInstance(type, null, indexdata);
         Fileformat.Blob blob = Fileformat.Blob.parseFrom(buf);
         if (blob.hasRaw()) {
             out.data = blob.getRaw();
         } else if (blob.hasZlibData()) {
-            byte buf2[] = new byte[blob.getRawSize()];
+            byte[] buf2 = new byte[blob.getRawSize()];
             Inflater decompresser = new Inflater();
             decompresser.setInput(blob.getZlibData().toByteArray());
             // decompresser.getRemaining();
             try {
                 decompresser.inflate(buf2);
             } catch (DataFormatException e) {
-                e.printStackTrace();
-                throw new Error(e);
+                throw new UncheckedIOException(new FileFormatException(e));
             }
             assert (decompresser.finished());
             decompresser.end();
@@ -85,11 +85,11 @@ public class FileBlockPosition extends FileBlockBase {
     public FileBlock read(InputStream input) throws IOException {
         if (input instanceof FileInputStream) {
             ((FileInputStream) input).getChannel().position(data_offset);
-            byte buf[] = new byte[getDatasize()];
+            byte[] buf = new byte[getDatasize()];
             (new DataInputStream(input)).readFully(buf);
             return parseData(buf);
         } else {
-            throw new Error("Random access binary reads require seekability");
+            throw new IllegalArgumentException("Random access binary reads require seekability");
         }
     }
 
@@ -98,12 +98,12 @@ public class FileBlockPosition extends FileBlockBase {
      * stored.
      */
     public ByteString serialize() {
-        throw new Error("TODO");
+        throw new UnsupportedOperationException("TODO");
     }
 
     /** TODO: Parse a serialized representation of this block reference */
     static FileBlockPosition parseFrom(ByteString b) {
-      throw new Error("TODO");
+      throw new UnsupportedOperationException("TODO");
     }
 
     protected int datasize;

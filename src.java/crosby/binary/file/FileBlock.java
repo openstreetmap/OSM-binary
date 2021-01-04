@@ -18,10 +18,12 @@
 package crosby.binary.file;
 
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.zip.Deflater;
 
@@ -48,13 +50,13 @@ public class FileBlock extends FileBlockBase {
       if (blob != null && blob.size() > MAX_BODY_SIZE/2) {
         System.err.println("Warning: Fileblock has body size too large and may be considered corrupt");
         if (blob != null && blob.size() > MAX_BODY_SIZE-1024*1024) {
-          throw new Error("This file has too many entities in a block. Parsers will reject it.");
+          throw new IllegalArgumentException("This file has too many entities in a block. Parsers will reject it.");
         }
       }
       if (indexdata != null && indexdata.size() > MAX_HEADER_SIZE/2) {
         System.err.println("Warning: Fileblock has indexdata too large and may be considered corrupt");
         if (indexdata != null && indexdata.size() > MAX_HEADER_SIZE-512) {
-          throw new Error("This file header is too large. Parsers will reject it.");
+          throw new IllegalArgumentException("This file header is too large. Parsers will reject it.");
         }
       }
       return new FileBlock(type, blob, indexdata);
@@ -65,7 +67,7 @@ public class FileBlock extends FileBlockBase {
         Deflater deflater = new Deflater();
         deflater.setInput(data.toByteArray());
         deflater.finish();
-        byte out[] = new byte[size];
+        byte[] out = new byte[size];
         deflater.deflate(out);
         
         if (!deflater.finished()) {
@@ -77,7 +79,7 @@ public class FileBlock extends FileBlockBase {
             deflater.deflate(out, deflater.getTotalOut(), out.length
                     - deflater.getTotalOut());
             if (!deflater.finished()) {
-              throw new Error("Internal error in compressor");
+                throw new UncheckedIOException(new EOFException());
             }
         }
         ByteString compressed = ByteString.copyFrom(out, 0, deflater
@@ -103,7 +105,7 @@ public class FileBlock extends FileBlockBase {
             if (flags == CompressFlags.DEFLATE)
                 deflateInto(blobbuilder);
             else
-                throw new Error("Compression flag not understood");
+                throw new IllegalArgumentException("Compression flag not understood");
         }
         Fileformat.Blob blob = blobbuilder.build();
 

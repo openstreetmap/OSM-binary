@@ -24,7 +24,7 @@ import java.util.HashMap;
 import com.google.protobuf.ByteString;
 
 /**
- * Class for mapping a set of strings to integers, giving frequently occuring
+ * Class for mapping a set of strings to integers, giving frequently occurring
  * strings small integers.
  */
 public class StringTable {
@@ -34,34 +34,28 @@ public class StringTable {
 
     private HashMap<String, Integer> counts;
     private HashMap<String, Integer> stringmap;
-    private String set[];
+    private String[] set;
 
+    /**
+     * Increments the count of the given string
+     * @param s the string
+     */
     public void incr(String s) {
-        if (counts.containsKey(s)) {
-            counts.put(s, new Integer(counts.get(s).intValue() + 1));
-        } else {
-            counts.put(s, new Integer(1));
-        }
+        counts.merge(s, 1, Integer::sum);
     }
 
     /** After the stringtable has been built, return the offset of a string in it.
      *
      * Note, value '0' is reserved for use as a delimiter and will not be returned.
-     * @param s
-     * @return
+     * @param s the string to lookup
+     * @return the offset of the string
      */
     public int getIndex(String s) {
-        return stringmap.get(s).intValue();
+        return stringmap.get(s);
     }
 
     public void finish() {
-        Comparator<String> comparator = new Comparator<String>() {
-            @Override
-            public int compare(final String s1, String s2) {
-                int diff = counts.get(s2) - counts.get(s1);
-                return diff;
-            }
-        };
+        Comparator<String> comparator = (s1, s2) -> counts.get(s2) - counts.get(s1);
 
         /* Sort the stringtable */
 
@@ -88,7 +82,7 @@ public class StringTable {
         So, when I decide on the master stringtable to use, I put the 127 most frequently occurring
         strings into A (accomplishing goal 1), and sort them by frequency (to accomplish goal 2), but
         for B and C, which contain the less progressively less frequently encountered strings, I sort
-        them lexiconographically, to maximize goal 3 and ignoring goal 2.
+        them lexicographically, to maximize goal 3 and ignoring goal 2.
 
         Goal 1 is the most important. Goal 2 helped enough to be worth it, and goal 3 was pretty minor,
         but all should be re-benchmarked.
@@ -103,7 +97,7 @@ public class StringTable {
           // Sort based on the frequency.
           Arrays.sort(set, comparator);
           // Each group of keys that serializes to the same number of bytes is
-          // sorted lexiconographically.
+          // sorted lexicographically.
           // to maximize deflate compression.
 
           // Don't sort the first array. There's not likely to be much benefit, and we want frequent values to be small.
@@ -114,15 +108,15 @@ public class StringTable {
           Arrays.sort(set, Math.min(1 << 14, set.length-1), Math.min(1 << 21,
               set.length-1), comparator);
         }
-        stringmap = new HashMap<String, Integer>(2 * set.length);
+        stringmap = new HashMap<>(2 * set.length);
         for (int i = 0; i < set.length; i++) {
-            stringmap.put(set[i], new Integer(i+1)); // Index 0 is reserved for use as a delimiter.
+            stringmap.put(set[i], i + 1); // Index 0 is reserved for use as a delimiter.
         }
         counts = null;
     }
 
     public void clear() {
-        counts = new HashMap<String, Integer>(100);
+        counts = new HashMap<>(100);
         stringmap = null;
         set = null;
     }
@@ -131,8 +125,9 @@ public class StringTable {
         Osmformat.StringTable.Builder builder = Osmformat.StringTable
                 .newBuilder();
         builder.addS(ByteString.copyFromUtf8("")); // Add a unused string at offset 0 which is used as a delimiter.
-        for (int i = 0; i < set.length; i++)
-            builder.addS(ByteString.copyFromUtf8(set[i]));
+        for (String s : set) {
+            builder.addS(ByteString.copyFromUtf8(s));
+        }
         return builder;
     }
 }
