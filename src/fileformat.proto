@@ -33,23 +33,26 @@ package OSMPBF;
 //
 
 message Blob {
-  optional bytes raw = 1; // No compression
   optional int32 raw_size = 2; // When compressed, the uncompressed size
 
-  // Possible compressed versions of the data.
-  optional bytes zlib_data = 3;
+  oneof data {
+    bytes raw = 1; // No compression
 
-  // For LZMA compressed data (optional)
-  optional bytes lzma_data = 4;
+    // Possible compressed versions of the data.
+    bytes zlib_data = 3;
 
-  // Formerly used for bzip2 compressed data. Deprecated in 2010.
-  optional bytes OBSOLETE_bzip2_data = 5 [deprecated=true]; // Don't reuse this tag number.
+    // For LZMA compressed data (optional)
+    bytes lzma_data = 4;
 
-  // For LZ4 compressed data (optional)
-  optional bytes lz4_data = 6;
+    // Formerly used for bzip2 compressed data. Deprecated in 2010.
+    bytes OBSOLETE_bzip2_data = 5 [deprecated=true]; // Don't reuse this tag number.
 
-  // For ZSTD compressed data (optional)
-  optional bytes zstd_data = 7;
+    // For LZ4 compressed data (optional)
+    bytes lz4_data = 6;
+
+    // For ZSTD compressed data (optional)
+    bytes zstd_data = 7;
+  }
 }
 
 /* A file contains an sequence of fileblock headers, each prefixed by
