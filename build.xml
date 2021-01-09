@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="osmpbf" default="all" basedir=".">
+
+	<property name="src.dir" location="src.java"/>
+	<property name="src.generated.dir" location="generated.java"/>
+	<property name="build.dir" location="build"/>
+	<property name="build.jar" location="osmpbf.jar"/>
+
+	<target name="init">
+		<mkdir dir="${src.generated.dir}"/>
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${src.generated.dir}"/>
+		<delete dir="${build.dir}"/>
+		<delete file="${build.jar}"/>
+	</target>
+
+	<target name="build" depends="init">
+		<exec executable="/bin/sh">
+			<arg value="./build.sh"/>
+		</exec>
+		<javac includeantruntime="false" destdir="${build.dir}">
+			<src path="${src.dir}"/>
+			<src path="${src.generated.dir}"/>
+			<classpath>
+				<fileset file="/usr/share/java/protobuf.jar"/>
+				<fileset file="/usr/share/java/protobuf-java.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="build">
+		<jar destfile="${build.jar}" basedir="${build.dir}"/>
+	</target>
+	
+	<target name="all" depends="dist">
+	</target>
+
+</project>
+

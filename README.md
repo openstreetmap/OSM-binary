@@ -18,6 +18,8 @@ something more complete see [libosmium](https://osmcode.org/libosmium/).
 
 ## Java Version
 
+### Building with Maven
+
 We publish the Java library to [Maven Central](https://search.maven.org/):
 
 ```xml
@@ -34,8 +36,21 @@ To build the Java library run:
 mvn package
 ```
 
-For a Java usage example, see [`ReadFileTest`](https://github.com/openstreetmap/OSM-binary/blob/master/test.java/crosby/binary/ReadFileTest.java)
+For a Java usage example, see
+[`ReadFileTest`](https://github.com/openstreetmap/OSM-binary/blob/master/test.java/crosby/binary/ReadFileTest.java).
 
+### Building with Ant
+
+If you can not use Maven for some reason you can use the
+[Ant](https://ant.apache.org/) instead:
+
+```sh
+ant
+```
+
+This will build `osmpbf.jar` in the main directory.
+
+This build is also used for Debian packaging.
 
 ## C++ Version
 
