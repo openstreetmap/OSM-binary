@@ -15,6 +15,7 @@ something more complete see [libosmium](https://osmcode.org/libosmium/).
 
 [![Github Actions C Build Status](https://github.com/openstreetmap/OSM-binary/workflows/C%20CI/badge.svg?branch=master)](https://github.com/openstreetmap/OSM-binary/actions)
 [![Github Actions Java Build Status](https://github.com/openstreetmap/OSM-binary/workflows/Java%20CI/badge.svg?branch=master)](https://github.com/openstreetmap/OSM-binary/actions)
+[![Packaging status](https://repology.org/badge/tiny-repos/libosmpbf.svg)](https://repology.org/project/libosmpbf/versions)
 
 ## Java Version
 
