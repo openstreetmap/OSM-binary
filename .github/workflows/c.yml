@@ -3,18 +3,6 @@ name: C CI
 on: [push, pull_request]
 
 jobs:
-  ubuntu16:
-    runs-on: ubuntu-16.04
-    env:
-      CC: gcc
-      CXX: g++
-      CXXFLAGS: -Werror -Wall -pedantic
-      BUILD_TYPE: Debug
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/install-ubuntu
-      - uses: ./.github/actions/build
-
   ubuntu18:
     runs-on: ubuntu-18.04
     env:
