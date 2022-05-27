@@ -4,8 +4,6 @@ project(osmpbf VERSION 1.5.0)
 
 include(GNUInstallDirs)
 
-#set(CMAKE_CXX_STANDARD 11)
-
 find_package(Protobuf REQUIRED)
 
 add_subdirectory(osmpbf)
