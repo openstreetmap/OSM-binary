@@ -3,18 +3,6 @@ name: C CI
 on: [push, pull_request]
 
 jobs:
-  ubuntu18:
-    runs-on: ubuntu-18.04
-    env:
-      CC: gcc
-      CXX: g++
-      CXXFLAGS: -Werror -Wall -pedantic
-      BUILD_TYPE: Debug
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/install-ubuntu
-      - uses: ./.github/actions/build
-
   ubuntu20:
     runs-on: ubuntu-20.04
     env:
@@ -27,11 +15,11 @@ jobs:
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
-  ubuntu20-clang:
-    runs-on: ubuntu-20.04
+  ubuntu22:
+    runs-on: ubuntu-22.04
     env:
-      CC: clang-10
-      CXX: clang++-10
+      CC: gcc
+      CXX: g++
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
@@ -39,8 +27,20 @@ jobs:
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
-  ubuntu20-release:
-    runs-on: ubuntu-20.04
+  ubuntu22-clang:
+    runs-on: ubuntu-22.04
+    env:
+      CC: clang-12
+      CXX: clang++-12
+      CXXFLAGS: -Werror -Wall -pedantic
+      BUILD_TYPE: Debug
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/install-ubuntu
+      - uses: ./.github/actions/build
+
+  ubuntu22-release:
+    runs-on: ubuntu-22.04
     env:
       CC: gcc
       CXX: g++
@@ -52,8 +52,8 @@ jobs:
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
-  ubuntu20-make:
-    runs-on: ubuntu-20.04
+  ubuntu22-make:
+    runs-on: ubuntu-22.04
     env:
       CC: gcc
       CXX: g++
