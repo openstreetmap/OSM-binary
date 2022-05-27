@@ -70,7 +70,7 @@
             </goals>
             <phase>generate-sources</phase>
             <configuration>
-              <protoSourceRoot>${basedir}/src</protoSourceRoot>
+              <protoSourceRoot>${basedir}/osmpbf</protoSourceRoot>
               <includes>
                 <param>**/*.proto</param>
               </includes>

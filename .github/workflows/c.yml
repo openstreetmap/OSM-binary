@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/install-ubuntu
-      - run: make -C src
+      - run: make -C osmpbf
 
   macos:
     runs-on: macos-latest
