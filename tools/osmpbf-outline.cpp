@@ -1,3 +1,6 @@
+// used for 'isatty'
+#include <unistd.h>
+
 // used for va_list in debug-print methods
 #include <stdarg.h>
 
