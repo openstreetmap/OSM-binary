@@ -30,8 +30,8 @@ jobs:
   ubuntu22-clang:
     runs-on: ubuntu-22.04
     env:
-      CC: clang-12
-      CXX: clang++-12
+      CC: clang-15
+      CXX: clang++-15
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
