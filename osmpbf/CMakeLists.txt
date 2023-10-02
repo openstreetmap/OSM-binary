@@ -2,9 +2,11 @@ protobuf_generate_cpp(CPPS HS fileformat.proto osmformat.proto)
 
 add_library(osmpbf STATIC ${CPPS})
 target_include_directories(osmpbf SYSTEM PUBLIC ${Protobuf_INCLUDE_DIRS})
+set_property(TARGET osmpbf PROPERTY CXX_STANDARD 11)
 install(TARGETS osmpbf ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 add_library(osmpbf_shared SHARED ${CPPS})
+set_property(TARGET osmpbf_shared PROPERTY CXX_STANDARD 11)
 target_link_libraries(osmpbf_shared PRIVATE protobuf::libprotobuf)
 target_include_directories(osmpbf_shared SYSTEM PUBLIC ${Protobuf_INCLUDE_DIRS})
 set_target_properties(osmpbf_shared PROPERTIES OUTPUT_NAME osmpbf

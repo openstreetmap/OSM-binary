@@ -10,6 +10,7 @@ add_executable(osmpbf-outline osmpbf-outline.cpp)
 
 target_include_directories(osmpbf-outline SYSTEM PRIVATE ${ZLIB_INCLUDE_DIR})
 target_link_libraries(osmpbf-outline PRIVATE osmpbf ZLIB::ZLIB protobuf::libprotobuf)
+set_property(TARGET osmpbf-outline PROPERTY CXX_STANDARD 11)
 
 install(TARGETS osmpbf-outline RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES osmpbf-outline.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
