@@ -11,7 +11,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -23,7 +23,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -35,7 +35,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -48,7 +48,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic -Wno-array-bounds
       BUILD_TYPE: Release
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -59,7 +59,7 @@ jobs:
       CXX: g++
       CXXFLAGS: -Werror -Wall -pedantic
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-ubuntu
       - run: make -C osmpbf
 
@@ -71,14 +71,14 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic -std=c++17
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-macos
       - uses: ./.github/actions/build
 
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/install-windows
       - uses: ./.github/actions/build-windows
 
