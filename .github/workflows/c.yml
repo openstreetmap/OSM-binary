@@ -68,7 +68,7 @@ jobs:
     env:
       CC: clang
       CXX: clang++
-      CXXFLAGS: -Werror -Wall -pedantic -std=c++17
+      CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
       - uses: actions/checkout@v4
