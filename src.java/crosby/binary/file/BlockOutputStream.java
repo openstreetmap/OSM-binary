@@ -25,10 +25,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-enum CompressFlags {
-    NONE, DEFLATE
-}
-
 public class BlockOutputStream implements Closeable, Flushable {
 
     public BlockOutputStream(OutputStream output) {
