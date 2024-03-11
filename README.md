@@ -3,7 +3,7 @@
 
 https://github.com/openstreetmap/OSM-binary
 
-Osmpbf is a Java/C library to read and write OpenStreetMap PBF files.
+Osmpbf is a Java/C++ library to read and write OpenStreetMap PBF files.
 PBF (Protocol buffer Binary Format) is a binary file format for OpenStreetMap
 data that uses Google Protocol Buffers as low-level storage.
 
@@ -54,9 +54,6 @@ This will build `osmpbf.jar` in the main directory.
 This build is also used for Debian packaging.
 
 ## C++ Version
-
-(Earlier versions used Makefiles for building. Please switch to the CMake-based
-build, the Makefiles are deprecated and will be removed in a future version.)
 
 To compile:
 

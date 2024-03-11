@@ -52,17 +52,6 @@ jobs:
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
-  ubuntu22-make:
-    runs-on: ubuntu-22.04
-    env:
-      CC: gcc
-      CXX: g++
-      CXXFLAGS: -Werror -Wall -pedantic
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/install-ubuntu
-      - run: make -C osmpbf
-
   macos:
     runs-on: macos-latest
     env:
