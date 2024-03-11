@@ -6,7 +6,7 @@ jobs:
   maven-ubuntu20:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -18,7 +18,7 @@ jobs:
   maven-ubuntu22:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -30,7 +30,7 @@ jobs:
   ant-ubuntu20:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -42,7 +42,7 @@ jobs:
   ant-ubuntu22:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
