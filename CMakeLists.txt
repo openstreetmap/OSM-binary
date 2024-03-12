@@ -4,6 +4,8 @@ project(osmpbf VERSION 1.5.0)
 
 include(GNUInstallDirs)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # This is needed for the protobuf_generate_cpp() function to work on newer
 # versions of the Protobuf CMake config.
 set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "")
