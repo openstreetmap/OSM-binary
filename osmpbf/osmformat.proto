@@ -260,4 +260,3 @@ message Relation {
   repeated sint64 memids = 9 [packed = true]; // DELTA encoded
   repeated MemberType types = 10 [packed = true];
 }
-
