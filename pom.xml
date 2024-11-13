@@ -31,9 +31,20 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <protobuf.version>4.28.3</protobuf.version>
   </properties>
 
   <build>
+    <extensions>
+      <!-- makes build variables like os.detected.classifier available.
+           use to select the correct protoc instance for the OS.
+           see protobuf-maven-plugin below -->
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.7.1</version>
+      </extension>
+    </extensions>
     <sourceDirectory>${basedir}/src.java</sourceDirectory>
     <testSourceDirectory>${basedir}/test.java</testSourceDirectory>
 
@@ -59,7 +70,7 @@
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.6.1</version>
         <configuration>
-          <protocExecutable>protoc</protocExecutable>
+          <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
         </configuration>
         <executions>
           <execution>
@@ -143,7 +154,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>3.16.3</version>
+      <version>${protobuf.version}</version>
     </dependency>
   </dependencies>
 
