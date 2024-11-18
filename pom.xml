@@ -6,7 +6,7 @@
   <groupId>org.openstreetmap.pbf</groupId>
   <artifactId>osmpbf</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <name>OSM-Binary</name>
   <description>Library for the OpenStreetMap PBF format</description>
   <url>https://github.com/openstreetmap/OSM-binary</url>
