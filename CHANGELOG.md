@@ -1,5 +1,9 @@
 ## Unreleased
 
+## Release notes for 1.6.0 (2024-12-10)
+
+- Java: Update to latest protoc and protobuf runtime versions [#84](https://github.com/openstreetmap/OSM-binary/pull/84)
+
 ## Release notes for 1.5.0 (2021-01-06)
 
 - C: Support hardening buildflags set in the environment ([09845ca4](https://github.com/openstreetmap/OSM-binary/commit/09845ca4087c7404b1de33914233dbf53f9de4c3))
