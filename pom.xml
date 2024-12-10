@@ -6,7 +6,7 @@
   <groupId>org.openstreetmap.pbf</groupId>
   <artifactId>osmpbf</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <name>OSM-Binary</name>
   <description>Library for the OpenStreetMap PBF format</description>
   <url>https://github.com/openstreetmap/OSM-binary</url>
@@ -133,6 +133,16 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.6.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central-lenni</publishingServerId>
+          <autoPublish>true</autoPublish>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -157,16 +167,5 @@
       <version>${protobuf.version}</version>
     </dependency>
   </dependencies>
-
-  <distributionManagement>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>
