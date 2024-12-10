@@ -141,7 +141,6 @@
         <configuration>
           <publishingServerId>central-lenni</publishingServerId>
           <autoPublish>true</autoPublish>
-          <waitUntil>published</waitUntil>
         </configuration>
       </plugin>
     </plugins>
