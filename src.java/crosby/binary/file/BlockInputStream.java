@@ -18,7 +18,6 @@
 package crosby.binary.file;
 
 import java.io.Closeable;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -29,13 +28,14 @@ public class BlockInputStream implements Closeable {
         this.adaptor = adaptor;
     }
 
-    public void process() throws IOException {
+    public void process() throws Exception {
       try {
-        while (true) {
+        while (input.available() > 0) {
           FileBlock.process(input, adaptor);
         }
-      } catch (EOFException e) {
         adaptor.complete();
+      } catch (Exception e) {
+        adaptor.failure(e);
       }
     }
 
