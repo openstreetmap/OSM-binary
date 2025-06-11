@@ -3,19 +3,6 @@ name: Java CI
 on: [push, pull_request]
 
 jobs:
-  maven-ubuntu20:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get install protobuf-compiler
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: zulu
-          java-version: 8
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
   maven-ubuntu22:
     runs-on: ubuntu-22.04
     steps:
@@ -29,8 +16,21 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-  ant-ubuntu20:
-    runs-on: ubuntu-20.04
+  maven-ubuntu24:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install protobuf-compiler
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 8
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+  ant-ubuntu22:
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
@@ -42,8 +42,8 @@ jobs:
       - name: Build with Ant
         run: ant
 
-  ant-ubuntu22:
-    runs-on: ubuntu-22.04
+  ant-ubuntu24:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
