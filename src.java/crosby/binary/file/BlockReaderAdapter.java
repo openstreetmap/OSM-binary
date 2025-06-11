@@ -37,4 +37,6 @@ public interface BlockReaderAdapter {
 
     /** Called when the file is fully read. */
     void complete();
+
+    void failure(Exception e) throws Exception;
 }

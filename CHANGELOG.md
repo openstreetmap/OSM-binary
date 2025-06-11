@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Java: Add handling of unexpected end of data stream [ISSUE#80](https://github.com/openstreetmap/OSM-binary/issues/80)
+
 ## Release notes for 1.6.0 (2024-12-10)
 
 - Java: Update to latest protoc and protobuf runtime versions [#84](https://github.com/openstreetmap/OSM-binary/pull/84)
