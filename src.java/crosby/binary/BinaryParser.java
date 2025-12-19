@@ -34,7 +34,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
     private long lat_offset;
     private long lon_offset;
     protected int date_granularity;
-    private String[] strings;
+    protected String[] strings;
 
     /** Take a Info protocol buffer containing a date and convert it into a java Date object */
     protected Date getDate(Osmformat.Info info) {
@@ -100,12 +100,7 @@ public abstract class BinaryParser implements BlockReaderAdapter {
    
     /** Parse a Primitive block (containing a string table, other paramaters, and PrimitiveGroups */
     public void parse(Osmformat.PrimitiveBlock block) {
-        Osmformat.StringTable stablemessage = block.getStringtable();
-        strings = new String[stablemessage.getSCount()];
-
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = stablemessage.getS(i).toStringUtf8();
-        }
+        strings = parseStringTable(block.getStringtable());
 
         granularity = block.getGranularity();
         lat_offset = block.getLatOffset();
@@ -121,6 +116,15 @@ public abstract class BinaryParser implements BlockReaderAdapter {
             if (groupmessage.hasDense())
                 parseDense(groupmessage.getDense());
         }
+    }
+
+    protected String[] parseStringTable(Osmformat.StringTable stablemessage) {
+        String[] strings = new String[stablemessage.getSCount()];
+
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = stablemessage.getS(i).toStringUtf8();
+        }
+        return strings;
     }
     
     /** Parse a list of Relation protocol buffers and send the resulting relations to a sink.  */
