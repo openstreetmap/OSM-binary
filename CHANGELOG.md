@@ -1,5 +1,9 @@
 ## Unreleased
 
+## Release notes for 1.6.1 (2025-12-20)
+
+- Java: Update to latest protoc and protobuf runtime versions [#92](https://github.com/openstreetmap/OSM-binary/pull/92)
+
 ## Release notes for 1.6.0 (2024-12-10)
 
 - Java: Update to latest protoc and protobuf runtime versions [#84](https://github.com/openstreetmap/OSM-binary/pull/84)
