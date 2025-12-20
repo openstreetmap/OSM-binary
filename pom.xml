@@ -31,7 +31,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <protobuf.version>4.28.3</protobuf.version>
+    <protobuf.version>4.33.2</protobuf.version>
   </properties>
 
   <build>
@@ -139,19 +139,12 @@
         <version>0.6.0</version>
         <extensions>true</extensions>
         <configuration>
-          <publishingServerId>central-lenni</publishingServerId>
+          <publishingServerId>central</publishingServerId>
           <autoPublish>true</autoPublish>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>dtrott</id>
-      <url>http://maven.davidtrott.com/repository</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <dependencies>
     <dependency>

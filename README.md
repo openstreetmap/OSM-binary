@@ -21,15 +21,16 @@ something more complete see [libosmium](https://osmcode.org/libosmium/).
 
 ### Building with Maven
 
-We publish the Java library to [Maven Central](https://search.maven.org/):
+We publish the Java library to [Maven Central](https://mvnrepository.com/artifact/org.openstreetmap.pbf/osmpbf): ![Maven Central](https://img.shields.io/maven-central/v/org.openstreetmap.pbf/osmpbf.svg)
 
 ```xml
 <dependency>
   <groupId>org.openstreetmap.pbf</groupId>
   <artifactId>osmpbf</artifactId>
-  <version>1.5.0</version>
+  <version>${LATEST_VERSION}</version>
 </dependency>
 ```
+
 
 To build the Java library run:
 
