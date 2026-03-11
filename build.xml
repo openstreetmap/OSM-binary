@@ -21,7 +21,7 @@
 		<exec executable="/bin/sh">
 			<arg value="./build.sh"/>
 		</exec>
-		<javac includeantruntime="false" destdir="${build.dir}">
+		<javac includeantruntime="false" destdir="${build.dir}" source="1.8" target="1.8">
 			<src path="${src.dir}"/>
 			<src path="${src.generated.dir}"/>
 			<classpath>
