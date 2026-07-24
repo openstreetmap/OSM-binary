@@ -232,6 +232,12 @@ int main(int argc, char *argv[]) {
             debug("  contains zlib-compressed data: %u bytes", sz);
             debug("  uncompressed size: %u bytes", blob.raw_size());
 
+            // ensure the raw_size fits into the unpack_buffer, otherwise
+            // zlib would inflate past the end of the fixed-size buffer
+            if (blob.raw_size() < 0 || blob.raw_size() > OSMPBF::max_uncompressed_blob_size) {
+                err("  raw_size is bigger then allowed (%d > %u)", blob.raw_size(), OSMPBF::max_uncompressed_blob_size);
+            }
+
             // zlib information
             z_stream z;
 
