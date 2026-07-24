@@ -2,10 +2,10 @@
 #include <unistd.h>
 
 // used for va_list in debug-print methods
-#include <stdarg.h>
+#include <cstdarg>
 
 // file io lib
-#include <stdio.h>
+#include <cstdio>
 
 // getopt is used to check for the --color-flag
 #include <getopt.h>
