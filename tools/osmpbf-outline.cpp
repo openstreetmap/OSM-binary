@@ -291,6 +291,36 @@ int main(int argc, char *argv[]) {
             err("  lzma-decompression is not supported");
         }
 
+        // if the blob has lz4-compressed data
+        if (blob.has_lz4_data()) {
+            // issue a warning if there is more than one data steam, a blob may only contain one data stream
+            if (found_data) {
+                warn("  contains several data streams");
+            }
+
+            // tell about the compressed data
+            debug("  contains lz4-compressed data: %u bytes", blob.lz4_data().size());
+            debug("  uncompressed size: %u bytes", blob.raw_size());
+
+            // issue a warning, lz4 compression is not yet supported
+            err("  lz4-decompression is not supported");
+        }
+
+        // if the blob has zstd-compressed data
+        if (blob.has_zstd_data()) {
+            // issue a warning if there is more than one data steam, a blob may only contain one data stream
+            if (found_data) {
+                warn("  contains several data streams");
+            }
+
+            // tell about the compressed data
+            debug("  contains zstd-compressed data: %u bytes", blob.zstd_data().size());
+            debug("  uncompressed size: %u bytes", blob.raw_size());
+
+            // issue a warning, zstd compression is not yet supported
+            err("  zstd-decompression is not supported");
+        }
+
         // check we have at least one data-stream
         if (!found_data) {
             err("  does not contain any known data stream");
