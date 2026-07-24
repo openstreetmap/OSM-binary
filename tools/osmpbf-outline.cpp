@@ -28,24 +28,6 @@ namespace {
 // should the output use color?
 bool usecolor = false;
 
-// buffer for reading a compressed blob from file
-char buffer[OSMPBF::max_uncompressed_blob_size];
-
-// buffer for decompressing the blob
-char unpack_buffer[OSMPBF::max_uncompressed_blob_size];
-
-// pbf struct of a BlobHeader
-OSMPBF::BlobHeader blobheader;
-
-// pbf struct of a Blob
-OSMPBF::Blob blob;
-
-// pbf struct of an OSM HeaderBlock
-OSMPBF::HeaderBlock headerblock;
-
-// pbf struct of an OSM PrimitiveBlock
-OSMPBF::PrimitiveBlock primblock;
-
 // prints a formatted message to stdout, optionally color coded
 void msg(const char* format, int color, va_list args) {
     if (usecolor) {
@@ -137,6 +119,12 @@ int main(int argc, char *argv[]) {
         err("can't open file '%s'", argv[optind]);
     }
 
+    // buffer for reading a compressed blob from file
+    static char buffer[OSMPBF::max_uncompressed_blob_size];
+
+    // buffer for decompressing the blob
+    static char unpack_buffer[OSMPBF::max_uncompressed_blob_size];
+
     // read while the file has not reached its end
     while (!std::feof(fp)) {
         // storage of size, used multiple times
@@ -159,6 +147,9 @@ int main(int argc, char *argv[]) {
         if (std::fread(buffer, sz, 1, fp) != 1) {
             err("unable to read blob-header from file");
         }
+
+        // pbf struct of a BlobHeader
+        OSMPBF::BlobHeader blobheader;
 
         // parse the blob-header from the read-buffer
         if (!blobheader.ParseFromArray(buffer, static_cast<int>(sz))) {
@@ -187,6 +178,9 @@ int main(int argc, char *argv[]) {
         if (std::fread(buffer, sz, 1, fp) != 1) {
             err("unable to read blob from file");
         }
+
+        // pbf struct of a Blob
+        OSMPBF::Blob blob;
 
         // parse the blob from the read-buffer
         if (!blob.ParseFromArray(buffer, static_cast<int>(sz))) {
@@ -331,6 +325,9 @@ int main(int argc, char *argv[]) {
             // tell about the OSMHeader blob
             info("  OSMHeader");
 
+            // pbf struct of an OSM HeaderBlock
+            OSMPBF::HeaderBlock headerblock;
+
             // parse the HeaderBlock from the blob
             if (!headerblock.ParseFromArray(unpack_buffer, static_cast<int>(sz))) {
                 err("unable to parse header block");
@@ -368,6 +365,9 @@ int main(int argc, char *argv[]) {
         } else if (blobheader.type() == "OSMData") {
             // tell about the OSMData blob
             info("  OSMData");
+
+            // pbf struct of an OSM PrimitiveBlock
+            OSMPBF::PrimitiveBlock primblock;
 
             // parse the PrimitiveBlock from the blob
             if (!primblock.ParseFromArray(unpack_buffer, static_cast<int>(sz))) {
