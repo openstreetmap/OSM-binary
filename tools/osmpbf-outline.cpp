@@ -23,6 +23,8 @@
 // this is the header to pbf format
 #include <osmpbf/osmpbf.h>
 
+namespace {
+
 // should the output use color?
 bool usecolor = false;
 
@@ -47,13 +49,13 @@ OSMPBF::PrimitiveBlock primblock;
 // prints a formatted message to stdout, optionally color coded
 void msg(const char* format, int color, va_list args) {
     if (usecolor) {
-        fprintf(stdout, "\x1b[0;%dm", color);
+        std::fprintf(stdout, "\x1b[0;%dm", color);
     }
-    vfprintf(stdout, format, args);
+    std::vfprintf(stdout, format, args);
     if (usecolor) {
-        fprintf(stdout, "\x1b[0m\n");
+        std::fprintf(stdout, "\x1b[0m\n");
     } else {
-        fprintf(stdout, "\n");
+        std::fprintf(stdout, "\n");
     }
 }
 
@@ -63,7 +65,7 @@ void msg(const char* format, int color, va_list args) {
     va_start(args, format);
     msg(format, 31, args);
     va_end(args);
-    exit(1);
+    std::exit(1);
 }
 
 // prints a formatted message to stdout, color coded to yellow
@@ -90,23 +92,25 @@ void debug(const char* format, ...) {
     va_end(args);
 }
 
+} // anonymous namespace
+
 // application main method
 int main(int argc, char *argv[]) {
     // check if the output is a tty so we can use colors
 
 #ifdef WIN32
-    usecolor = 0;
+    usecolor = false;
 #else
     usecolor = isatty(1);
 #endif
 
-    static struct option long_options[] = {
-        {"color", no_argument, 0, 'c'},
-        {0, 0, 0, 0}
+    option const long_options[] = {
+        {"color", no_argument, nullptr, 'c'},
+        {nullptr, 0, nullptr, 0}
     };
 
-    while (1) {
-        int c = getopt_long(argc, argv, "c", long_options, 0);
+    while (true) {
+        int const c = getopt_long(argc, argv, "c", long_options, nullptr);
 
         if (c == -1) {
             break;
@@ -117,7 +121,7 @@ int main(int argc, char *argv[]) {
                 usecolor = true;
                 break;
             default:
-                exit(1);
+                return 1;
         }
     }
 
@@ -127,19 +131,19 @@ int main(int argc, char *argv[]) {
     }
 
     // open specified file
-    FILE *fp = fopen(argv[optind], "rb");
+    FILE *fp = std::fopen(argv[optind], "rb");
 
     if (!fp) {
         err("can't open file '%s'", argv[optind]);
     }
 
     // read while the file has not reached its end
-    while (!feof(fp)) {
+    while (!std::feof(fp)) {
         // storage of size, used multiple times
-        int32_t sz;
+        std::uint32_t sz = 0;
 
         // read the first 4 bytes of the file, this is the size of the blob-header
-        if (fread(&sz, sizeof(sz), 1, fp) != 1) {
+        if (std::fread(&sz, sizeof(sz), 1, fp) != 1) {
             break; // end of file reached
         }
 
@@ -152,12 +156,12 @@ int main(int argc, char *argv[]) {
         }
 
         // read the blob-header from the file
-        if (fread(buffer, sz, 1, fp) != 1) {
+        if (std::fread(buffer, sz, 1, fp) != 1) {
             err("unable to read blob-header from file");
         }
 
         // parse the blob-header from the read-buffer
-        if (!blobheader.ParseFromArray(buffer, sz)) {
+        if (!blobheader.ParseFromArray(buffer, static_cast<int>(sz))) {
             err("unable to parse blob header");
         }
 
@@ -180,12 +184,12 @@ int main(int argc, char *argv[]) {
         }
 
         // read the blob from the file
-        if (fread(buffer, sz, 1, fp) != 1) {
+        if (std::fread(buffer, sz, 1, fp) != 1) {
             err("unable to read blob from file");
         }
 
         // parse the blob from the read-buffer
-        if (!blob.ParseFromArray(buffer, sz)) {
+        if (!blob.ParseFromArray(buffer, static_cast<int>(sz))) {
             err("unable to parse blob");
         }
 
@@ -204,15 +208,15 @@ int main(int argc, char *argv[]) {
             sz = blob.raw().size();
 
             // check that raw_size is set correctly
-            if (sz != blob.raw_size()) {
-                warn("  reports wrong raw_size: %u bytes", blob.raw_size());
+            if (sz != static_cast<std::uint32_t>(blob.raw_size())) {
+                warn("  reports wrong raw_size: %d bytes", blob.raw_size());
             }
 
             // tell about the blob-data
             debug("  contains uncompressed data: %u bytes", sz);
 
             // copy the uncompressed data over to the unpack_buffer
-            memcpy(unpack_buffer, buffer, sz);
+            std::memcpy(unpack_buffer, buffer, sz);
         }
 
         // if the blob has zlib-compressed data
@@ -279,9 +283,6 @@ int main(int argc, char *argv[]) {
                 warn("  contains several data streams");
             }
 
-            // we have at least one datastream
-            found_data = true;
-
             // tell about the compressed data
             debug("  contains lzma-compressed data: %u bytes", blob.lzma_data().size());
             debug("  uncompressed size: %u bytes", blob.raw_size());
@@ -301,27 +302,27 @@ int main(int argc, char *argv[]) {
             info("  OSMHeader");
 
             // parse the HeaderBlock from the blob
-            if (!headerblock.ParseFromArray(unpack_buffer, sz)) {
+            if (!headerblock.ParseFromArray(unpack_buffer, static_cast<int>(sz))) {
                 err("unable to parse header block");
             }
 
             // tell about the bbox
             if (headerblock.has_bbox()) {
-                OSMPBF::HeaderBBox bbox = headerblock.bbox();
+                OSMPBF::HeaderBBox const& bbox = headerblock.bbox();
                 debug("    bbox: %.7f,%.7f,%.7f,%.7f",
-                    (double)bbox.left() / OSMPBF::lonlat_resolution,
-                    (double)bbox.bottom() / OSMPBF::lonlat_resolution,
-                    (double)bbox.right() / OSMPBF::lonlat_resolution,
-                    (double)bbox.top() / OSMPBF::lonlat_resolution);
+                    static_cast<double>(bbox.left()) / OSMPBF::lonlat_resolution,
+                    static_cast<double>(bbox.bottom()) / OSMPBF::lonlat_resolution,
+                    static_cast<double>(bbox.right()) / OSMPBF::lonlat_resolution,
+                    static_cast<double>(bbox.top()) / OSMPBF::lonlat_resolution);
             }
 
             // tell about the required features
-            for (int i = 0, l = headerblock.required_features_size(); i < l; i++) {
+            for (int i = 0, l = headerblock.required_features_size(); i < l; ++i) {
                 debug("    required_feature: %s", headerblock.required_features(i).c_str());
             }
 
             // tell about the optional features
-            for (int i = 0, l = headerblock.optional_features_size(); i < l; i++) {
+            for (int i = 0, l = headerblock.optional_features_size(); i < l; ++i) {
                 debug("    optional_feature: %s", headerblock.optional_features(i).c_str());
             }
 
@@ -339,7 +340,7 @@ int main(int argc, char *argv[]) {
             info("  OSMData");
 
             // parse the PrimitiveBlock from the blob
-            if (!primblock.ParseFromArray(unpack_buffer, sz)) {
+            if (!primblock.ParseFromArray(unpack_buffer, static_cast<int>(sz))) {
                 err("unable to parse primitive block");
             }
 
@@ -356,11 +357,11 @@ int main(int argc, char *argv[]) {
             debug("    primitivegroups: %u groups", primblock.primitivegroup_size());
 
             // iterate over all PrimitiveGroups
-            for (int i = 0, l = primblock.primitivegroup_size(); i < l; i++) {
+            for (int i = 0, l = primblock.primitivegroup_size(); i < l; ++i) {
                 // one PrimitiveGroup from the the Block
-                OSMPBF::PrimitiveGroup pg = primblock.primitivegroup(i);
+                OSMPBF::PrimitiveGroup const& pg = primblock.primitivegroup(i);
 
-                bool found_items=false;
+                bool found_items = false;
 
                 // tell about nodes
                 if (pg.nodes_size() > 0) {
@@ -415,7 +416,7 @@ int main(int argc, char *argv[]) {
     }
 
     // close the file pointer
-    fclose(fp);
+    std::fclose(fp);
 
     // clean up the protobuf lib
     google::protobuf::ShutdownProtobufLibrary();
