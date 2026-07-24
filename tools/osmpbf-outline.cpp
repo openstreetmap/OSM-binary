@@ -58,7 +58,7 @@ void msg(const char* format, int color, va_list args) {
 }
 
 // prints a formatted message to stdout, color coded to red
-void err(const char* format, ...) {
+[[noreturn]] void err(const char* format, ...) {
     va_list args;
     va_start(args, format);
     msg(format, 31, args);
