@@ -1,5 +1,13 @@
 ## Unreleased
 
+## Release notes for 1.7.0 (2026-07-26)
+
+- C++: Fix buffer overflow in osmpbf-outline tool [#95](https://github.com/openstreetmap/OSM-binary/pull/95)
+- C++: Various small code cleanups and modernizations
+- C++: osmpbf-outline tool moved to demo directory, it isn't installed by default any more. This tool was never really useful for normal users, it is more a demo/example showing how to use the library
+
+Note to packagers: You should remove the osmpbf-outline tool from packages.
+
 ## Release notes for 1.6.1 (2025-12-20)
 
 - Java: Update to latest protoc and protobuf runtime versions [#92](https://github.com/openstreetmap/OSM-binary/pull/92)
