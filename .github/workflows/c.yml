@@ -11,7 +11,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -23,7 +23,19 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/install-ubuntu
+      - uses: ./.github/actions/build
+
+  ubuntu26:
+    runs-on: ubuntu-26.04
+    env:
+      CC: gcc
+      CXX: g++
+      CXXFLAGS: -Werror -Wall -pedantic
+      BUILD_TYPE: Debug
+    steps:
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -35,7 +47,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -48,7 +60,7 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic -Wno-array-bounds
       BUILD_TYPE: Release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-ubuntu
       - uses: ./.github/actions/build
 
@@ -60,14 +72,14 @@ jobs:
       CXXFLAGS: -Werror -Wall -pedantic -Wno-nullability-extension
       BUILD_TYPE: Debug
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-macos
       - uses: ./.github/actions/build
 
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-windows
       - uses: ./.github/actions/build-windows
 

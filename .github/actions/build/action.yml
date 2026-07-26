@@ -19,6 +19,6 @@ runs:
         working-directory: build
 
       - name: Run outline
-        run: build/tools/osmpbf-outline resources/sample.pbf
+        run: build/demo/osmpbf-outline resources/sample.pbf
         shell: bash
 

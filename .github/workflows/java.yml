@@ -6,10 +6,10 @@ jobs:
   maven-ubuntu22:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get install protobuf-compiler
       - name: Set up JDK 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: 8
@@ -19,10 +19,23 @@ jobs:
   maven-ubuntu24:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get install protobuf-compiler
       - name: Set up JDK 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 8
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+  maven-ubuntu26:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get install protobuf-compiler
+      - name: Set up JDK 8
+        uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: 8
@@ -32,10 +45,10 @@ jobs:
   ant-ubuntu22:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
       - name: Set up JDK 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: 8
@@ -45,10 +58,23 @@ jobs:
   ant-ubuntu24:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get install protobuf-compiler libprotobuf-java
       - name: Set up JDK 8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 8
+      - name: Build with Ant
+        run: ant
+
+  ant-ubuntu26:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get install protobuf-compiler libprotobuf-java
+      - name: Set up JDK 8
+        uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: 8
