@@ -20,5 +20,5 @@ add_subdirectory(osmpbf)
 
 # The osmpbf-outline tool does not compile on Windows because getopt.h is missing
 if(NOT MSVC)
-    add_subdirectory(tools)
+    add_subdirectory(demo)
 endif()

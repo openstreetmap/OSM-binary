@@ -70,11 +70,11 @@ To install:
 make install
 ```
 
-There is a tool named osmpbf-outline that shows a debug output of the contents
-of a PBF file. To run it:
+There is a demo tool named osmpbf-outline that shows a debug output of some of
+the contents of a PBF file. To run it:
 
 ```sh
-tools/osmpbf-outline osm-file.osm.pbf
+demo/osmpbf-outline osm-file.osm.pbf
 ```
 
 
