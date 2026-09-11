@@ -19,9 +19,7 @@ import java.util.List;
  */
 public class ReadFileTest {
 
-    @Test
-    public void test() throws Exception {
-        String expected = ("" +
+    static final String EXPECTED = ("" +
                 "Got header block.\n" +
                 "Dense node, ID 653970877 @ 51.763603,-0.228757\n" +
                 "Dense node, ID 647105170 @ 51.763591,-0.234465\n" +
@@ -447,20 +445,23 @@ public class ReadFileTest {
                 "  Key=value pairs: cycleway=track highway=cycleway name=Alban Way ncn_ref=61 \n" +
                 "Got some relations to parse.\n" +
                 "Complete!\n").replace("\n", System.lineSeparator());
+
+    @Test
+    public void test() throws Exception {
         try (InputStream input = ReadFileTest.class.getResourceAsStream("/sample.pbf");
              StringWriter stringWriter = new StringWriter();
              PrintWriter printWriter = new PrintWriter(stringWriter)) {
             BlockReaderAdapter brad = new TestBinaryParser(printWriter);
             new BlockInputStream(input, brad).process();
-            Assert.assertEquals(expected, stringWriter.toString());
+            Assert.assertEquals(EXPECTED, stringWriter.toString());
         }
     }
 
-    private static class TestBinaryParser extends BinaryParser {
+    static class TestBinaryParser extends BinaryParser {
 
         private final PrintWriter writer;
 
-        private TestBinaryParser(PrintWriter writer) {
+        TestBinaryParser(PrintWriter writer) {
             this.writer = writer;
         }
 
