@@ -37,12 +37,21 @@ import java.util.concurrent.Future;
  * since it consumes an {@link InputStream}, but decompressing and parsing a
  * block's contents (the CPU-heavy step, dominated by zlib inflate for large
  * files) is independent per block. This class overlaps that work across a
- * thread pool while still delivering completed blocks to the adaptor one at
- * a time, in file order -- exactly the contract {@link BlockReaderAdapter}
- * documents -- so an existing {@link BlockReaderAdapter} (such as a
- * {@code crosby.binary.BinaryParser} subclass) needs no changes to benefit:
- * its {@code handleBlock}/{@code skipBlock}/{@code complete} calls all still
- * happen on a single thread, one at a time, in order.
+ * thread pool while still delivering {@code handleBlock} calls to the
+ * adaptor one at a time, in file order, matching what
+ * {@link BlockReaderAdapter#handleBlock} documents -- so an existing
+ * {@link BlockReaderAdapter} (such as a {@code crosby.binary.BinaryParser}
+ * subclass) needs no changes to benefit.
+ *
+ * Note: a block's header must be read -- and {@code skipBlock} called on it
+ * -- before its body can be read or skipped and the stream advanced past it,
+ * so {@code skipBlock} may be invoked for up to {@code pipelineDepth} blocks
+ * ahead of the block whose {@code handleBlock} result was most recently
+ * delivered. An adaptor whose skip decision depends on mutable state updated
+ * inside {@code handleBlock} (rather than just the block's own type or
+ * metadata) will see stale state under this read-ahead; such an adaptor
+ * should use {@code pipelineDepth} 1, which restores fully sequential
+ * delivery at the cost of the parallelism benefit.
  *
  * Memory use is bounded by keeping at most {@code pipelineDepth} decompressed
  * blocks in flight at once (queued or in progress); tune it down for memory
@@ -80,20 +89,22 @@ public class ParallelBlockInputStream implements Closeable {
         Queue<Future<FileBlock>> inflight = new ArrayDeque<>();
         try {
             while (true) {
-                FileBlockHead head;
                 try {
-                    head = FileBlockHead.readHead(input);
+                    FileBlockHead head = FileBlockHead.readHead(input);
+                    if (adaptor.skipBlock(head)) {
+                        head.skipContents(input);
+                        continue;
+                    }
+                    byte[] buf = new byte[head.getDatasize()];
+                    new DataInputStream(input).readFully(buf);
+                    inflight.add(submit(head, buf));
                 } catch (EOFException e) {
+                    // Matches BlockInputStream: a clean end of stream, or a truncated
+                    // header/body, both just end the read -- the trailing partial
+                    // block (if any) is dropped, and anything already in flight is
+                    // still delivered below.
                     break;
                 }
-                if (adaptor.skipBlock(head)) {
-                    head.skipContents(input);
-                    continue;
-                }
-
-                byte[] buf = new byte[head.getDatasize()];
-                new DataInputStream(input).readFully(buf);
-                inflight.add(submit(head, buf));
 
                 if (inflight.size() >= pipelineDepth) {
                     adaptor.handleBlock(take(inflight));
@@ -104,8 +115,11 @@ public class ParallelBlockInputStream implements Closeable {
             }
             adaptor.complete();
         } finally {
+            for (Future<FileBlock> future : inflight) {
+                future.cancel(true);
+            }
             if (ownsExecutor) {
-                executor.shutdown();
+                executor.shutdownNow();
             }
         }
     }
