@@ -1,5 +1,10 @@
 ## Unreleased
 
+## Release notes for 1.8.0 (2026-09-14)
+
+- Java: Upgrade protobuf version [#97](https://github.com/openstreetmap/OSM-binary/pull/97)
+- Java: Experimental parallel block decoding [#96](https://github.com/openstreetmap/OSM-binary/pull/96)
+
 ## Release notes for 1.7.0 (2026-07-26)
 
 - C++: Fix buffer overflow in osmpbf-outline tool [#95](https://github.com/openstreetmap/OSM-binary/pull/95)
