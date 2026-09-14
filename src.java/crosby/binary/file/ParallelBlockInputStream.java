@@ -39,19 +39,25 @@ import java.util.concurrent.Future;
  * files) is independent per block. This class overlaps that work across a
  * thread pool while still delivering {@code handleBlock} calls to the
  * adaptor one at a time, in file order, matching what
- * {@link BlockReaderAdapter#handleBlock} documents -- so an existing
+ * {@link BlockReaderAdapter#skipBlock} documents -- so an existing
  * {@link BlockReaderAdapter} (such as a {@code crosby.binary.BinaryParser}
  * subclass) needs no changes to benefit.
  *
  * Note: a block's header must be read -- and {@code skipBlock} called on it
  * -- before its body can be read or skipped and the stream advanced past it,
- * so {@code skipBlock} may be invoked for up to {@code pipelineDepth} blocks
- * ahead of the block whose {@code handleBlock} result was most recently
- * delivered. An adaptor whose skip decision depends on mutable state updated
- * inside {@code handleBlock} (rather than just the block's own type or
- * metadata) will see stale state under this read-ahead; such an adaptor
- * should use {@code pipelineDepth} 1, which restores fully sequential
- * delivery at the cost of the parallelism benefit.
+ * so {@code skipBlock} may be invoked for up to {@code pipelineDepth}
+ * non-skipped blocks ahead of the block whose {@code handleBlock} result was
+ * most recently delivered; a run of skipped blocks doesn't count against
+ * that limit (nothing is queued for them), so {@code skipBlock} can in fact
+ * run further ahead than {@code pipelineDepth} when the file contains long
+ * stretches of skipped blocks. An adaptor whose skip decision depends on
+ * mutable state updated inside {@code handleBlock} (rather than just the
+ * block's own type or metadata) will see stale state under this read-ahead;
+ * such an adaptor should use {@code pipelineDepth} 1, which restores fully
+ * sequential delivery at the cost of the parallelism benefit -- pass it via
+ * the 4-argument constructor, since the convenience constructor that takes a
+ * thread count derives {@code pipelineDepth} as {@code numThreads * 2} and
+ * cannot be used to request a depth of 1.
  *
  * Memory use is bounded by keeping at most {@code pipelineDepth} decompressed
  * blocks in flight at once (queued or in progress); tune it down for memory
